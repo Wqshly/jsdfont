@@ -1,0 +1,168 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+
+Vue.use(Router)
+
+const login = () => Promise.resolve(require('@/views/login'))
+const initRegister = () => Promise.resolve(require('@/views/initRegister'))
+const register = () => Promise.resolve(require('@/views/register'))
+const notFound = () => Promise.resolve(require('@/views/404'))
+
+const a123 = () => Promise.resolve(require('@/views/123'))
+const customer111 = () => Promise.resolve(require('@/views/customer/customer111'))
+
+const main = () => Promise.resolve(require('@/components/Main'))
+const home = () => Promise.resolve(require('@/views/home'))
+
+const vehicleRegistration = () => Promise.resolve(require('@/views/car/vehicleRegistration'))
+
+const staff = () => Promise.resolve(require('@/views/company/staff'))
+const isQuit = () => Promise.resolve(require('@/views/company/isQuit'))
+
+const baseData = () => Promise.resolve(require('@/views/basicCoding/businessCoding/baseData'))
+const orderSetting = () => Promise.resolve(require('@/views/basicCoding/systemCoding/orderSetting'))
+const serviceType = () => Promise.resolve(require('@/views/basicCoding/serviceType'))
+
+const customerInfo = () => Promise.resolve(require('@/views/customer/customerInfo'))
+const customerContract = () => Promise.resolve(require('@/views/customer/customerContract'))
+
+const tools = () => Promise.resolve(require('@/views/materiel/tools'))
+const supplier = () => Promise.resolve(require('@/views/materiel/supplier'))
+
+const order = () => Promise.resolve(require('@/views/project/order'))
+const taskDecomposition = () => Promise.resolve(require('@/views/project/taskDecomposition'))
+const taskProgress = () => Promise.resolve(require('@/views/project/taskProgress'))
+
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      redirect: '/home'
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
+    },
+    {
+      path: '/initRegister',
+      name: 'initRegister',
+      component: initRegister
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: register
+    },
+    {
+      path: '/',
+      name: '',
+      component: main,
+      meta: {title: '基础页面'},
+      children: [
+        {
+          path: '/customer-info1',
+          name: 'customerInfo1',
+          component: customer111,
+          meta: {title: '客户信息'}
+        },
+        {
+          path: '/123',
+          name: '123',
+          component: a123,
+          meta: {title: 'a123'}
+        },
+        {
+          path: '/home',
+          name: 'home',
+          component: home,
+          meta: {title: '系统首页'}
+        },
+        {
+          path: '/vehicle-registration',
+          name: 'vehicleRegistration',
+          component: vehicleRegistration,
+          meta: {title: '车辆登记'}
+        },
+        {
+          path: '/base-data',
+          name: 'baseData',
+          component: baseData,
+          meta: {title: '系统编码'}
+        },
+        {
+          path: '/order-setting',
+          name: 'orderSetting',
+          component: orderSetting,
+          meta: {title: '业务编码'}
+        },
+        {
+          path: '/service-type',
+          name: 'serviceType',
+          component: serviceType,
+          meta: {title: '服务类别设置'}
+        },
+        {
+          path: '/customer-info',
+          name: 'customerInfo',
+          component: customerInfo,
+          meta: {title: '客户信息管理'}
+        },
+        {
+          path: '/customer-contract',
+          name: 'customerContract',
+          component: customerContract,
+          meta: {title: '客户合同管理'}
+        },
+
+        {
+          path: '/staff',
+          name: 'staff',
+          component: staff,
+          meta: {title: '员工管理'}
+        },
+        {
+          path: '/tools',
+          name: 'tools',
+          component: tools,
+          meta: {title: '工具清单'}
+        },
+        {
+          path: '/supplier',
+          name: 'supplier',
+          component: supplier,
+          meta: {title: '供应商管理'}
+        },
+        {
+          path: '/order',
+          name: 'order',
+          component: order,
+          meta: {title: '订单管理'}
+        },
+        {
+          path: '/task-decomposition',
+          name: 'taskDecomposition',
+          component: taskDecomposition,
+          meta: {title: '任务分解'}
+        },
+        {
+          path: '/task-progress',
+          name: 'taskProgress',
+          component: taskProgress,
+          meta: {title: '订单进展'}
+        },
+        {
+          path: '/isQuit',
+          name: 'isQuit',
+          component: isQuit,
+          meta: {title: '离职管理'}
+        }
+      ]
+    },
+    {
+      path: '*',
+      name: '404 not found',
+      component: notFound
+    }
+  ]
+})
