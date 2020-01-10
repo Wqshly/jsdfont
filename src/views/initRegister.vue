@@ -112,8 +112,6 @@ export default {
       } else {
         callback()
       }
-      // if (!pass) alert(tip)
-      // return pass
     }
     return {
       initRegisterForm: {

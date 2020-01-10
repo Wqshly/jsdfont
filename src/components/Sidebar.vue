@@ -3,14 +3,14 @@
     <el-menu class="sidebar-el-menu" :collapse="collapse" background-color="#324157"
              text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
       <template v-for="item in items">
-<!--        有子目录的-->
+        <!--        有子目录的-->
         <template v-if="item.subs">
           <el-submenu :index="item.index" :key="item.index">
             <template slot="title">
               <i :class="item.icon"></i>
               <span slot="title">{{item.title}}</span>
             </template>
-<!--            子目录下拉内容-->
+            <!--            子目录下拉内容-->
             <template v-for="subItem in item.subs">
               <el-menu-item :index="subItem.index" :key="subItem.index">
                 <span>{{subItem.title}}</span>
@@ -18,7 +18,7 @@
             </template>
           </el-submenu>
         </template>
-<!--        无子目录的-->
+        <!--        无子目录的-->
         <template v-else>
           <el-menu-item :index="item.index" :key="item.index">
             <i :class="item.icon"></i>
@@ -32,6 +32,7 @@
 
 <script>
 import bus from './bus'
+
 export default {
   name: 'Sidebar',
   data () {
@@ -42,11 +43,6 @@ export default {
           icon: 'el-icon-wqs-shouye',
           index: 'home',
           title: '首页'
-        },
-        {
-          icon: 'el-icon-wqs-shouye',
-          index: '123',
-          title: '123'
         },
         {
           icon: 'el-icon-wqs-shouye',
@@ -72,10 +68,6 @@ export default {
           index: 'customer',
           title: '客户管理',
           subs: [
-            {
-              index: 'customer-info1',
-              title: '客户信息管理123456'
-            },
             {
               index: 'customer-info',
               title: '客户信息管理'

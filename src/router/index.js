@@ -8,9 +8,6 @@ const initRegister = () => Promise.resolve(require('@/views/initRegister'))
 const register = () => Promise.resolve(require('@/views/register'))
 const notFound = () => Promise.resolve(require('@/views/404'))
 
-const a123 = () => Promise.resolve(require('@/views/123'))
-const customer111 = () => Promise.resolve(require('@/views/customer/customer111'))
-
 const main = () => Promise.resolve(require('@/components/Main'))
 const home = () => Promise.resolve(require('@/views/home'))
 
@@ -60,18 +57,6 @@ export default new Router({
       component: main,
       meta: {title: '基础页面'},
       children: [
-        {
-          path: '/customer-info1',
-          name: 'customerInfo1',
-          component: customer111,
-          meta: {title: '客户信息'}
-        },
-        {
-          path: '/123',
-          name: '123',
-          component: a123,
-          meta: {title: 'a123'}
-        },
         {
           path: '/home',
           name: 'home',

@@ -7,7 +7,8 @@
         </div>
         <el-form :model="loginForm" style="padding-top: 50px" :rules="rules" ref="loginForm">
           <el-form-item prop="phone">
-            <el-input v-model="loginForm.phone" placeholder="请输入员工编号或手机号" prefix-icon="el-icon-wqs-shezhi-zhanghaoguanli"
+            <el-input v-model="loginForm.phone" placeholder="请输入员工编号或手机号"
+                      prefix-icon="el-icon-wqs-shezhi-zhanghaoguanli"
                       clearable/>
           </el-form-item>
           <el-form-item style="margin-bottom: 10px" prop="password">
@@ -42,36 +43,37 @@ export default {
           {min: 2, max: 11, message: '请输入正确的手机号或员工编号', trigger: 'blur'}
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' }
+          {required: true, message: '请输入密码', trigger: 'blur'}
         ]
       }
     }
   },
   methods: {
     login (formName) {
-      this[formName].password = this.$commonsMethod.encryptedData(this[formName].password)
-      console.log(this[formName].password)
       this.$refs[formName].validate((valid) => {
+        this[formName].password = this.$commonsMethod.encryptedData(this[formName].password)
+        // console.log(this[formName].password)
         if (valid) {
           const url = '/user/login'
           this.$refs[formName].$api.requestApi.post(url, this[formName])
             .then(res => {
               console.log(res.data)
+              let _this = this
               if (res.data.code === 0) {
                 sessionStorage.setItem('save_username', res.data.data.name)
-                this.$router.push('/home')
+                _this.$router.push('/home')
               } else {
                 this.$message({
                   message: '账号或密码错误！请重试！',
                   type: 'error'
                 })
               }
-              console.log(res.data)
-            })
+            }
+            )
             .catch(err => {
               console.log(err.data)
               console.log('error submit!!')
-              return false
+              // return false
             })
         }
       })
@@ -83,7 +85,7 @@ export default {
           if (res.data.data === 0) {
             this.$router.push('/initRegister')
           } else {
-            this.$router.push('register')
+            this.$router.push('/register')
           }
         })
         .catch(err => {
