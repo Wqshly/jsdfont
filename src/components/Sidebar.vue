@@ -50,11 +50,11 @@ export default {
           title: '基础编码设置',
           subs: [
             {
-              index: 'base-data',
+              index: 'system-data-coding',
               title: '系统编码'
             },
             {
-              index: 'order-setting',
+              index: 'business-data-coding',
               title: '业务编码'
             },
             {

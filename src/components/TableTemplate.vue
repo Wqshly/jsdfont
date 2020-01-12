@@ -96,10 +96,10 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column label="操作" :width="rightButton.width" v-if="rightButton.isShow" :fixed="rightButton.fixed">
+          <el-table-column label="操作" :width="funcBtn.width" v-if="funcBtn.isShow" :fixed="funcBtn.fixed">
             <template slot-scope="scope">
               <!-- 通过tableHeader.value获取按钮名 -->
-              <el-button v-for="(item, index) in rightButton.buttons" :key="index" @click="btnClick(item.value)">
+              <el-button type="text" v-for="(item, index) in funcBtn.buttons" :key="index" @click="btnClick(item.value)">
                 {{item.name}}
               </el-button>
             </template>
@@ -155,7 +155,7 @@ export default {
   filters: {
     formatDate (time) {
       const date = new Date(time)
-      return formatDate(date, 'yyyy年MM月dd日 hh时mm分ss秒')
+      return formatDate(date, 'yyyy年MM月dd日 hh时mm分')
     }
   },
   name: 'TableTemplate',
@@ -180,7 +180,7 @@ export default {
       export: false,
       acceptOrder: false
     }, // 按钮功能
-    rightButton: {
+    funcBtn: {
       default: function () {
         return {
           isShow: false,
@@ -367,7 +367,7 @@ export default {
       }).catch(() => {})
     },
     btnClick: function (value) {
-      this.$emit('right-btn', value)
+      this.$emit('btn-click', value)
     }
   },
   created () {

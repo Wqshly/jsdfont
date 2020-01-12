@@ -42,6 +42,7 @@
 </template>
 
 <script>
+
 import post from '@/views/basicCoding/businessCoding/post'
 import eduction from '@/views/basicCoding/eduction'
 import gender from '@/views/basicCoding/gender'
@@ -54,7 +55,7 @@ import orderNumCoding from '@/views/basicCoding/orderNumCoding'
 import orderModel from '@/views/basicCoding/orderModel'
 import member from '@/views/basicCoding/member'
 export default {
-  name: 'orderSetting',
+  name: 'baseData',
   watch: {
     filterText (val) {
       this.$refs.baseTree.filter(val)
@@ -63,7 +64,7 @@ export default {
   data () {
     return {
       tableData: [], // 返回数据
-      treeTitle: '业务编码',
+      treeTitle: '系统基础数据码',
       currentNodeKey: null,
       defaultExpandedKeys: [1], // 默认展开节点的id
       defaultProps: {
@@ -76,37 +77,72 @@ export default {
       baseData: [
         {
           id: 1,
+          label: '标准编码数据',
+          children: [{
+            id: 101,
+            parent: 1,
+            label: '岗位管理'
+          },
+          {
+            id: 102,
+            parent: 1,
+            label: '学历编码'
+          },
+          {
+            id: 103,
+            parent: 1,
+            label: '行政区划'
+          },
+          {
+            id: 104,
+            parent: 1,
+            label: '性别编码'
+          },
+          {
+            id: 105,
+            parent: 1,
+            label: '院校编码'
+          },
+          {
+            id: 106,
+            parent: 1,
+            label: '专业编码'
+          }
+          ]
+        },
+        {
+          id: 2,
           label: '内部编码',
           children: [
             {
-              id: 101,
-              parent: 100,
-              label: '订单类别设定'
+              id: 201,
+              parent: 2,
+              label: '工号格式编码'
             },
             {
-              id: 102,
-              parent: 100,
+              id: 202,
+              parent: 2,
               label: '员工状态'
             },
             {
-              id: 103,
-              parent: 100,
+              id: 203,
+              parent: 2,
               label: '订单号编码'
             },
             {
-              id: 104,
-              parent: 100,
+              id: 204,
+              parent: 2,
               label: '订单类别'
             }
           ]
         },
         {
-          id: 1000,
+          id: 3,
           label: '会员设置',
           children: [
             {
-              id: 1001,
-              parent: 1000,
+              id: 301,
+              parent: 3,
               label: '会员级别设置'
             }
           ]
@@ -136,16 +172,37 @@ export default {
     tableDataChange (id) {
       this.selectTreeId = id
       if (id === 101) {
-        this.show = 'staffNumCoding'
+        this.show = 'post'
       }
       if (id === 102) {
-        this.show = 'staffStatus'
+        this.show = 'eduction'
       }
       if (id === 103) {
-        this.show = 'orderNumCoding'
+        this.show = 'division'
       }
       if (id === 104) {
+        this.show = 'gender'
+      }
+      if (id === 105) {
+        this.show = 'graduateSchool'
+      }
+      if (id === 106) {
+        this.show = 'discipline'
+      }
+      if (id === 201) {
+        this.show = 'staffNumCoding'
+      }
+      if (id === 202) {
+        this.show = 'staffStatus'
+      }
+      if (id === 203) {
+        this.show = 'orderNumCoding'
+      }
+      if (id === 204) {
         this.show = 'orderModel'
+      }
+      if (id === 301) {
+        this.show = 'member'
       }
     },
     handleCheckChange (data) {
@@ -179,7 +236,7 @@ export default {
 
   /*树的标题css*/
   .tree-title{
-    background-color: #335ae0;
+    background-color:#409EFF;
     height:37px;
     color: #FFF;
     line-height: 37px;

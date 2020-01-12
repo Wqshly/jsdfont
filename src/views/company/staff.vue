@@ -11,10 +11,12 @@
         :table-height="tableHeight"
         :table-header-list="tableHeaderList"
         :table-p-k="tablePK"
+        :func-btn="funcBtn"
         :button-boolean="buttonBoolean"
         v-on:addRecord="addRecord"
         v-on:editRecord="editRecord"
-        v-on:select-row="selectRowClick">
+        v-on:select-row="selectRowClick"
+        v-on:btn-click="btnClick">
         <!-- 新增窗口 -->
         <el-form slot="add" style="overflow: auto" label-width="100px">
           <el-form-item label="编码" :model="addForm" prop="number">
@@ -119,7 +121,8 @@
             <el-input v-model="editForm.discipline"></el-input>
           </el-form-item>
           <el-form-item label="毕业院校" :model="addForm" prop="graduateSchool">
-            <el-input v-model="editForm.graduateSchool"></el-input>
+            <el-input v-model="editForm.graduateSchool">
+            </el-input>
           </el-form-item>
         </el-form>
       </table-template>
@@ -127,16 +130,73 @@
     <el-row>
       <el-tabs type="border-card">
         <el-tab-pane label="绩效考核">
-          <is-quit></is-quit>
+<!--          <is-quit></is-quit>-->
         </el-tab-pane>
         <el-tab-pane label="职务变动">
-          <is-quit></is-quit>
+<!--          <is-quit></is-quit>-->
         </el-tab-pane>
         <el-tab-pane label="请销假">
           <is-quit></is-quit>
         </el-tab-pane>
       </el-tabs>
     </el-row>
+    <el-dialog :visible.sync="detailDialogVisible" class="dialog-style">
+      <el-form style="overflow: auto;" label-width="100px">
+        <div class="detail-column">
+          <el-form-item class="detail-label" label="编码" :model="editForm" prop="number">
+            {{editForm.number !== null ? editForm.number : "未填写"}}
+          </el-form-item>
+          <el-form-item class="detail-label" label="姓名" :model="editForm" prop="name">
+            {{editForm.name !== null ? editForm.name : "未填写"}}
+          </el-form-item>
+          <el-form-item class="detail-label" label="电话" :model="editForm" prop="phone">
+            {{editForm.phone !== null ? editForm.phone : "未填写"}}
+          </el-form-item>
+        </div>
+        <div class="detail-column">
+          <el-form-item class="detail-label" label="身份证" :model="editForm" prop="identify">
+            {{editForm.identify !== null ? editForm.identify : "未填写"}}
+          </el-form-item>
+          <el-form-item class="detail-label" label="性别" :model="editForm" prop="sex">
+            {{editForm.sex !== null ? editForm.sex : "未填写"}}
+          </el-form-item>
+          <el-form-item class="detail-label" label="邮件" :model="editForm" prop="email">
+            {{editForm.email !== null ? editForm.email : "未填写"}}
+          </el-form-item>
+        </div>
+        <div class="detail-column">
+          <el-form-item class="detail-label" label="学历" :model="editForm" prop="education">
+            {{editForm.education !== null ? editForm.education : "未填写"}}
+          </el-form-item>
+          <el-form-item class="detail-label" label="医保账号" :model="editForm" prop="medicalNum">
+            {{editForm.medicalNum !== null ? editForm.medicalNum : "未填写"}}
+          </el-form-item>
+          <el-form-item class="detail-label" label="银行账号" :model="editForm" prop="bankCardNum">
+            {{editForm.bankCardNum !== null ? editForm.bankCardNum : "未填写"}}
+          </el-form-item>
+        </div>
+        <div class="detail-column">
+          <el-form-item class="detail-label" label="状态" :model="editForm" prop="status">
+            {{editForm.status !== null ? editForm.status : "未填写"}}
+          </el-form-item>
+          <el-form-item class="detail-label" label="当前职位" :model="addForm" prop="currentPosition">
+            {{editForm.currentPosition !== null ? editForm.currentPosition : "未填写"}}
+          </el-form-item>
+          <el-form-item class="detail-label" label="地址" :model="addForm" prop="address">
+            {{editForm.address !== null ? editForm.address : "未填写"}}
+          </el-form-item>
+        </div>
+        <div class="detail-column">
+          <el-form-item class="detail-label" label="学科" :model="addForm" prop="discipline">
+            {{editForm.discipline !== null ? editForm.discipline : "未填写"}}
+          </el-form-item>
+          <el-form-item class="detail-label" label="毕业院校" :model="addForm" prop="graduateSchool">
+            {{editForm.graduateSchool !== null ? editForm.graduateSchool : "未填写"}}
+          </el-form-item>
+        </div>
+        <el-button style="float: right; margin-top: 30px" @click.native="detailDialogVisible = false">关闭</el-button>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -148,7 +208,6 @@ export default {
   name: 'staff',
   data () {
     return {
-
       refreshUrl: 'staff/findAllStaff',
       addUrl: 'staff/addStaff',
       editUrl: 'staff/editStaff',
@@ -158,24 +217,15 @@ export default {
       tableHeight: (`${document.documentElement.clientHeight}` - 100) / 2 - 140,
       tableTitle: '员工管理', // 表格标题
       tablePK: 'id', // 主键id值
+      detailDialogVisible: false,
       tableHeaderList: [ // 表头字段
-        {value: 'number', label: '编码', width: '120'},
+        {value: 'number', label: '员工编号', width: '120'},
         {value: 'name', label: '员工姓名', width: '120'},
-        {value: 'sex', label: '性别', width: '80'},
         {value: 'phone', label: '电话', width: '120'},
-        {value: 'identify', label: '身份证', width: '220'},
         {value: 'currentPosition', label: '当前职务', width: '160'},
-        {value: 'address', label: '地址', width: '220'},
-        {value: 'email', label: '邮件', width: '220'},
-        {value: ' birth', label: '出生日期', width: '220'},
-        {value: 'education', label: '学历', width: '120'},
-        {value: 'graduateSchool', label: '毕业院校', width: '220'},
-        {value: 'discipline', label: '专业', width: '120'},
-        {value: 'medicalNum', label: '医保账号', width: '220'},
-        {value: 'bankCardNum', label: '银行账号', width: '120'},
-        {value: 'finalEditor', label: '修改人', width: '120'},
-        {value: 'finalEditTime', label: '最后修改时间', width: '220'},
-        {value: 'status', label: '状态', width: '120'}
+        {value: 'status', label: '状态', width: '120'},
+        {value: 'finalEditor', label: '最后修改人', width: '120'},
+        {value: 'finalEditTime', label: '最后修改时间', width: '220'}
       ],
       staffTypeOption: [], // 员工类型选择框
       genderOption: [], // 性别选项
@@ -226,6 +276,17 @@ export default {
         import: false,
         export: false,
         acceptOrder: false
+      },
+      funcBtn: {
+        isShow: true,
+        width: 180,
+        fixed: 'right',
+        buttons: [
+          {
+            name: '查看详情',
+            value: 'staffDetail'
+          }
+        ]
       }
     }
   },
@@ -265,12 +326,10 @@ export default {
           })
           console.log(err.data)
         })
+    },
+    btnClick () {
+      this.detailDialogVisible = true
     }
-    // rightBtn (data) {
-    //   if (data === 'viewDetail') {
-    //     // this.
-    //   }
-    // }
   },
   mounted () {
     this.$refs[this.tableName].refreshData(this.refreshUrl, 'tableData')
@@ -280,5 +339,17 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+  .dialog-style {
+    position: fixed;
+  }
+
+  .detail-label {
+    float: left;
+    width: 300px;
+  }
+
+  .detail-column {
+    height: 20px;
+  }
 </style>

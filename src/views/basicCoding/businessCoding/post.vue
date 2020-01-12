@@ -9,6 +9,7 @@
       :table-title="tableTitle"
       :table-header-list="tableHeaderList"
       :table-p-k="tablePK"
+      :func-btn="funcBtn"
       :button-boolean="buttonBoolean"
       v-on:addRecord="addRecord"
       v-on:editRecord="editRecord"
@@ -68,8 +69,11 @@ export default {
       tableTitle: '岗位管理', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
-        {value: 'name', label: '岗位名称', width: '120'},
+        {value: 'name', label: '岗位名', width: '120'},
+        {value: '', label: '上级岗位名', width: '120'},
         {value: 'number', label: '岗位编码', width: '120'},
+        {value: 'finalEditor', label: '修改人', width: '120'},
+        {value: 'finalEditTime', label: '修改时间', width: '200'},
         {value: 'upperNumber', label: '上一级岗位编码', width: '160'},
         {value: 'responsibilities', label: '岗位职责', width: '320'},
         {value: 'remarks', label: '备注', width: '180'},
@@ -86,6 +90,17 @@ export default {
         import: true,
         export: true,
         acceptOrder: false
+      },
+      funcBtn: {
+        isShow: 'true',
+        width: '120',
+        fixed: 'right',
+        buttons: [
+          {
+            name: '详细信息',
+            value: 'dispatchingCar'
+          }
+        ]
       }
     }
   },

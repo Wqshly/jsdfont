@@ -16,8 +16,8 @@ const vehicleRegistration = () => Promise.resolve(require('@/views/car/vehicleRe
 const staff = () => Promise.resolve(require('@/views/company/staff'))
 const isQuit = () => Promise.resolve(require('@/views/company/isQuit'))
 
-const baseData = () => Promise.resolve(require('@/views/basicCoding/businessCoding/baseData'))
-const orderSetting = () => Promise.resolve(require('@/views/basicCoding/systemCoding/orderSetting'))
+const systemDataCoding = () => Promise.resolve(require('@/views/basicCoding/systemCoding/basePage'))
+const businessDataCoding = () => Promise.resolve(require('@/views/basicCoding/businessCoding/basePage'))
 const serviceType = () => Promise.resolve(require('@/views/basicCoding/serviceType'))
 
 const customerInfo = () => Promise.resolve(require('@/views/customer/customerInfo'))
@@ -70,15 +70,15 @@ export default new Router({
           meta: {title: '车辆登记'}
         },
         {
-          path: '/base-data',
-          name: 'baseData',
-          component: baseData,
+          path: '/system-data-coding',
+          name: 'systemDataCoding',
+          component: systemDataCoding,
           meta: {title: '系统编码'}
         },
         {
-          path: '/order-setting',
-          name: 'orderSetting',
-          component: orderSetting,
+          path: '/business-data-coding',
+          name: 'businessDataCoding',
+          component: businessDataCoding,
           meta: {title: '业务编码'}
         },
         {

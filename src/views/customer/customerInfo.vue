@@ -9,7 +9,7 @@
       :table-title="tableTitle"
       :table-header-list="tableHeaderList"
       :table-p-k="tablePK"
-      :right-button="rightButton"
+      :func-btn="funcBtn"
       :button-boolean="buttonBoolean"
       v-on:addRecord="addRecord"
       v-on:editRecord="editRecord"
@@ -80,7 +80,7 @@ export default {
         export: false,
         acceptOrder: false
       },
-      rightButton: {
+      funcBtn: {
         isShow: true,
         fixed: 'right',
         width: 150,
