@@ -99,7 +99,8 @@
           <el-table-column label="操作" :width="funcBtn.width" v-if="funcBtn.isShow" :fixed="funcBtn.fixed">
             <template slot-scope="scope">
               <!-- 通过tableHeader.value获取按钮名 -->
-              <el-button type="text" v-for="(item, index) in funcBtn.buttons" :key="index" @click="btnClick(item.value)">
+              <el-button type="text" v-for="(item, index) in funcBtn.buttons" :key="index"
+                         @click="btnClick(item.value)">
                 {{item.name}}
               </el-button>
             </template>
@@ -132,8 +133,9 @@
       <!-- 编辑窗口 -->
       <el-dialog ref="editFormWindows" title="编辑" :visible.sync="editDialogVisible" :close-on-click-modal="false"
                  class="dialog-style">
-        <slot name="edit"></slot>
-        <div slot="footer">
+        <slot v-if="detailVisible === false" name="edit"></slot>
+        <slot v-else name="detail"></slot>
+        <div v-if="detailVisible === false" slot="footer">
           <div style="float:left;">
             <el-button type="primary" @click="lastRecord">上一条</el-button>
             <el-button type="primary" @click="nextRecord">下一条</el-button>
@@ -142,6 +144,10 @@
           <el-button type="primary" @click.native="editSave">保存</el-button>
           <el-button type="primary" @click.native="editSaveClose">保存并关闭</el-button>
           <el-button @click.native="editDialogVisible = false">取消</el-button>
+        </div>
+        <div v-else slot="footer">
+          <el-button type="primary" @click.native="letsEdit">编辑</el-button>
+          <el-button @click.native="closeDetailForm">关闭</el-button>
         </div>
       </el-dialog>
     </el-col>
@@ -199,6 +205,7 @@ export default {
       tableLoading: false, // 表格显示loading
       addDialogVisible: false,
       editDialogVisible: false,
+      detailVisible: false,
       currentPageNumber: 1, // 当前页
       selectRow: null, // 当前选中的行
       selects: [], // 列表中选中的多行数据
@@ -248,6 +255,7 @@ export default {
           duration: '2000'
         })
       }
+      this.detailVisible = false
     },
     // 编辑中的选择上一条
     lastRecord () {
@@ -281,6 +289,14 @@ export default {
     // 编辑的保存并关闭
     editSaveClose: function () {
       this.$emit('editRecord')
+      this.editDialogVisible = false
+    },
+    // 详情页面时启动编辑
+    letsEdit: function () {
+      this.detailVisible = false
+    },
+    // 关闭详情页面
+    closeDetailForm: function () {
       this.editDialogVisible = false
     },
     // 点击选中行
@@ -364,7 +380,8 @@ export default {
               type: 'error'
             })
           })
-      }).catch(() => {})
+      }).catch(() => {
+      })
     },
     btnClick: function (value) {
       this.$emit('btn-click', value)

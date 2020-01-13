@@ -125,24 +125,8 @@
             </el-input>
           </el-form-item>
         </el-form>
-      </table-template>
-    </el-row>
-    <el-row>
-      <el-tabs type="border-card">
-        <el-tab-pane label="绩效考核">
-<!--          <is-quit></is-quit>-->
-        </el-tab-pane>
-        <el-tab-pane label="职务变动">
-<!--          <is-quit></is-quit>-->
-        </el-tab-pane>
-        <el-tab-pane label="请销假">
-          <is-quit></is-quit>
-        </el-tab-pane>
-      </el-tabs>
-    </el-row>
-    <el-dialog :visible.sync="detailDialogVisible" class="dialog-style">
-      <el-form style="overflow: auto;" label-width="100px">
-        <div class="detail-column">
+        <!-- 详情窗口 -->
+        <el-form slot="detail" style="overflow: auto;" label-width="100px">
           <el-form-item class="detail-label" label="编码" :model="editForm" prop="number">
             {{editForm.number !== null ? editForm.number : "未填写"}}
           </el-form-item>
@@ -152,8 +136,6 @@
           <el-form-item class="detail-label" label="电话" :model="editForm" prop="phone">
             {{editForm.phone !== null ? editForm.phone : "未填写"}}
           </el-form-item>
-        </div>
-        <div class="detail-column">
           <el-form-item class="detail-label" label="身份证" :model="editForm" prop="identify">
             {{editForm.identify !== null ? editForm.identify : "未填写"}}
           </el-form-item>
@@ -163,8 +145,6 @@
           <el-form-item class="detail-label" label="邮件" :model="editForm" prop="email">
             {{editForm.email !== null ? editForm.email : "未填写"}}
           </el-form-item>
-        </div>
-        <div class="detail-column">
           <el-form-item class="detail-label" label="学历" :model="editForm" prop="education">
             {{editForm.education !== null ? editForm.education : "未填写"}}
           </el-form-item>
@@ -174,8 +154,6 @@
           <el-form-item class="detail-label" label="银行账号" :model="editForm" prop="bankCardNum">
             {{editForm.bankCardNum !== null ? editForm.bankCardNum : "未填写"}}
           </el-form-item>
-        </div>
-        <div class="detail-column">
           <el-form-item class="detail-label" label="状态" :model="editForm" prop="status">
             {{editForm.status !== null ? editForm.status : "未填写"}}
           </el-form-item>
@@ -185,18 +163,28 @@
           <el-form-item class="detail-label" label="地址" :model="addForm" prop="address">
             {{editForm.address !== null ? editForm.address : "未填写"}}
           </el-form-item>
-        </div>
-        <div class="detail-column">
           <el-form-item class="detail-label" label="学科" :model="addForm" prop="discipline">
             {{editForm.discipline !== null ? editForm.discipline : "未填写"}}
           </el-form-item>
           <el-form-item class="detail-label" label="毕业院校" :model="addForm" prop="graduateSchool">
             {{editForm.graduateSchool !== null ? editForm.graduateSchool : "未填写"}}
           </el-form-item>
-        </div>
-        <el-button style="float: right; margin-top: 30px" @click.native="detailDialogVisible = false">关闭</el-button>
-      </el-form>
-    </el-dialog>
+        </el-form>
+      </table-template>
+    </el-row>
+    <el-row>
+      <el-tabs type="border-card">
+        <el-tab-pane label="绩效考核">
+          <!--          <is-quit></is-quit>-->
+        </el-tab-pane>
+        <el-tab-pane label="职务变动">
+          <!--          <is-quit></is-quit>-->
+        </el-tab-pane>
+        <el-tab-pane label="请销假">
+          <is-quit></is-quit>
+        </el-tab-pane>
+      </el-tabs>
+    </el-row>
   </div>
 </template>
 
@@ -217,7 +205,6 @@ export default {
       tableHeight: (`${document.documentElement.clientHeight}` - 100) / 2 - 140,
       tableTitle: '员工管理', // 表格标题
       tablePK: 'id', // 主键id值
-      detailDialogVisible: false,
       tableHeaderList: [ // 表头字段
         {value: 'number', label: '员工编号', width: '120'},
         {value: 'name', label: '员工姓名', width: '120'},
@@ -328,7 +315,8 @@ export default {
         })
     },
     btnClick () {
-      this.detailDialogVisible = true
+      this.$refs[this.tableName].detailVisible = true
+      this.$refs[this.tableName].editDialogVisible = true
     }
   },
   mounted () {

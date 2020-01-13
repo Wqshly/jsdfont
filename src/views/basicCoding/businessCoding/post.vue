@@ -13,7 +13,8 @@
       :button-boolean="buttonBoolean"
       v-on:addRecord="addRecord"
       v-on:editRecord="editRecord"
-      v-on:select-row="selectRowClick">
+      v-on:select-row="selectRowClick"
+      v-on:btn-click="btnClick">
       <!-- 新增窗口 -->
       <el-form slot="add" style="overflow: auto" label-width="100px">
         <el-form-item label="编码" :model="addForm" prop="number">
@@ -50,6 +51,23 @@
           <el-input v-model="editForm.remarks"></el-input>
         </el-form-item>
       </el-form>
+      <el-form slot="detail" style="overflow: auto;float: left;" label-width="100px">
+        <el-form-item class="detail-label" label="岗位编码:" :model="editForm" prop="number">
+          {{editForm.number !== null ? editForm.number : "未填写"}}
+        </el-form-item>
+        <el-form-item class="detail-label" label="岗位名称:" :model="editForm" prop="name">
+          {{editForm.name !== null ? editForm.name : "未填写"}}
+        </el-form-item>
+        <el-form-item class="detail-label" label="上级岗位编码:" :model="editForm" prop="name">
+          {{editForm.upperNumber !== null ? editForm.upperNumber : "未填写"}}
+        </el-form-item>
+        <el-form-item class="detail-label" style="width: 600px" label="职责:" :model="editForm" prop="phone">
+          {{editForm.responsibilities !== null ? editForm.responsibilities : "未填写"}}
+        </el-form-item>
+        <el-form-item class="detail-label" style="width: 600px" label="备注:" :model="addForm" prop="discipline">
+          {{editForm.remarks !== null ? editForm.remarks : "未填写"}}
+        </el-form-item>
+      </el-form>
     </table-template>
   </div>
 </template>
@@ -71,14 +89,8 @@ export default {
       tableHeaderList: [ // 表头字段
         {value: 'name', label: '岗位名', width: '120'},
         {value: '', label: '上级岗位名', width: '120'},
-        {value: 'number', label: '岗位编码', width: '120'},
         {value: 'finalEditor', label: '修改人', width: '120'},
-        {value: 'finalEditTime', label: '修改时间', width: '200'},
-        {value: 'upperNumber', label: '上一级岗位编码', width: '160'},
-        {value: 'responsibilities', label: '岗位职责', width: '320'},
-        {value: 'remarks', label: '备注', width: '180'},
-        {value: 'finalEditor', label: '修改人', width: '120'},
-        {value: 'finalEditTime', label: '修改时间', width: '220'}
+        {value: 'finalEditTime', label: '修改时间', width: '200'}
       ],
       addForm: {number: '', upperNumber: '', name: '', responsibilities: '', remarks: ''}, // 新增数据界面
       editForm: {id: null, number: null, upperNumber: null, name: null, responsibilities: null, remarks: null}, // 编辑数据界面
@@ -91,6 +103,7 @@ export default {
         export: true,
         acceptOrder: false
       },
+      finalEditor: sessionStorage.getItem('save_username'),
       funcBtn: {
         isShow: 'true',
         width: '120',
@@ -107,6 +120,7 @@ export default {
   components: {
     TableTemplate
   },
+  watch: {},
   methods: {
     // 增方法
     addRecord () {
@@ -123,6 +137,10 @@ export default {
     },
     deleteRecord () {
       this.$refs[this.tableName].deleteData(this.deleteUrl, this.refreshUrl)
+    },
+    btnClick () {
+      this.$refs[this.tableName].detailVisible = true
+      this.$refs[this.tableName].editDialogVisible = true
     }
   },
   mounted () {
@@ -131,5 +149,17 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+  .dialog-style {
+    position: fixed;
+  }
+
+  .detail-label {
+    float: left;
+    width: 300px;
+  }
+
+  .detail-column {
+    height: 20px;
+  }
 </style>
