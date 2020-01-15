@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import post from '@/views/basicCoding/businessCoding/post'
+import post from '@/views/basicCoding/systemCoding/post'
 import eduction from '@/views/basicCoding/eduction'
 import gender from '@/views/basicCoding/gender'
 import discipline from '@/views/basicCoding/discipline'

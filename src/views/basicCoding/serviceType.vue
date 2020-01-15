@@ -24,9 +24,9 @@
           <el-input v-model="addForm.number"></el-input>
         </el-form-item>
         <el-form-item label="上级业务名称" :model="addForm" prop="upperNumber">
-          <el-select v-model="addForm.upperNumber" placeholder="请选择">
+          <el-select :value="addForm.upperNumber" placeholder="请选择">
             <el-option
-              v-for="item in orderModelTable"
+              v-for="item in orderTypeTable"
               :key="item.id"
               :label="item.name"
               :value="item.number">
@@ -48,7 +48,7 @@
         <el-form-item label="上级业务名称" :model="editForm" prop="upperNumber">
           <el-select v-model="editForm.upperNumber" placeholder="请选择">
             <el-option
-              v-for="item in orderModelTable"
+              v-for="item in orderTypeTable"
               :key="item.id"
               :label="item.name"
               :value="item.number">
@@ -70,10 +70,10 @@ export default {
   name: 'serviceType',
   data () {
     return {
-      refreshUrl: 'orderModel/findAllOrderModel',
-      addUrl: 'orderModel/addOrderModel',
-      editUrl: 'orderModel/editOrderModel',
-      deleteUrl: 'orderModel/deleteOrderModel',
+      refreshUrl: 'orderType/findAllOrderModel',
+      addUrl: 'orderType/addOrderModel',
+      editUrl: 'orderType/editOrderModel',
+      deleteUrl: 'orderType/deleteOrderModel',
       tableName: 'orderTable',
       tableTitle: '服务类别设置', // 表格标题
       tablePK: 'id', // 主键id值
@@ -102,7 +102,7 @@ export default {
         acceptOrder: false
       },
       finalEditor: sessionStorage.getItem('save_username'),
-      orderModelTable: []
+      orderTypeTable: []
     }
   },
   components: {
@@ -113,7 +113,7 @@ export default {
     addRecord () {
       this.addForm.finalEditor = this.finalEditor
       this.$refs[this.tableName].createData(this.addUrl, this.refreshUrl, this.addForm)
-      this.getOrderModelTable(this.refreshUrl, this.orderModelTable)
+      this.getOrderModelTable(this.refreshUrl, this.orderTypeTable)
     },
     selectRowClick (row) {
       this.editForm = row
@@ -130,10 +130,10 @@ export default {
       this.$api.getRequestApi.get(this.refreshUrl)
         .then(res => {
           console.log(res.data)
-          this.orderModelTable = res.data.data
-          console.log(this.orderModelTable)
-          if (this.orderModelTable.length === 0) {
-            this.orderModelTable = [{
+          this.orderTypeTable = res.data.data
+          console.log(this.orderTypeTable)
+          if (this.orderTypeTable.length === 0) {
+            this.orderTypeTable = [{
               name: '根目录',
               number: 'Null'
             }]

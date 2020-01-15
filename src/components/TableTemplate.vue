@@ -1,7 +1,7 @@
 <template>
   <div class="fill-contain" style="border-radius: 5px">
     <!--工具栏-->
-    <el-col :span="24">
+    <el-col :span="tableWidth">
       <div>
         <!-- 表头 -->
         <div ref="tableTitle" class="table-title">
@@ -12,7 +12,7 @@
           <el-button-group>
             <el-popover placement="top-start" trigger="hover">
               <div class="button-tips">新增</div>
-              <el-button slot="reference" @click="handleAdd" class="button" style="color:#13ce66"
+              <el-button slot="reference" @click.native="handleAdd" class="button" style="color:#13ce66"
                          v-if="this.buttonBoolean.addBtn">
                 <span class="el-icon-wqs-Add table_icon"></span>
               </el-button>
@@ -135,19 +135,21 @@
                  class="dialog-style">
         <slot v-if="detailVisible === false" name="edit"></slot>
         <slot v-else name="detail"></slot>
-        <div v-if="detailVisible === false" slot="footer">
+        <div slot="footer">
           <div style="float:left;">
             <el-button type="primary" @click="lastRecord">上一条</el-button>
             <el-button type="primary" @click="nextRecord">下一条</el-button>
           </div>
           <!-- 作为模板时，不加.native将不会生效 -->
-          <el-button type="primary" @click.native="editSave">保存</el-button>
-          <el-button type="primary" @click.native="editSaveClose">保存并关闭</el-button>
-          <el-button @click.native="editDialogVisible = false">取消</el-button>
-        </div>
-        <div v-else slot="footer">
-          <el-button type="primary" @click.native="letsEdit">编辑</el-button>
-          <el-button @click.native="closeDetailForm">关闭</el-button>
+          <div v-if="detailVisible === false">
+            <el-button type="primary" @click.native="editSave">保存</el-button>
+            <el-button type="primary" @click.native="editSaveClose">保存并关闭</el-button>
+            <el-button @click.native="editDialogVisible = false">取消</el-button>
+          </div>
+          <div v-else>
+            <el-button type="primary" @click.native="letsEdit">编辑</el-button>
+            <el-button @click.native="closeDetailForm">关闭</el-button>
+          </div>
         </div>
       </el-dialog>
     </el-col>
@@ -173,7 +175,7 @@ export default {
     tableName: String,
     tableTitle: String, // 表格标题
     tableHeaderList: {required: true, type: Array}, // 表头数据
-    tableHeight: {type: Number, default: 500},
+    // tableHeight: {type: Number, default: (`${document.documentElement.clientHeight}` - 250)},
     // tableData: {required: true, type: Array} // 表格数据
     tablePK: {default: 'id'},
     buttonBoolean: {
@@ -206,6 +208,7 @@ export default {
       addDialogVisible: false,
       editDialogVisible: false,
       detailVisible: false,
+      tableHeight: (`${document.documentElement.clientHeight}` - 250),
       currentPageNumber: 1, // 当前页
       selectRow: null, // 当前选中的行
       selects: [], // 列表中选中的多行数据
@@ -213,6 +216,7 @@ export default {
         backgroundColor: '',
         color: ''
       },
+      tableWidth: 24,
       recordTotal: 0, // 数据的总数
       pageSize: 5 // 每页显示的条数
     }
@@ -308,6 +312,29 @@ export default {
     selectChange: function (selects) {
       this.selects = selects
     },
+    // 下拉框数据获取
+    getDropDownBoxInfo (url, tableName) {
+      console.log(123456)
+      this.$api.requestApi.get(url)
+        .then(res => {
+          console.log(res.data)
+          this[tableName] = res.data.data
+          console.log(this[tableName])
+          if (this[tableName].length === 0) {
+            this[tableName] = [{
+              name: '根目录',
+              number: 'Null'
+            }]
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: '网络请求失败',
+            type: 'error'
+          })
+          console.log(err.data)
+        })
+    },
     // 表增加数据
     createData (url, refreshUrl, param) {
       this.$api.postRequestApi.post(url, param)
@@ -385,6 +412,11 @@ export default {
     },
     btnClick: function (value) {
       this.$emit('btn-click', value)
+    }
+  },
+  mounted () {
+    window.onresize = () => {
+      this.tableHeight = `${document.documentElement.clientHeight}` - 250
     }
   },
   created () {

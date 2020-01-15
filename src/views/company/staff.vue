@@ -1,6 +1,6 @@
 <template>
   <div class="fill-contain">
-    <el-row style="padding-bottom: 10px">
+    <el-col :span="tableWidth" style="padding-bottom: 10px">
       <table-template
         ref="staffTable"
         :refresh-url="refreshUrl"
@@ -26,7 +26,7 @@
             <el-input v-model="addForm.name"></el-input>
           </el-form-item>
           <el-form-item label="员工类别" prop="staffType">
-            <el-select v-model="addForm.staffType" placeholder="请选择">
+            <el-select v-model="addForm.staffType" placeholder="请选择" @click.native="getTypeOption('basicCoding/findBasicCodingWithType?type=staffNumCoding', 'staffTypeOption')">
               <el-option
                 v-for="item in staffTypeOption"
                 :key="item.id"
@@ -42,7 +42,7 @@
             <el-input v-model="addForm.identify"></el-input>
           </el-form-item>
           <el-form-item label="性别" :model="addForm" prop="sex">
-            <el-select v-model="addForm.sex" placeholder="请选择">
+            <el-select v-model="addForm.sex" placeholder="请选择" @click.native="getTypeOption('basicCoding/findBasicCodingWithType?type=genderCoding', 'genderOption')">
               <el-option
                 v-for="item in genderOption"
                 :key="item.id"
@@ -171,8 +171,8 @@
           </el-form-item>
         </el-form>
       </table-template>
-    </el-row>
-    <el-row>
+    </el-col>
+    <el-col :span="tableWidth">
       <el-tabs type="border-card">
         <el-tab-pane label="绩效考核">
           <!--          <is-quit></is-quit>-->
@@ -184,7 +184,7 @@
           <is-quit></is-quit>
         </el-tab-pane>
       </el-tabs>
-    </el-row>
+    </el-col>
   </div>
 </template>
 
@@ -214,6 +214,7 @@ export default {
         {value: 'finalEditor', label: '最后修改人', width: '120'},
         {value: 'finalEditTime', label: '最后修改时间', width: '220'}
       ],
+      tableWidth: 12,
       staffTypeOption: [], // 员工类型选择框
       genderOption: [], // 性别选项
       addForm: {
@@ -253,8 +254,6 @@ export default {
         currentPosition: null
       }, // 编辑数据界面
       finalEditor: sessionStorage.getItem('save_username'),
-      typeName: 'staffNumCoding',
-      typeName2: 'genderCoding',
       buttonBoolean: {
         addBtn: true,
         editBtn: true,
@@ -321,8 +320,6 @@ export default {
   },
   mounted () {
     this.$refs[this.tableName].refreshData(this.refreshUrl, 'tableData')
-    this.getTypeOption('basicCoding/findBasicCodingWithType' + '?type=' + this.typeName, 'staffTypeOption')
-    this.getTypeOption('basicCoding/findBasicCodingWithType' + '?type=' + this.typeName2, 'genderOption')
   }
 }
 </script>

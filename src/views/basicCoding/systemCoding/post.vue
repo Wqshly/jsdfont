@@ -16,12 +16,19 @@
       v-on:select-row="selectRowClick"
       v-on:btn-click="btnClick">
       <!-- 新增窗口 -->
-      <el-form slot="add" style="overflow: auto" label-width="100px">
+      <el-form slot="add" style="overflow: auto" label-width="120px">
         <el-form-item label="编码" :model="addForm" prop="number">
           <el-input v-model="addForm.number"></el-input>
         </el-form-item>
-        <el-form-item label="上一级岗位编号" :model="addForm" prop="upperNumber">
-          <el-input v-model="addForm.upperNumber"></el-input>
+        <el-form-item label="上级岗位名/编号" :model="addForm" prop="upperNumber">
+          <el-select v-model="addForm.upperNumber" placeholder="请选择" @click.native="getOrderModelTable()">
+            <el-option
+              v-for="item in orderTypeTable"
+              :key="item.id"
+              :label="item.name + '(' + item.number + ')'"
+              :value="item.name + '(' + item.number + ')'">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="名称" :model="addForm" prop="name">
           <el-input v-model="addForm.name"></el-input>
@@ -38,8 +45,15 @@
         <el-form-item label="编码" :model="editForm" prop="number">
           <el-input v-model="editForm.number"></el-input>
         </el-form-item>
-        <el-form-item label="上一级岗位编号" :model="editForm" prop="upperNumber">
-          <el-input v-model="editForm.upperNumber"></el-input>
+        <el-form-item label="上级岗位名/编号" :model="editForm" prop="upperNumber">
+          <el-select v-model="editForm.upperNumber" placeholder="请选择" @click.native="getOrderModelTable()">
+            <el-option
+              v-for="item in orderTypeTable"
+              :key="item.id"
+              :label="item.name + '(' + item.number + ')'"
+              :value="item.name + '(' + item.number + ')'">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="名称" :model="editForm" prop="name">
           <el-input v-model="editForm.name"></el-input>
@@ -51,7 +65,8 @@
           <el-input v-model="editForm.remarks"></el-input>
         </el-form-item>
       </el-form>
-      <el-form slot="detail" style="overflow: auto;float: left;" label-width="100px">
+      <!-- 详情页面 -->
+      <el-form slot="detail" style="overflow: auto;float: left;" label-width="120px">
         <el-form-item class="detail-label" label="岗位编码:" :model="editForm" prop="number">
           {{editForm.number !== null ? editForm.number : "未填写"}}
         </el-form-item>
@@ -88,7 +103,7 @@ export default {
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
         {value: 'name', label: '岗位名', width: '120'},
-        {value: '', label: '上级岗位名', width: '120'},
+        {value: 'upperNumber', label: '上级岗位名', width: '120'},
         {value: 'finalEditor', label: '修改人', width: '120'},
         {value: 'finalEditTime', label: '修改时间', width: '200'}
       ],
@@ -114,13 +129,19 @@ export default {
             value: 'dispatchingCar'
           }
         ]
-      }
+      },
+      orderTypeTable: []
     }
   },
   components: {
     TableTemplate
   },
-  watch: {},
+  watch: {
+    orderTypeTable (val) {
+      console.log(this.orderTypeTable)
+      this.orderTypeTable = val
+    }
+  },
   methods: {
     // 增方法
     addRecord () {
@@ -141,6 +162,25 @@ export default {
     btnClick () {
       this.$refs[this.tableName].detailVisible = true
       this.$refs[this.tableName].editDialogVisible = true
+    },
+    getOrderModelTable () {
+      this.$api.getRequestApi.get(this.refreshUrl)
+        .then(res => {
+          console.log(res.data)
+          this.orderTypeTable = res.data.data
+          console.log(this.orderTypeTable)
+          this.orderTypeTable.unshift({name: '根目录', number: 'Null'})
+          console.log(this.orderTypeTable)
+        })
+        .catch(err => {
+          this.$message({
+            message: '网络请求失败',
+            type: 'error'
+          })
+          console.log(err.data)
+        })
+    },
+    changeFixed () {
     }
   },
   mounted () {
