@@ -41,7 +41,7 @@
         </el-form-item>
       </el-form>
       <!-- 编辑窗口 -->
-      <el-form slot="edit" style="overflow: auto" label-width="100px">
+      <el-form slot="edit" style="overflow: auto" label-width="120px">
         <el-form-item label="编码" :model="editForm" prop="number">
           <el-input v-model="editForm.number"></el-input>
         </el-form-item>
