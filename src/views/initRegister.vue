@@ -45,8 +45,6 @@
 </template>
 
 <script>
-import {encryptedData} from '@/commons/encryptedData'
-
 export default {
   name: 'initRegister',
   data () {
@@ -155,14 +153,11 @@ export default {
     }
   },
   methods: {
-    encryptedData (data) {
-      return encryptedData(data)
-    },
     initRegister (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this[formName].password = this.encryptedData(this[formName].password)
-          this[formName].rePassword = this.encryptedData(this[formName].rePassword)
+          this[formName].password = this.$commonsMethod.encryptedData(this[formName].password)
+          this[formName].rePassword = this.$commonsMethod.encryptedData(this[formName].rePassword)
           console.log(this[formName].password)
           this.$api.requestApi.post('/user/initRegister', this[formName])
             .then(res => {

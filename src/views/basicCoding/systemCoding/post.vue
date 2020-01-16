@@ -67,19 +67,19 @@
       </el-form>
       <!-- 详情页面 -->
       <el-form slot="detail" style="overflow: auto;float: left;" label-width="120px">
-        <el-form-item class="detail-label" label="岗位编码:" :model="editForm" prop="number">
+        <el-form-item class="half-label" label="岗位编码:" :model="editForm" prop="number">
           {{editForm.number !== null ? editForm.number : "未填写"}}
         </el-form-item>
-        <el-form-item class="detail-label" label="岗位名称:" :model="editForm" prop="name">
+        <el-form-item class="half-label" label="岗位名称:" :model="editForm" prop="name">
           {{editForm.name !== null ? editForm.name : "未填写"}}
         </el-form-item>
-        <el-form-item class="detail-label" label="上级岗位编码:" :model="editForm" prop="name">
+        <el-form-item class="half-label" label="上级岗位编码:" :model="editForm" prop="name">
           {{editForm.upperNumber !== null ? editForm.upperNumber : "未填写"}}
         </el-form-item>
-        <el-form-item class="detail-label" style="width: 600px" label="职责:" :model="editForm" prop="phone">
+        <el-form-item class="half-label" style="width: 600px" label="职责:" :model="editForm" prop="phone">
           {{editForm.responsibilities !== null ? editForm.responsibilities : "未填写"}}
         </el-form-item>
-        <el-form-item class="detail-label" style="width: 600px" label="备注:" :model="addForm" prop="discipline">
+        <el-form-item class="half-label" style="width: 600px" label="备注:" :model="addForm" prop="discipline">
           {{editForm.remarks !== null ? editForm.remarks : "未填写"}}
         </el-form-item>
       </el-form>
@@ -194,7 +194,7 @@ export default {
     position: fixed;
   }
 
-  .detail-label {
+  .half-label {
     float: left;
     width: 300px;
   }
