@@ -41,10 +41,10 @@ export default {
   name: 'post',
   data () {
     return {
-      refreshUrl: 'basicCoding/findAllPost',
-      addUrl: 'basicCoding/addPost',
-      editUrl: 'basicCoding/editPost',
-      deleteUrl: 'basicCoding/deletePost',
+      refreshUrl: 'basicCoding/findBasicCodingWithType',
+      addUrl: 'basicCoding/addBasicCoding',
+      editUrl: 'basicCoding/editBasicCoding',
+      deleteUrl: 'basicCoding/deleteBasicCoding',
       tableName: 'staffStatus',
       tableTitle: '员工状态', // 表格标题
       tablePK: 'id', // 主键id值
@@ -58,6 +58,7 @@ export default {
       addForm: {name: '', codingStyle: ''}, // 新增数据界面
       editForm: {id: null, name: null, codingStyle: null}, // 编辑数据界面
       finalEditor: sessionStorage.getItem('save_username'),
+      typeName: 'staffStatus',
       buttonBoolean: {
         addBtn: true,
         editBtn: true,
@@ -75,23 +76,25 @@ export default {
   methods: {
     // 增方法
     addRecord () {
+      this.addForm.type = this.typeName
       this.addForm.finalEditor = this.finalEditor
-      this.$refs[this.tableName].createData(this.addUrl, this.refreshUrl, this.addForm)
+      this.$refs[this.tableName].createData(this.addUrl, this.refreshUrl + '?type=' + this.typeName, this.addForm)
     },
     selectRowClick (row) {
       this.editForm = row
       // this.id = row.id
     },
     editRecord () {
+      this.editForm.type = this.typeName
       this.editForm.finalEditor = this.finalEditor
-      this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl, this.editForm)
+      this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl + '?type=' + this.typeName, this.editForm)
     },
     deleteRecord () {
       this.$refs[this.tableName].deleteData(this.deleteUrl, this.refreshUrl)
     }
   },
   mounted () {
-    this.$refs[this.tableName].refreshData(this.refreshUrl)
+    this.$refs[this.tableName].refreshData(this.refreshUrl + '?type=' + this.typeName)
   }
 }
 </script>

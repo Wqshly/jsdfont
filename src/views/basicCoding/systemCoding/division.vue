@@ -1,7 +1,7 @@
 <template>
   <div>
     <table-template
-      ref="postTable"
+      ref="division"
       :refresh-url="refreshUrl"
       :add-url="addUrl"
       :edit-url="editUrl"
@@ -16,11 +16,18 @@
       v-on:select-row="selectRowClick"
       v-on:btn-click="btnClick">
       <!-- 新增窗口 -->
-      <el-form slot="add" style="overflow: auto" :model="addForm" label-width="120px">
-        <el-form-item label="编码" prop="number">
-          <el-input v-model="addForm.number"></el-input>
+      <el-form slot="add" style="overflow: auto" label-width="120px">
+        <el-form-item label="区划名称" :model="addForm" prop="name">
+          <el-input v-model="addForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="上级岗位名/编号" prop="upperNumber">
+        <el-form-item label="编码">
+            <el-radio v-model="radio" label="1">自动生成</el-radio>
+            <el-radio v-model="radio" label="2">手动编辑</el-radio>
+        </el-form-item>
+        <el-form-item :model="addForm" prop="number">
+          <el-input v-model="addForm.number" v-if="radio === '2'"></el-input>
+        </el-form-item>
+        <el-form-item label="上级区划名/编号" :model="addForm" prop="upperNumber">
           <el-select v-model="addForm.upperNumber" placeholder="请选择" @click.native="getOrderModelTable()">
             <el-option
               v-for="item in orderTypeTable"
@@ -30,14 +37,11 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="addForm.name"></el-input>
+        <el-form-item label="区划事务" :model="addForm" prop="responsibilities">
+          <el-input type="textarea" v-model="addForm.responsibilities" :autosize="{ minRows: 3, maxRows: 5}"></el-input>
         </el-form-item>
-        <el-form-item label="职责" prop="responsibilities">
-          <el-input v-model="addForm.responsibilities"></el-input>
-        </el-form-item>
-        <el-form-item label="备注" prop="remarks">
-          <el-input v-model="addForm.remarks"></el-input>
+        <el-form-item label="备注" :model="addForm" prop="remarks">
+          <el-input type="textarea" v-model="addForm.remarks" :autosize="{minRows: 2, maxRows: 5}"></el-input>
         </el-form-item>
       </el-form>
       <!-- 编辑窗口 -->
@@ -45,7 +49,7 @@
         <el-form-item label="编码" :model="editForm" prop="number">
           <el-input v-model="editForm.number"></el-input>
         </el-form-item>
-        <el-form-item label="上级岗位名/编号" :model="editForm" prop="upperNumber">
+        <el-form-item label="上级区划名/编号" :model="editForm" prop="upperNumber">
           <el-select v-model="editForm.upperNumber" placeholder="请选择" @click.native="getOrderModelTable()">
             <el-option
               v-for="item in orderTypeTable"
@@ -55,10 +59,10 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="名称" :model="editForm" prop="name">
+        <el-form-item label="区划名称" :model="editForm" prop="name">
           <el-input v-model="editForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="职责" :model="editForm" prop="responsibilities">
+        <el-form-item label="区划事务" :model="editForm" prop="responsibilities">
           <el-input v-model="editForm.responsibilities"></el-input>
         </el-form-item>
         <el-form-item label="备注" :model="editForm" prop="remarks">
@@ -67,19 +71,19 @@
       </el-form>
       <!-- 详情页面 -->
       <el-form slot="detail" style="overflow: auto;float: left;" label-width="120px">
-        <el-form-item class="half-label" label="岗位编码:" :model="editForm" prop="number">
+        <el-form-item class="half-label" label="区划编码:" :model="editForm" prop="number">
           {{editForm.number !== null ? editForm.number : "未填写"}}
         </el-form-item>
-        <el-form-item class="half-label" label="岗位名称:" :model="editForm" prop="name">
+        <el-form-item class="half-label" label="区划名称:" :model="editForm" prop="name">
           {{editForm.name !== null ? editForm.name : "未填写"}}
         </el-form-item>
-        <el-form-item class="half-label" label="上级岗位编码:" :model="editForm" prop="name">
+        <el-form-item class="half-label" label="上级区划编码:" :model="editForm" prop="name">
           {{editForm.upperNumber !== null ? editForm.upperNumber : "未填写"}}
         </el-form-item>
-        <el-form-item class="half-label" style="width: 600px" label="职责:" :model="editForm" prop="phone">
+        <el-form-item class="half-label" style="width: 600px" label="区划事务:" :model="editForm" prop="phone">
           {{editForm.responsibilities !== null ? editForm.responsibilities : "未填写"}}
         </el-form-item>
-        <el-form-item class="half-label" style="width: 600px" label="备注:" prop="discipline">
+        <el-form-item class="half-label" style="width: 600px" label="备注:" :model="addForm" prop="discipline">
           {{editForm.remarks !== null ? editForm.remarks : "未填写"}}
         </el-form-item>
       </el-form>
@@ -89,26 +93,27 @@
 
 <script>
 import TableTemplate from '@/components/TableTemplate'
-
 export default {
-  name: 'post',
+  name: 'division',
   data () {
     return {
-      refreshUrl: 'basicCoding/findAllPost',
-      addUrl: 'basicCoding/addPost',
-      editUrl: 'basicCoding/editPost',
-      deleteUrl: 'basicCoding/deletePost',
-      tableName: 'postTable',
-      tableTitle: '岗位管理', // 表格标题
+      radio: '1',
+      refreshUrl: 'basicCoding/findAllDivision',
+      addUrl: 'basicCoding/addDivision',
+      editUrl: 'basicCoding/editDivision',
+      deleteUrl: 'basicCoding/deleteDivision',
+      tableName: 'division',
+      tableTitle: '行政划分编码', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
-        {value: 'name', label: '岗位名', width: '120'},
-        {value: 'upperNumber', label: '上级岗位名', width: '120'},
-        {value: 'finalEditor', label: '修改人', width: '120'},
-        {value: 'finalEditTime', label: '修改时间', width: '200'}
+        {value: 'name', label: '区划名', width: '120'},
+        {value: 'upperNumber', label: '上级区划名(区划编码)', width: '200'},
+        {value: 'finalEditor', label: '最后修改人', width: '120'},
+        {value: 'finalEditTime', label: '最后修改时间', width: '220'}
       ],
       addForm: {number: '', upperNumber: '', name: '', responsibilities: '', remarks: ''}, // 新增数据界面
       editForm: {id: null, number: null, upperNumber: null, name: null, responsibilities: null, remarks: null}, // 编辑数据界面
+      finalEditor: sessionStorage.getItem('save_username'),
       buttonBoolean: {
         addBtn: true,
         editBtn: true,
@@ -118,7 +123,6 @@ export default {
         export: true,
         acceptOrder: false
       },
-      finalEditor: sessionStorage.getItem('save_username'),
       funcBtn: {
         isShow: 'true',
         width: '120',
@@ -135,12 +139,6 @@ export default {
   },
   components: {
     TableTemplate
-  },
-  watch: {
-    orderTypeTable (val) {
-      console.log(this.orderTypeTable)
-      this.orderTypeTable = val
-    }
   },
   methods: {
     // 增方法
@@ -189,17 +187,5 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-  .dialog-style {
-    position: fixed;
-  }
-
-  .half-label {
-    float: left;
-    width: 300px;
-  }
-
-  .detail-column {
-    height: 20px;
-  }
+<style scoped>
 </style>

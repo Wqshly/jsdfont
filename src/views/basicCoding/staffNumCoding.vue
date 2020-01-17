@@ -19,7 +19,7 @@
           <el-input v-model="addForm.name" placeholder="如:&nbsp;保洁人员编码、文员编码等"></el-input>
         </el-form-item>
         <el-form-item label="编码格式: " :model="addForm" prop="codingStyle">
-          <el-input v-model="addForm.codingStyle" placeholder="请使用星号(*)代替编码中的数字"></el-input>
+          <el-input v-model="addForm.codingStyle" placeholder="请使用星号(*)代替自动编码的数字,例: JSD-0102****、JWC******"></el-input>
         </el-form-item>
       </el-form>
       <!-- 编辑窗口 -->
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import TableTemplate from '../../components/TableTemplate'
+import TableTemplate from '@/components/TableTemplate'
 export default {
   name: 'numStyleCoding',
   data () {

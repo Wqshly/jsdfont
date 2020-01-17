@@ -44,7 +44,6 @@ export default {
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
         {value: 'name', label: '名称', width: '120'},
-        {value: 'abbreviation', label: '名称缩写', width: '120'},
         {value: 'finalEditor', label: '编辑人', width: '120'},
         {value: 'finalEditTime', label: '最后编辑时间', width: '260'}
       ],

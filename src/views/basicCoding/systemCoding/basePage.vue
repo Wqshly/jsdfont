@@ -44,11 +44,11 @@
 <script>
 
 import post from '@/views/basicCoding/systemCoding/post'
+import division from '@/views/basicCoding/systemCoding/division'
 import eduction from '@/views/basicCoding/eduction'
 import gender from '@/views/basicCoding/gender'
 import discipline from '@/views/basicCoding/discipline'
 import graduateSchool from '@/views/basicCoding/graduateSchool'
-import division from '@/views/basicCoding/division'
 import staffStatus from '@/views/basicCoding/businessCoding/staffStatus'
 import staffNumCoding from '@/views/basicCoding/staffNumCoding'
 import orderNumCoding from '@/views/basicCoding/orderNumCoding'
@@ -236,7 +236,7 @@ export default {
 
   /*树的标题css*/
   .tree-title{
-    background-color:#409EFF;
+    background-color: #55aaff;
     height:37px;
     color: #FFF;
     line-height: 37px;

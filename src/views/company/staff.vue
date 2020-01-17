@@ -18,7 +18,7 @@
         v-on:select-row="selectRowClick"
         v-on:btn-click="btnClick">
         <!-- 新增窗口 -->
-        <el-form slot="add" :model="addForm" style="overflow: auto" label-width="100px">
+        <el-form slot="add" :model="addForm" style="overflow: auto" label-width="100px" ref="addForm" :rules="addFormRule">
           <el-row>
             <el-col :span="10">
               <el-form-item label="姓名" prop="name">
@@ -267,9 +267,15 @@ export default {
         discipline: '',
         graduateSchool: '',
         birth: '',
-        address: this.address1 + this.address2,
+        address: '',
         currentPosition: ''
       }, // 新增数据界面
+      addFormRule: {
+        name: [
+          {required: true, message: '请输入员工姓名', trigger: 'blur'},
+          {min: 2, max: 11, message: '请输入正确的姓名', trigger: 'blur'}
+        ]
+      },
       editForm: {
         id: null,
         number: null,
@@ -319,11 +325,15 @@ export default {
   methods: {
     // 增方法
     addRecord () {
-      this.addForm.finalEditor = this.finalEditor
-      this.addForm.typeName = this.typeName
-      this.addForm.address = this.address1 + this.address2
-      console.log(this.addForm)
-      this.$refs[this.tableName].createData(this.addUrl, this.refreshUrl, this.addForm)
+      this.$refs.addForm.validate((valid) => {
+        this.addForm.address = this.address1 + this.address2
+        this.addForm.finalEditor = this.finalEditor
+        this.addForm.typeName = this.typeName
+        console.log(this.addForm)
+        if (valid) {
+          this.$refs[this.tableName].createData(this.addUrl, this.refreshUrl, this.addForm)
+        }
+      })
     },
     selectRowClick (row) {
       this.editForm = row

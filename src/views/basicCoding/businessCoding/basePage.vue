@@ -1,7 +1,7 @@
 <template>
   <div id="app" style="height: inherit">
-    <el-row :gutter="2" style="height: inherit;margin: 0px">
-      <el-col :span="4" class="tree-frame">
+    <el-row :gutter="2" style="height: inherit;margin: 0">
+      <el-col :span="4" class="tree-frame" style="border-radius: 5px">
         <div class="grid-content">
           <div class="tree-title"><!--表头-->
             {{treeTitle}}
@@ -42,11 +42,11 @@
 
 <script>
 import post from '@/views/basicCoding/systemCoding/post'
+import division from '@/views/basicCoding/systemCoding/division'
 import eduction from '@/views/basicCoding/eduction'
 import gender from '@/views/basicCoding/gender'
 import discipline from '@/views/basicCoding/discipline'
 import graduateSchool from '@/views/basicCoding/graduateSchool'
-import division from '@/views/basicCoding/division'
 import staffStatus from '@/views/basicCoding/businessCoding/staffStatus'
 import staffNumCoding from '@/views/basicCoding/staffNumCoding'
 import orderNumCoding from '@/views/basicCoding/orderNumCoding'
@@ -179,7 +179,7 @@ export default {
 
   /*树的标题css*/
   .tree-title {
-    background-color: #335ae0;
+    background-color: #55aaff;
     height: 37px;
     color: #FFF;
     line-height: 37px;
