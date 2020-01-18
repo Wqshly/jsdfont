@@ -7,7 +7,6 @@
       :edit-url="editUrl"
       :delete-url="deleteUrl"
       :table-title="tableTitle"
-      :table-height="tableHeight"
       :table-header-list="tableHeaderList"
       :table-p-k="tablePK"
       :button-boolean="buttonBoolean"
@@ -65,7 +64,6 @@ export default {
       editUrl: 'isQuit/editIsQuit',
       deleteUrl: 'isQuit/deleteIsQuit',
       tableName: 'isQuitTable',
-      tableHeight: (`${document.documentElement.clientHeight}` - 100) / 2 - 200,
       tableTitle: '离职管理', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段

@@ -1,15 +1,15 @@
 <template>
   <div class="fill-contain" style="border-radius: 5px">
     <!--工具栏-->
-    <el-col :span="tableWidth">
+    <el-col>
       <div>
         <!-- 表头 -->
-        <div ref="tableTitle" class="table-title">
+        <div v-if="tableType === true" ref="tableTitle" class="table-title">
           {{tableTitle}}
         </div>
         <!-- 表按钮区 -->
         <div class="table-button-area">
-          <el-button-group>
+          <el-button-group style="display: block">
             <el-popover placement="top-start" trigger="hover">
               <div class="button-tips">新增</div>
               <el-button slot="reference" @click.native="handleAdd" class="button" style="color:#13ce66"
@@ -60,7 +60,7 @@
               </el-button>
             </el-popover>
             <!-- 扩展区域 -->
-            <span style="float: right;padding-right: 30px;height: inherit;">
+            <span style="float: right;padding-right: 5px;height: inherit;">
                      <slot name="button-Area"></slot>
                </span>
           </el-button-group>
@@ -216,9 +216,9 @@ export default {
         backgroundColor: '',
         color: ''
       },
-      tableWidth: 24,
       recordTotal: 0, // 数据的总数
-      pageSize: 5 // 每页显示的条数
+      pageSize: 5, // 每页显示的条数
+      tableType: true
     }
   },
   methods: {

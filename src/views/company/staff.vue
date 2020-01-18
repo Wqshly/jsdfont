@@ -1,6 +1,6 @@
 <template>
   <div class="fill-contain">
-    <el-col :span="tableWidth" style="padding-bottom: 10px">
+    <el-col :span="spanNum" style="padding-bottom: 10px">
       <table-template
         ref="staffTable"
         :refresh-url="refreshUrl"
@@ -8,7 +8,6 @@
         :edit-url="editUrl"
         :delete-url="deleteUrl"
         :table-title="tableTitle"
-        :table-height="tableHeight"
         :table-header-list="tableHeaderList"
         :table-p-k="tablePK"
         :func-btn="funcBtn"
@@ -18,35 +17,28 @@
         v-on:select-row="selectRowClick"
         v-on:btn-click="btnClick">
         <!-- 新增窗口 -->
+        <el-button v-if="spanNum === 11" slot="button-Area" @click.native="collapseRight" class="btnCollapse">折叠右侧栏</el-button>
+        <el-button v-if="spanNum === 24" slot="button-Area" @click.native="openRight" class="btnCollapse">展开右侧栏</el-button>
         <el-form slot="add" :model="addForm" style="overflow: auto" label-width="100px" ref="addForm" :rules="addFormRule">
           <el-row>
-            <el-col :span="10">
+            <el-col :span="8">
               <el-form-item label="姓名" prop="name">
                 <el-input v-model="addForm.name"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="14">
-              <el-form-item label="编码" prop="number">
-                <el-input v-model="addForm.number"></el-input>
+            <el-col :span="16">
+              <el-form-item label="身份证" :model="addForm" prop="identify">
+                <el-input v-model="addForm.identify"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="身份证" :model="addForm" prop="identify">
-            <el-input v-model="addForm.identify"></el-input>
-          </el-form-item>
-          <el-form-item label="医保账号" :model="addForm" prop="medical_num">
-            <el-input v-model="addForm.medicalNum"></el-input>
-          </el-form-item>
-          <el-form-item label="银行账号" :model="addForm" prop="bankCardNum">
-            <el-input v-model="addForm.bankCardNum"></el-input>
-          </el-form-item>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="员工类别" prop="staffType">
-                <el-select v-model="addForm.staffType" placeholder="请选择"
-                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType?type=staffNumCoding', 'staffTypeOption')">
+              <el-form-item label="员工状态" prop="status">
+                <el-select v-model="addForm.status" placeholder="请选择"
+                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType?type=staffStatus', 'staffStatusOption')">
                   <el-option
-                    v-for="item in staffTypeOption"
+                    v-for="item in staffStatusOption"
                     :key="item.id"
                     :label="item.name"
                     :value="item.name">
@@ -70,16 +62,38 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="状态" :model="addForm" prop="status">
-                <el-input v-model="addForm.status"></el-input>
+              <el-form-item label="当前职位" prop="currentPosition">
+                <el-select v-model="addForm.currentPosition" placeholder="请选择"
+                           @click.native="getTypeOption('basicCoding/findAllPost', 'currentPostOption')">
+                  <el-option
+                    v-for="item in currentPostOption"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.name">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="当前职位" :model="addForm" prop="currentPosition">
-                <el-input v-model="addForm.currentPosition"></el-input>
+              <el-form-item label="员工类别" prop="staffType">
+                <el-select v-model="addForm.staffType" placeholder="请选择"
+                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType?type=staffNumCoding', 'staffTypeOption')">
+                  <el-option
+                    v-for="item in staffTypeOption"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.name">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
+          <el-form-item label="医保账号" :model="addForm" prop="medical_num">
+            <el-input v-model="addForm.medicalNum"></el-input>
+          </el-form-item>
+          <el-form-item label="银行账号" :model="addForm" prop="bankCardNum">
+            <el-input v-model="addForm.bankCardNum"></el-input>
+          </el-form-item>
           <el-form-item label="地址:" :model="addForm" prop="address">
             <multilevel-linkage @area-linkage="areaLinkageChange"></multilevel-linkage>
           </el-form-item>
@@ -204,16 +218,17 @@
         </el-form>
       </table-template>
     </el-col>
-    <el-col :span="tableWidth">
-      <el-tabs type="border-card">
+    <el-col :span="24-spanNum" v-if="spanNum === 11">
+<!--      <div style="float: inherit; height: 50%">》</div>-->
+      <el-tabs tab-position="left" style="background: #FFFFFF;margin-left: 5px;border-radius: 5px">
         <el-tab-pane label="绩效考核">
-          <!--          <is-quit></is-quit>-->
+                    <is-quit></is-quit>
         </el-tab-pane>
         <el-tab-pane label="职务变动">
-          <!--          <is-quit></is-quit>-->
+                    <is-quit></is-quit>
         </el-tab-pane>
         <el-tab-pane label="请销假">
-<!--          <is-quit></is-quit>-->
+          <is-quit></is-quit>
         </el-tab-pane>
       </el-tabs>
     </el-col>
@@ -228,14 +243,68 @@ import isQuit from '../company/isQuit'
 export default {
   name: 'staff',
   data () {
+    const idCardValidity = (rule, code, callback) => {
+      const city = {
+        11: '北京',
+        12: '天津',
+        13: '河北',
+        14: '山西',
+        15: '内蒙古',
+        21: '辽宁',
+        22: '吉林',
+        23: '黑龙江 ',
+        31: '上海',
+        32: '江苏',
+        33: '浙江',
+        34: '安徽',
+        35: '福建',
+        36: '江西',
+        37: '山东',
+        41: '河南',
+        42: '湖北 ',
+        43: '湖南',
+        44: '广东',
+        45: '广西',
+        46: '海南',
+        50: '重庆',
+        51: '四川',
+        52: '贵州',
+        53: '云南',
+        54: '西藏 ',
+        61: '陕西',
+        62: '甘肃',
+        63: '青海',
+        64: '宁夏',
+        65: '新疆',
+        71: '台湾',
+        81: '香港',
+        82: '澳门',
+        91: '国外 '
+      }
+      let tip = ''
+      let pass = true
+
+      if (!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)) {
+        tip = '身份证号格式错误'
+        pass = false
+      } else if (!city[code.substr(0, 2)]) {
+        tip = '地址编码错误'
+        pass = false
+      }
+      if (!pass) {
+        callback(new Error(tip))
+      } else {
+        callback()
+      }
+    }
     return {
+      spanNum: 11,
       refreshUrl: 'staff/findAllStaff',
       addUrl: 'staff/addStaff',
       editUrl: 'staff/editStaff',
       deleteUrl: 'staff/deleteStaff',
       staffTypeUrl: 'basicCoding/getStaffType',
       tableName: 'staffTable',
-      tableHeight: (`${document.documentElement.clientHeight}` - 100) / 2 - 140,
       tableTitle: '员工管理', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
@@ -247,9 +316,10 @@ export default {
         {value: 'finalEditor', label: '最后修改人', width: '120'},
         {value: 'finalEditTime', label: '最后修改时间', width: '220'}
       ],
-      tableWidth: 12,
       staffTypeOption: [], // 员工类型选择框
       genderOption: [], // 性别选项
+      currentPostOption: [], // 岗位选项
+      staffStatusOption: [], // 员工状态选项
       address1: '',
       address2: '',
       addForm: {
@@ -274,6 +344,14 @@ export default {
         name: [
           {required: true, message: '请输入员工姓名', trigger: 'blur'},
           {min: 2, max: 11, message: '请输入正确的姓名', trigger: 'blur'}
+        ],
+        identify: [
+          {required: true, message: '请输入身份证号', trigger: 'blur'},
+          {
+            pattern: /(^\d{8}(0\d|10|11|12)([0-2]\d|30|31)\d{3}$)|(^\d{6}(18|19|20)\d{2}(0\d|10|11|12)([0-2]\d|30|31)\d{3}(\d|X|x)$)/,
+            message: '请输入正确的证件号'
+          },
+          {validator: idCardValidity, trigger: 'blur'}
         ]
       },
       editForm: {
@@ -335,6 +413,12 @@ export default {
         }
       })
     },
+    collapseRight () {
+      this.spanNum = 24
+    },
+    openRight () {
+      this.spanNum = 11
+    },
     selectRowClick (row) {
       this.editForm = row
       // this.id = row.id
@@ -375,7 +459,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   .dialog-style {
     position: fixed;
   }
@@ -388,5 +472,14 @@ export default {
 
   .detail-column {
     height: 20px;
+  }
+
+  .btnCollapse {
+    float: right;
+    margin-top: 5px;
+  }
+
+  .el-tabs--border-card>.el-tabs__content {
+    padding: 0;
   }
 </style>

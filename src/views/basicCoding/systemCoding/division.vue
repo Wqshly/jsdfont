@@ -16,18 +16,18 @@
       v-on:select-row="selectRowClick"
       v-on:btn-click="btnClick">
       <!-- 新增窗口 -->
-      <el-form slot="add" style="overflow: auto" label-width="120px">
-        <el-form-item label="区划名称" :model="addForm" prop="name">
+      <el-form slot="add" style="overflow: auto" label-width="120px" :model="addForm" >
+        <el-form-item label="区划名称" prop="name">
           <el-input v-model="addForm.name"></el-input>
         </el-form-item>
         <el-form-item label="编码">
-            <el-radio v-model="radio" label="1">自动生成</el-radio>
-            <el-radio v-model="radio" label="2">手动编辑</el-radio>
+            <el-radio v-model="addForm.radio" label="1">自动生成</el-radio>
+            <el-radio v-model="addForm.radio" label="2">手动编辑</el-radio>
         </el-form-item>
-        <el-form-item :model="addForm" prop="number">
-          <el-input v-model="addForm.number" v-if="radio === '2'"></el-input>
+        <el-form-item prop="number">
+          <el-input v-model="addForm.number" v-if="addForm.radio === '2'"></el-input>
         </el-form-item>
-        <el-form-item label="上级区划名/编号" :model="addForm" prop="upperNumber">
+        <el-form-item label="上级区划名/编号" prop="upperNumber">
           <el-select v-model="addForm.upperNumber" placeholder="请选择" @click.native="getOrderModelTable()">
             <el-option
               v-for="item in orderTypeTable"
@@ -37,10 +37,10 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="区划事务" :model="addForm" prop="responsibilities">
+        <el-form-item label="区划事务" prop="responsibilities">
           <el-input type="textarea" v-model="addForm.responsibilities" :autosize="{ minRows: 3, maxRows: 5}"></el-input>
         </el-form-item>
-        <el-form-item label="备注" :model="addForm" prop="remarks">
+        <el-form-item label="备注" prop="remarks">
           <el-input type="textarea" v-model="addForm.remarks" :autosize="{minRows: 2, maxRows: 5}"></el-input>
         </el-form-item>
       </el-form>
@@ -83,7 +83,7 @@
         <el-form-item class="half-label" style="width: 600px" label="区划事务:" :model="editForm" prop="phone">
           {{editForm.responsibilities !== null ? editForm.responsibilities : "未填写"}}
         </el-form-item>
-        <el-form-item class="half-label" style="width: 600px" label="备注:" :model="addForm" prop="discipline">
+        <el-form-item class="half-label" style="width: 600px" label="备注:" :model="editForm" prop="discipline">
           {{editForm.remarks !== null ? editForm.remarks : "未填写"}}
         </el-form-item>
       </el-form>
@@ -97,7 +97,6 @@ export default {
   name: 'division',
   data () {
     return {
-      radio: '1',
       refreshUrl: 'basicCoding/findAllDivision',
       addUrl: 'basicCoding/addDivision',
       editUrl: 'basicCoding/editDivision',
@@ -111,7 +110,7 @@ export default {
         {value: 'finalEditor', label: '最后修改人', width: '120'},
         {value: 'finalEditTime', label: '最后修改时间', width: '220'}
       ],
-      addForm: {number: '', upperNumber: '', name: '', responsibilities: '', remarks: ''}, // 新增数据界面
+      addForm: {number: '', upperNumber: '', name: '', radio: '1', responsibilities: '', remarks: ''}, // 新增数据界面
       editForm: {id: null, number: null, upperNumber: null, name: null, responsibilities: null, remarks: null}, // 编辑数据界面
       finalEditor: sessionStorage.getItem('save_username'),
       buttonBoolean: {
