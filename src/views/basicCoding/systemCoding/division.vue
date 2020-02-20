@@ -24,8 +24,8 @@
             <el-radio v-model="addForm.radio" label="1">自动生成</el-radio>
             <el-radio v-model="addForm.radio" label="2">手动编辑</el-radio>
         </el-form-item>
-        <el-form-item prop="number">
-          <el-input v-model="addForm.number" v-if="addForm.radio === '2'"></el-input>
+        <el-form-item v-if="addForm.radio === '2'" prop="number">
+          <el-input v-model="addForm.number"></el-input>
         </el-form-item>
         <el-form-item label="上级区划名/编号" prop="upperNumber">
           <el-select v-model="addForm.upperNumber" placeholder="请选择" @click.native="getOrderModelTable()">

@@ -16,8 +16,12 @@
       v-on:select-row="selectRowClick"
       v-on:btn-click="btnClick">
       <!-- 新增窗口 -->
-      <el-form slot="add" style="overflow: auto" :model="addForm" label-width="120px">
-        <el-form-item label="编码" prop="number">
+      <el-form slot="add" style="overflow: auto" :model="addForm" label-width="120px" ref="addForm" :rules="addFormRules">
+        <el-form-item label="编码">
+          <el-radio v-model="addForm.radio" label="1">自动生成</el-radio>
+          <el-radio v-model="addForm.radio" label="2">手动编辑</el-radio>
+        </el-form-item>
+        <el-form-item v-if="addForm.radio === '2'" prop="number">
           <el-input v-model="addForm.number"></el-input>
         </el-form-item>
         <el-form-item label="上级岗位名/编号" prop="upperNumber">
@@ -34,10 +38,10 @@
           <el-input v-model="addForm.name"></el-input>
         </el-form-item>
         <el-form-item label="职责" prop="responsibilities">
-          <el-input v-model="addForm.responsibilities"></el-input>
+          <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 5}" maxlength="240" show-word-limit v-model="addForm.responsibilities"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="remarks">
-          <el-input v-model="addForm.remarks"></el-input>
+          <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 5}" maxlength="220" show-word-limit v-model="addForm.remarks"></el-input>
         </el-form-item>
       </el-form>
       <!-- 编辑窗口 -->
@@ -58,9 +62,9 @@
         <el-form-item label="名称" :model="editForm" prop="name">
           <el-input v-model="editForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="职责" :model="editForm" prop="responsibilities">
+        <el-form-ite label="职责" :model="editForm" prop="responsibilities">
           <el-input v-model="editForm.responsibilities"></el-input>
-        </el-form-item>
+        </el-form-ite>
         <el-form-item label="备注" :model="editForm" prop="remarks">
           <el-input v-model="editForm.remarks"></el-input>
         </el-form-item>
@@ -107,7 +111,13 @@ export default {
         {value: 'finalEditor', label: '修改人', width: '120'},
         {value: 'finalEditTime', label: '修改时间', width: '200'}
       ],
-      addForm: {number: '', upperNumber: '', name: '', responsibilities: '', remarks: ''}, // 新增数据界面
+      addForm: {number: '', upperNumber: '', radio: '1', name: '', responsibilities: '', remarks: ''}, // 新增数据界面
+      addFormRules: {
+        name: [
+          {required: true, message: '请输入岗位名称', trigger: 'blur'},
+          {min: 2, max: 11, message: '请输入正确的岗位名', trigger: 'blur'}
+        ]
+      },
       editForm: {id: null, number: null, upperNumber: null, name: null, responsibilities: null, remarks: null}, // 编辑数据界面
       buttonBoolean: {
         addBtn: true,
