@@ -41,7 +41,8 @@ export default {
   name: 'orderNumCoding',
   data () {
     return {
-      refreshUrl: 'basicCoding/findBasicCodingWithType',
+      refreshObj: {},
+      refreshUrl: 'basicCoding/findBasicCodingWithType/orderNumCoding',
       addUrl: 'basicCoding/addBasicCoding',
       editUrl: 'basicCoding/editBasicCoding',
       deleteUrl: 'basicCoding/deletePost',
@@ -78,7 +79,7 @@ export default {
     addRecord () {
       this.addForm.type = this.typeName
       this.addForm.finalEditor = this.finalEditor
-      this.$refs[this.tableName].createData(this.addUrl, this.refreshUrl + '?type=' + this.typeName, this.addForm)
+      this.$refs[this.tableName].createData(this.addUrl, this.refreshUrl, this.addForm)
     },
     selectRowClick (row) {
       this.editForm = row
@@ -87,14 +88,14 @@ export default {
     editRecord () {
       this.editForm.type = this.typeName
       this.editForm.finalEditor = this.finalEditor
-      this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl + '?type=' + this.typeName, this.editForm)
+      this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl, this.editForm)
     },
     deleteRecord () {
       this.$refs[this.tableName].deleteData(this.deleteUrl, this.refreshUrl)
     }
   },
   mounted () {
-    this.$refs[this.tableName].refreshData(this.refreshUrl + '?type=' + this.typeName)
+    this.$refs[this.tableName].refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>

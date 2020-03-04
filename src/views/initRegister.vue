@@ -10,6 +10,11 @@
                       prefix-icon="el-icon-wqs-shezhi-zhanghaoguanli"
                       clearable/>
           </el-form-item>
+          <el-form-item label="昵称:" prop="nickName">
+            <el-input v-model="initRegisterForm.nickName" placeholder="请输入昵称"
+                      prefix-icon="el-icon-wqs-shezhi-zhanghaoguanli"
+                      clearable/>
+          </el-form-item>
           <el-form-item label="密码:" prop="password">
             <el-input type="password" v-model="initRegisterForm.password" placeholder="请输入密码"
                       prefix-icon="el-icon-wqs-shezhi-zhanghaoguanli"
@@ -34,9 +39,24 @@
                       prefix-icon="el-icon-wqs-shezhi-zhanghaoguanli"
                       clearable/>
           </el-form-item>
+          <el-form-item label="用户头像:" prop="picLocal">
+            <el-upload
+              v-model="initRegisterForm.picLocation"
+              accept="image/jpeg,image/png"
+              class="avatar-uploader"
+              name="picture"
+              action="http://localhost:8088/api/user/imageUpload"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :on-error="handleAvatarFailed"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="initRegister('initRegisterForm')">立即创建</el-button>
-            <el-button @click="resetForm('register')">重置</el-button>
+            <el-button @click="resetForm('initRegisterForm')">重置</el-button>
           </el-form-item>
         </el-form>
       </section>
@@ -112,18 +132,25 @@ export default {
       }
     }
     return {
+      imageUrl: '',
       initRegisterForm: {
         name: '',
+        nickName: '',
         password: '',
         rePassword: '',
         sex: '男',
         phone: '',
-        identify: ''
+        identify: '',
+        picLocation: ''
       },
       rules: {
         name: [
           {required: true, message: '请输入姓名', trigger: 'blur'},
           {min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur'}
+        ],
+        nickName: [
+          {required: true, message: '请输入昵称', trigger: 'blur'},
+          {max: 11, message: '长度在 12 个字符以内', trigger: 'blur'}
         ],
         password: [
           {required: true, message: '请输入密码', trigger: 'blur'},
@@ -148,6 +175,9 @@ export default {
             message: '请输入正确的证件号'
           },
           {validator: idCardValidity, trigger: 'blur'}
+        ],
+        picLocation: [
+          {required: true, message: '请先上传图片', trigger: 'blur'}
         ]
       }
     }
@@ -158,7 +188,6 @@ export default {
         if (valid) {
           this[formName].password = this.$commonsMethod.encryptedData(this[formName].password)
           this[formName].rePassword = this.$commonsMethod.encryptedData(this[formName].rePassword)
-          console.log(this[formName].password)
           this.$api.requestApi.post('/user/initRegister', this[formName])
             .then(res => {
               if (res.data.code === 2002) {
@@ -179,14 +208,50 @@ export default {
               }
               console.log(res.data)
             })
-            .catch(
+            .catch((res) => {
+              console.log(res)
               this.$confirm('未知错误，请及时联系管理员!', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消'
               })
+            }
             )
         }
       })
+    },
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    },
+    handleAvatarSuccess (res, file) {
+      if (res) {
+        console.log(file)
+        this.imageUrl = URL.createObjectURL(file.raw)
+        this.initRegisterForm.picLocation = res.data
+        console.log(this.initRegisterForm.picLocation)
+      } else {
+        this.$message({
+          message: '上传头像失败，请重新上传',
+          type: 'error'
+        })
+      }
+    },
+    handleAvatarFailed () {
+      this.$message({
+        message: '上传头像失败，请重新上传',
+        type: 'error'
+      })
+    },
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
     }
   }
 }
@@ -318,5 +383,38 @@ export default {
     text-align: center;
     font-size: 20px;
     margin: 15px auto;
+  }
+
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+
+  .avatar-uploader-icon {
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px dashed #8c939d;
+    font-size: 28px;
+    color: #8c939d;
+    width: 120px;
+    height: 120px;
+    line-height: 120px;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+
+  .avatar-uploader {
+    float: left;
   }
 </style>

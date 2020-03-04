@@ -41,7 +41,8 @@ export default {
   name: 'numStyleCoding',
   data () {
     return {
-      refreshUrl: 'basicCoding/findBasicCodingWithType',
+      refreshObj: {},
+      refreshUrl: 'basicCoding/findBasicCodingWithType/numStyleCoding',
       addUrl: 'basicCoding/addBasicCoding',
       editUrl: 'basicCoding/editPost',
       deleteUrl: 'basicCoding/deletePost',
@@ -93,7 +94,7 @@ export default {
     }
   },
   mounted () {
-    this.$refs[this.tableName].refreshData(this.refreshUrl + '?type=' + this.typeName)
+    this.$refs[this.tableName].refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>

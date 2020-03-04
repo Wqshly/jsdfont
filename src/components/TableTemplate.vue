@@ -66,7 +66,7 @@
           </el-button-group>
         </div>
         <!-- 表格主体 -->
-        <el-table :data="currentPageData"
+        <el-table :data="tableData"
                   highlight-current-row @current-change="rowClick" v-loading="tableLoading"
                   @selection-change="selectChange" ref="TableTemplate" :height="tableHeight" stripe>
           <!-- 选择框 -->
@@ -202,6 +202,7 @@ export default {
   },
   data () {
     return {
+      refreshObj: {},
       tableData: [],
       currentPageData: [],
       tableLoading: false, // 表格显示loading
@@ -218,22 +219,24 @@ export default {
       },
       recordTotal: 0, // 数据的总数
       pageSize: 5, // 每页显示的条数
-      tableType: true
+      tableType: true,
+      sortMethod: null, // 排序方法（升序降序、不排序）
+      sortField: null// 排序的字段
     }
   },
   methods: {
     dataRefresh: function () {
-      this.refreshData(null)
+      this.refreshData(null, null)
     },
     handleSizeChange (val) {
       this.pageSize = val
       console.log(`每页 ${val} 条`)
-      this.refreshData(null)
+      this.refreshData(null, null)
     },
     handleCurrentChange (val) {
       this.currentPageNumber = val
       console.log(`当前页: ${val}`)
-      this.refreshData(null)
+      this.refreshData(null, null)
     },
     // 打开新增界面
     handleAdd: function () {
@@ -340,7 +343,7 @@ export default {
       this.$api.postRequestApi.post(url, param)
         .then(res => {
           console.log(res.data)
-          this.refreshData(null)
+          this.refreshData(null, null)
         })
         .catch(err => {
           console.log(err.data)
@@ -351,26 +354,33 @@ export default {
       this.$api.postRequestApi.post(url, param)
         .then(res => {
           console.log(res.data)
-          this.refreshData(refreshUrl)
+          this.refreshData(refreshUrl, this.refreshObj)
         })
         .catch(err => {
           console.log(err.data)
         })
     },
     // 表刷新数据
-    refreshData (url) {
-      if (url === null) {
+    refreshData (url, obj) {
+      if (url === null && obj === null) {
         url = this.lastUrl
+        obj = this.lastObject
       }
+      obj.page = {}
+      obj.page.num = this.currentPageNumber
+      obj.page.size = this.pageSize
+      obj.sort = {}
+      obj.sort.field = this.sortField
+      obj.sort.method = this.sortMethod
+      let objJson = JSON.stringify(obj)
       this.tableLoading = true
-      this.$api.getRequestApi.get(url)
+      this.$api.requestApi.postJson(url, objJson)
         .then(res => {
           this.tableLoading = false
           console.log(res.data)
           this.tableData = res.data.data
-          this.currentPageData = this.tableData.slice((this.currentPageNumber - 1) * this.pageSize, this.currentPageNumber * this.pageSize)
-          this.recordTotal = res.data.data.length
           this.lastUrl = url
+          this.lastObject = JSON.parse(objJson)
           console.log(res.data.recordTotal)
           this.$emit('otherRefresh')
         })
@@ -398,7 +408,7 @@ export default {
           .then(res => {
             this.tableLoading = false
             console.log(res.data)
-            this.refreshData(null)
+            this.refreshData(null, null)
           })
           .catch(err => {
             console.log(err.data)
@@ -420,7 +430,7 @@ export default {
     }
   },
   created () {
-    this.currentPageData = this.tableData.slice((this.currentPageNumber - 1) * this.pageSize, this.currentPageNumber * this.pageSize)
+    // this.currentPageData = this.tableData.slice((this.currentPageNumber - 1) * this.pageSize, this.currentPageNumber * this.pageSize)
   }
 }
 </script>

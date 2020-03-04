@@ -24,16 +24,16 @@
           </el-form-item>
           <el-form-item label="用户头像:" prop="picLocal">
             <el-upload
-              v-model="registerForm.picLocal"
+              v-model="registerForm.picLocation"
               accept="image/jpeg,image/png"
               class="avatar-uploader"
               name="picture"
-              action="http://localhost:8083/api/user/imageUpload"
+              action="http://localhost:8088/api/user/imageUpload"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :on-error="handleAvatarFailed"
               :before-upload="beforeAvatarUpload">
-              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <img v-if="registerForm.imageUrl" :src="registerForm.imageUrl" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -67,7 +67,8 @@ export default {
         phone: '',
         password: '',
         rePassword: '',
-        picLocal: ''
+        imageUrl: '',
+        picLocation: ''
       },
       rules: {
         phone: [
@@ -85,7 +86,7 @@ export default {
           {required: true, message: '不能为空!', trigger: 'blur'},
           {validator: validatePass, trigger: 'blur'}
         ],
-        picLocal: [
+        picLocation: [
           {required: true, message: '请先上传图片', trigger: 'blur'}
         ]
       }
@@ -123,10 +124,9 @@ export default {
     handleAvatarSuccess (res, file) {
       if (res) {
         console.log(file)
-        this.imageUrl = URL.createObjectURL(file.raw)
-        console.log(this.imageUrl)
-        this.registerForm.picLocal = res.data
-        console.log(this.registerForm.picLocal)
+        this.registerForm.imageUrl = URL.createObjectURL(file.raw)
+        this.registerForm.picLocation = res.data
+        console.log(this.registerForm.picLocation)
       } else {
         this.$message({
           message: '上传头像失败，请重新上传',

@@ -59,6 +59,7 @@ export default {
   name: 'isQuit',
   data () {
     return {
+      refreshObj: {},
       refreshUrl: 'isQuit/findAllIsQuit',
       addUrl: 'isQuit/addIsQuit',
       editUrl: 'isQuit/editIsQuit',
@@ -111,7 +112,7 @@ export default {
     }
   },
   mounted () {
-    this.$refs.isQuitTable.refreshData(this.refreshUrl)
+    this.$refs.isQuitTable.refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>

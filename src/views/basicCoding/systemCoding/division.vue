@@ -70,7 +70,7 @@
         </el-form-item>
       </el-form>
       <!-- 详情页面 -->
-      <el-form slot="detail" style="overflow: auto;float: left;" label-width="120px">
+      <el-form slot="detail" style="overflow: auto;" label-width="120px">
         <el-form-item class="half-label" label="区划编码:" :model="editForm" prop="number">
           {{editForm.number !== null ? editForm.number : "未填写"}}
         </el-form-item>
@@ -97,6 +97,7 @@ export default {
   name: 'division',
   data () {
     return {
+      refreshObj: {},
       refreshUrl: 'basicCoding/findAllDivision',
       addUrl: 'basicCoding/addDivision',
       editUrl: 'basicCoding/editDivision',
@@ -181,10 +182,15 @@ export default {
     }
   },
   mounted () {
-    this.$refs[this.tableName].refreshData(this.refreshUrl)
+    this.$refs[this.tableName].refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>
 
 <style scoped>
+  .half-label {
+    /*float: left;*/
+    width: 50%;
+    min-width: 250px;
+  }
 </style>
