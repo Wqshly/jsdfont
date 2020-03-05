@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import carStatus from '@/views/basicCoding/businessCoding/carStatus'
 import post from '@/views/basicCoding/systemCoding/post'
 import division from '@/views/basicCoding/systemCoding/division'
 import eduction from '@/views/basicCoding/eduction'
@@ -74,6 +75,10 @@ export default {
       filterText: '',
       show: '',
       baseData: [
+        {
+          id: 1001,
+          label: '车辆状态编码'
+        },
         {
           id: 1,
           label: '内部编码',
@@ -115,6 +120,7 @@ export default {
     }
   },
   components: {
+    carStatus,
     post,
     eduction,
     gender,
@@ -135,6 +141,9 @@ export default {
     },
     tableDataChange (id) {
       this.selectTreeId = id
+      if (id === 1001) {
+        this.show = 'carStatus'
+      }
       if (id === 101) {
         this.show = 'staffNumCoding'
       }

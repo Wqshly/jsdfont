@@ -1,12 +1,12 @@
 <template>
-    <div>
+  <div>
 
-    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'CarCoding'
+  name: 'vehicleLocation'
 }
 </script>
 

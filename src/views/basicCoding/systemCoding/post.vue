@@ -98,6 +98,7 @@ export default {
   name: 'post',
   data () {
     return {
+      refreshObj: {},
       refreshUrl: 'basicCoding/findAllPost',
       addUrl: 'basicCoding/addPost',
       editUrl: 'basicCoding/editPost',
@@ -194,7 +195,7 @@ export default {
     }
   },
   mounted () {
-    this.$refs[this.tableName].refreshData(this.refreshUrl)
+    this.$refs[this.tableName].refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>

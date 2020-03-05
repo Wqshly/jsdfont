@@ -35,6 +35,7 @@ export default {
   name: 'orderModel',
   data () {
     return {
+      refreshObj: {},
       refreshUrl: 'basicCoding/findAllOrderModel',
       addUrl: 'basicCoding/addOrderModel',
       editUrl: 'basicCoding/editOrderModel',
@@ -83,7 +84,7 @@ export default {
     }
   },
   mounted () {
-    this.$refs[this.tableName].refreshData(this.refreshUrl)
+    this.$refs[this.tableName].refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>

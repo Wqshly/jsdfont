@@ -1,6 +1,7 @@
 <template>
   <div>
-    <table-template
+    <el-col :span="spanNum" style="padding-bottom: 10px">
+      <table-template
       ref="carInfoTable"
       :refresh-url="refreshUrl"
       :add-url="addUrl"
@@ -13,6 +14,8 @@
       v-on:addRecord="addRecord"
       v-on:editRecord="editRecord"
       v-on:select-row="selectRowClick">
+      <el-button v-if="spanNum === 24" slot="button-Area" @click.native="openRight" class="btnCollapse">展开右侧栏</el-button>
+      <el-button v-if="spanNum === 11" slot="button-Area" @click.native="collapseRight" class="btnCollapse">折叠右侧栏</el-button>
       <!-- 新增窗口 -->
       <el-form slot="add" style="overflow: auto" label-width="100px">
         <el-form-item label="拥有者" :model="addForm" prop="holder">
@@ -50,6 +53,8 @@
         </el-form-item>
       </el-form>
     </table-template>
+    </el-col>
+    <el-col :span="24-spanNum" v-if="spanNum === 11"></el-col>
   </div>
 </template>
 
@@ -60,6 +65,8 @@ export default {
   name: 'vehicleRegistration',
   data () {
     return {
+      spanNum: 24,
+      refreshObj: {},
       refreshUrl: 'carInfo/findAllCarInfo',
       addUrl: 'carInfo/addCarInfo',
       editUrl: 'carInfo/editCarInfo',
@@ -68,14 +75,14 @@ export default {
       tableTitle: '车辆登记信息', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
-        {value: 'holder', label: '拥有者', width: '120'},
-        {value: 'numberPlate', label: '车辆编号', width: '120'},
         {value: 'type', label: '车辆类型', width: '120'},
-        {value: 'status', label: '状态', width: '120'},
+        {value: 'numberPlate', label: '车辆编号', width: '120'},
+        {value: 'holder', label: '车主', width: '120'},
         {value: 'carNumber', label: '车牌号', width: '120'},
-        {value: 'registerTime', label: '登记时间', width: '120'},
+        {value: 'status', label: '状态', width: '120'},
+        {value: 'registerTime', label: '车辆登记时间', width: '220'},
         {value: 'finalEditor', label: '登记人', width: '120'},
-        {value: 'finalEditTime', label: '最后修改时间', width: '220'}
+        {value: 'finalEditTime', label: '修改时间', width: '220'}
       ],
       addForm: {holder: '', type: '', carNumber: '', numberPlate: '', status: ''}, // 新增数据界面
       editForm: {id: null, holder: null, type: null, carNumber: null, numberPlate: null, finalEditor: null, finalEditTime: null, registerTime: null, status: null}, // 编辑数据界面
@@ -95,6 +102,12 @@ export default {
     TableTemplate
   },
   methods: {
+    collapseRight () {
+      this.spanNum = 24
+    },
+    openRight () {
+      this.spanNum = 11
+    },
     // 增方法
     addRecord () {
       this.addForm.finalEditor = this.finalEditor
@@ -113,11 +126,14 @@ export default {
     }
   },
   mounted () {
-    this.$refs.carInfoTable.refreshData(this.refreshUrl)
+    this.$refs.carInfoTable.refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>
 
 <style scoped>
-
+  .btnCollapse {
+    float: right;
+    margin-top: 5px;
+  }
 </style>

@@ -103,8 +103,16 @@ export default {
           title: '车辆管理',
           subs: [
             {
-              index: 'vehicle-registration',
-              title: '车辆登记'
+              index: 'vehicle-info',
+              title: '车辆信息'
+            },
+            {
+              index: 'vehicle-location',
+              title: '车辆定位'
+            },
+            {
+              index: 'vehicle-user-location',
+              title: '驾驶员定位'
             }
           ]
         },

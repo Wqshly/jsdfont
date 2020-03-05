@@ -421,7 +421,7 @@ export default {
       }
     }
     return {
-      spanNum: 11,
+      spanNum: 24,
       refreshUrl: 'staff/findAllStaff',
       addUrl: 'staff/addStaff',
       editUrl: 'staff/editStaff',

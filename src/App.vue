@@ -6,7 +6,14 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  methods: {
+    // getLocation () {
+    //   const map = new AMap.Map('container', {
+    //     resizeEnable: true
+    //   })
+    // }
+  }
 }
 </script>
 

@@ -11,8 +11,16 @@ import './assets/icon/iconfont.css'
 // import Vuex from 'vuex'
 import api from '@/request/api/index'
 import commonsMethod from '@/commons/index'
+import AMap from 'vue-amap'
 
 Vue.use(ElementUI)
+Vue.use(AMap)
+AMap.initAMapApiLoader({
+  key: '60a73d9fa5e15fd8b7c34291807f7569',
+  plugin: ['Autocomplete', 'PlaceSearch', 'Scale', 'OverView', 'ToolBar', 'MapType', 'PolyEditor', 'AMap.CircleEditor', 'AMap.Geolocation'],
+  // 默认高德 sdk 版本为 1.4.4
+  v: '1.4.4'
+})
 // Vue.use(Vuex)
 
 // 全局注册

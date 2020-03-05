@@ -11,7 +11,9 @@ const notFound = () => Promise.resolve(require('@/views/404'))
 const main = () => Promise.resolve(require('@/components/Main'))
 const home = () => Promise.resolve(require('@/views/home'))
 
-const vehicleRegistration = () => Promise.resolve(require('@/views/car/vehicleRegistration'))
+const vehicleInfo = () => Promise.resolve(require('@/views/car/vehicleInfo'))
+const vehicleLocation = () => Promise.resolve(require('@/views/car/vehicleLocation'))
+const vehicleUserLocation = () => Promise.resolve(require('@/views/car/vehicleUserLocation'))
 
 const staff = () => Promise.resolve(require('@/views/company/staff'))
 const isQuit = () => Promise.resolve(require('@/views/company/isQuit'))
@@ -71,10 +73,22 @@ export default new Router({
           meta: {title: '系统首页'}
         },
         {
-          path: '/vehicle-registration',
-          name: 'vehicleRegistration',
-          component: vehicleRegistration,
+          path: '/vehicle-info',
+          name: 'vehicleInfo',
+          component: vehicleInfo,
           meta: {title: '车辆登记'}
+        },
+        {
+          path: '/vehicle-location',
+          name: 'vehicleLocation',
+          component: vehicleLocation,
+          meta: {title: '车辆定位'}
+        },
+        {
+          path: '/vehicle-user-location',
+          name: 'vehicleUserLocation',
+          component: vehicleUserLocation,
+          meta: {title: '驾驶员定位'}
         },
         {
           path: '/system-data-coding',
