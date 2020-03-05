@@ -113,7 +113,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPageNumber"
-          :page-sizes="[5, 10, 20, 30, 40]"
+          :page-sizes="[5, 10, 15, 20, 50]"
           :page-size="pageSize"
           layout="sizes, prev, pager, next, jumper"
           :total="recordTotal"
@@ -218,7 +218,7 @@ export default {
         color: ''
       },
       recordTotal: 0, // 数据的总数
-      pageSize: 5, // 每页显示的条数
+      pageSize: 10, // 每页显示的条数
       tableType: true,
       sortMethod: null, // 排序方法（升序降序、不排序）
       sortField: null// 排序的字段
@@ -379,6 +379,7 @@ export default {
           this.tableLoading = false
           console.log(res.data)
           this.tableData = res.data.data
+          this.recordTotal = res.data.total // 总条数
           this.lastUrl = url
           this.lastObject = JSON.parse(objJson)
           console.log(res.data.recordTotal)

@@ -555,7 +555,7 @@ export default {
       this.$refs[this.tableName].deleteData(this.deleteUrl, this.refreshUrl)
     },
     getTypeOption (url, optionName) {
-      this.$api.getRequestApi.get(url)
+      this.$api.requestApi.get(url)
         .then(res => {
           console.log(res.data)
           this[optionName] = res.data.data

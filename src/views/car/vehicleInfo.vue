@@ -18,14 +18,35 @@
       <el-button v-if="spanNum === 11" slot="button-Area" @click.native="collapseRight" class="btnCollapse">折叠右侧栏</el-button>
       <!-- 新增窗口 -->
       <el-form slot="add" style="overflow: auto" label-width="100px">
-        <el-form-item label="拥有者" :model="addForm" prop="holder">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="车辆类型" :model="addForm" prop="type">
+              <el-select v-model="addForm.type" placeholder="请选择"
+                         @click.native="getTypeOption('basicCoding/findBasicCodingWithType/carCategory', 'carCategory')">
+                <el-option
+                  v-for="item in carCategory"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="车辆状态" :model="addForm" prop="numberPlate">
+              <el-select v-model="addForm.status" placeholder="请选择" @click.native="getTypeOption('basicCoding/findBasicCodingWithType/carStatus', 'carStatus')">
+                <el-option
+                  v-for="item in carStatus"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="车主" :model="addForm" prop="holder">
           <el-input v-model="addForm.holder"></el-input>
-        </el-form-item>
-        <el-form-item label="车辆类型" :model="addForm" prop="type">
-          <el-input v-model="addForm.type"></el-input>
-        </el-form-item>
-        <el-form-item label="状态" :model="addForm" prop="status">
-          <el-input v-model="addForm.status"></el-input>
         </el-form-item>
         <el-form-item label="车牌号" :model="addForm" prop="carNumber">
           <el-input v-model="addForm.carNumber"></el-input>
@@ -84,9 +105,11 @@ export default {
         {value: 'finalEditor', label: '登记人', width: '120'},
         {value: 'finalEditTime', label: '修改时间', width: '220'}
       ],
-      addForm: {holder: '', type: '', carNumber: '', numberPlate: '', status: ''}, // 新增数据界面
+      addForm: {type: '', carNumber: '', holder: '', numberPlate: '', status: ''}, // 新增数据界面
       editForm: {id: null, holder: null, type: null, carNumber: null, numberPlate: null, finalEditor: null, finalEditTime: null, registerTime: null, status: null}, // 编辑数据界面
       finalEditor: sessionStorage.getItem('save_username'),
+      carCategory: [],
+      carStatus: [],
       buttonBoolean: {
         addBtn: true,
         editBtn: true,
@@ -102,6 +125,21 @@ export default {
     TableTemplate
   },
   methods: {
+    getTypeOption (url, optionName) {
+      this.$api.requestApi.get(url)
+        .then(res => {
+          console.log(res.data)
+          this[optionName] = res.data.data
+          console.log(this[optionName])
+        })
+        .catch(err => {
+          this.$message({
+            message: '网络请求失败',
+            type: 'error'
+          })
+          console.log(err.data)
+        })
+    },
     collapseRight () {
       this.spanNum = 24
     },

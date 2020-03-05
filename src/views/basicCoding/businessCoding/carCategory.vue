@@ -1,7 +1,7 @@
 <template>
   <div>
     <table-template
-      ref="carStatus"
+      ref="carCategory"
       :refresh-url="refreshUrl"
       :add-url="addUrl"
       :edit-url="editUrl"
@@ -16,7 +16,7 @@
       <!-- 新增窗口 -->
       <el-form slot="add" style="overflow: auto" :model="addForm" label-width="100px" ref="addForm" :rules="addFormRule">
         <el-form-item label="名称: " prop="name">
-          <el-input v-model="addForm.name" placeholder="车辆的状态，如在修、在维护、在使用、空闲等"></el-input>
+          <el-input v-model="addForm.name" placeholder="填写车辆类别，如公用车、私车等"></el-input>
         </el-form-item>
       </el-form>
       <!-- 编辑窗口 -->
@@ -32,16 +32,16 @@
 <script>
 import TableTemplate from '@/components/TableTemplate'
 export default {
-  name: 'carStatus',
+  name: 'carCategory',
   data () {
     return {
       refreshObj: {},
-      refreshUrl: 'basicCoding/findBasicCodingWithType/carStatus',
+      refreshUrl: 'basicCoding/findBasicCodingWithType/carCategory',
       addUrl: 'basicCoding/addBasicCoding',
       editUrl: 'basicCoding/editBasicCoding',
       deleteUrl: 'basicCoding/deleteBasicCoding',
-      tableName: 'carStatus',
-      tableTitle: '车辆状态编码', // 表格标题
+      tableName: 'carCategory',
+      tableTitle: '车辆类别编码', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
         {value: 'name', label: '状态名称', width: '120'},
@@ -57,7 +57,7 @@ export default {
       },
       editForm: {id: null, name: null, codingStyle: null}, // 编辑数据界面
       finalEditor: sessionStorage.getItem('save_username'),
-      typeName: 'carStatus',
+      typeName: 'carCategory',
       buttonBoolean: {
         addBtn: true,
         editBtn: true,

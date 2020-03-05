@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import carCategory from '@/views/basicCoding/businessCoding/carCategory'
 import carStatus from '@/views/basicCoding/businessCoding/carStatus'
 import post from '@/views/basicCoding/systemCoding/post'
 import division from '@/views/basicCoding/systemCoding/division'
@@ -76,42 +77,54 @@ export default {
       show: '',
       baseData: [
         {
-          id: 1001,
-          label: '车辆状态编码'
+          id: 100,
+          label: '车辆编码',
+          children: [
+            {
+              id: 1001,
+              parent: 100,
+              label: '车辆类别编码'
+            },
+            {
+              id: 1002,
+              parent: 100,
+              label: '车辆状态编码'
+            }
+          ]
         },
         {
-          id: 1,
+          id: 200,
           label: '内部编码',
           children: [
             {
-              id: 101,
-              parent: 100,
+              id: 2001,
+              parent: 200,
               label: '订单类别设定'
             },
             {
-              id: 102,
-              parent: 100,
+              id: 2002,
+              parent: 200,
               label: '员工状态'
             },
             {
-              id: 103,
-              parent: 100,
+              id: 2003,
+              parent: 200,
               label: '订单号编码'
             },
             {
-              id: 104,
-              parent: 100,
+              id: 2004,
+              parent: 200,
               label: '订单类别'
             }
           ]
         },
         {
-          id: 1000,
+          id: 300,
           label: '会员设置',
           children: [
             {
-              id: 1001,
-              parent: 1000,
+              id: 3001,
+              parent: 300,
               label: '会员级别设置'
             }
           ]
@@ -120,6 +133,7 @@ export default {
     }
   },
   components: {
+    carCategory,
     carStatus,
     post,
     eduction,
@@ -142,18 +156,21 @@ export default {
     tableDataChange (id) {
       this.selectTreeId = id
       if (id === 1001) {
+        this.show = 'carCategory'
+      }
+      if (id === 1002) {
         this.show = 'carStatus'
       }
-      if (id === 101) {
+      if (id === 2001) {
         this.show = 'staffNumCoding'
       }
-      if (id === 102) {
+      if (id === 2002) {
         this.show = 'staffStatus'
       }
-      if (id === 103) {
+      if (id === 2003) {
         this.show = 'orderNumCoding'
       }
-      if (id === 104) {
+      if (id === 2004) {
         this.show = 'orderModel'
       }
     },
@@ -165,7 +182,7 @@ export default {
     }
   },
   created () {
-    const defaultId = 101
+    const defaultId = 1001
     this.currentNodeKey = defaultId
     this.tableDataChange(defaultId)
   }
