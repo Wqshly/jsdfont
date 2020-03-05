@@ -59,6 +59,7 @@ export default {
   name: 'isQuit',
   data () {
     return {
+      staffID: null,
       refreshObj: {},
       refreshUrl: 'isQuit/findAllIsQuit',
       addUrl: 'isQuit/addIsQuit',
@@ -94,6 +95,14 @@ export default {
     TableTemplate
   },
   methods: {
+    refreshTable (id) {
+      if (id !== null) {
+        this.staffID = id
+        this.addForm.staffId = id
+        this.editForm.staffId = id
+        this.$refs.isQuitTable.refreshData(this.refreshUrl + '/' + id, this.refreshObj)
+      }
+    },
     // 增方法
     addRecord () {
       this.addForm.finalEditor = this.finalEditor
@@ -112,7 +121,7 @@ export default {
     }
   },
   mounted () {
-    this.$refs.isQuitTable.refreshData(this.refreshUrl, this.refreshObj)
+    // this.$refs.isQuitTable.refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>

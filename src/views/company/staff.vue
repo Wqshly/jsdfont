@@ -17,9 +17,12 @@
         v-on:select-row="selectRowClick"
         v-on:btn-click="btnClick">
         <!-- 新增窗口 -->
-        <el-button v-if="spanNum === 11" slot="button-Area" @click.native="collapseRight" class="btnCollapse">折叠右侧栏</el-button>
-        <el-button v-if="spanNum === 24" slot="button-Area" @click.native="openRight" class="btnCollapse">展开右侧栏</el-button>
-        <el-form slot="add" :model="addForm" style="overflow: auto" label-width="100px" ref="addForm" :rules="addFormRule">
+        <el-button v-if="spanNum === 11" slot="button-Area" @click.native="collapseRight" class="btnCollapse">折叠右侧栏
+        </el-button>
+        <el-button v-if="spanNum === 24" slot="button-Area" @click.native="openRight" class="btnCollapse">展开右侧栏
+        </el-button>
+        <el-form slot="add" :model="addForm" style="overflow: auto" label-width="100px" ref="addForm"
+                 :rules="addFormRule">
           <el-row>
             <el-col :span="8">
               <el-form-item label="姓名" prop="name">
@@ -330,29 +333,28 @@
       </table-template>
     </el-col>
     <el-col :span="24-spanNum" v-if="spanNum === 11">
-      <el-tabs tab-position="left" style="background: #FFFFFF;margin-left: 5px;border-radius: 5px">
-        <el-tab-pane label="入离职"></el-tab-pane>
-        <el-tab-pane label="入离职">
-          <is-quit></is-quit>
+      <el-tabs tab-position="left" style="background: #FFFFFF;margin-left: 5px;border-radius: 5px" @tab-click="tabClick">
+        <el-tab-pane label="入离职管理">
+          <is-quit ref="isQuit"></is-quit>
         </el-tab-pane>
-        <el-tab-pane label="绩效考核">
-                    <is-quit></is-quit>
-        </el-tab-pane>
-        <el-tab-pane label="职务变动">
-                    <is-quit></is-quit>
-        </el-tab-pane>
-        <el-tab-pane label="岗位变动">
-          <is-quit></is-quit>
-        </el-tab-pane>
-        <el-tab-pane label="人员奖惩">
-          <is-quit></is-quit>
-        </el-tab-pane>
-        <el-tab-pane label="劳动合同">
-          <is-quit></is-quit>
-        </el-tab-pane>
-        <el-tab-pane label="请销假">
-          <is-quit></is-quit>
-        </el-tab-pane>
+<!--        <el-tab-pane label="绩效考核">-->
+<!--          <is-quit></is-quit>-->
+<!--        </el-tab-pane>-->
+<!--        <el-tab-pane label="职务变动">-->
+<!--          <is-quit></is-quit>-->
+<!--        </el-tab-pane>-->
+<!--        <el-tab-pane label="岗位变动">-->
+<!--          <is-quit></is-quit>-->
+<!--        </el-tab-pane>-->
+<!--        <el-tab-pane label="人员奖惩">-->
+<!--          <is-quit></is-quit>-->
+<!--        </el-tab-pane>-->
+<!--        <el-tab-pane label="劳动合同">-->
+<!--          <is-quit></is-quit>-->
+<!--        </el-tab-pane>-->
+<!--        <el-tab-pane label="请销假">-->
+<!--          <is-quit></is-quit>-->
+<!--        </el-tab-pane>-->
       </el-tabs>
     </el-col>
   </div>
@@ -421,7 +423,7 @@ export default {
       }
     }
     return {
-      spanNum: 24,
+      spanNum: 11,
       refreshUrl: 'staff/findAllStaff',
       addUrl: 'staff/addStaff',
       editUrl: 'staff/editStaff',
@@ -516,7 +518,10 @@ export default {
             value: 'staffDetail'
           }
         ]
-      }
+      },
+      initTab: '入离职管理',
+      staffSelectId: null,
+      firstClickIsQuit: false
     }
   },
   components: {
@@ -525,6 +530,12 @@ export default {
     isQuit
   },
   methods: {
+    tabClick (data) {
+      if (data.label === '入离职管理' && this.firstClickIsQuit) {
+        this.firstClickIsQuit = false
+        this.$refs['isQuit'].refreshTable(this.staffSelectId)
+      }
+    },
     // 增方法
     addRecord () {
       this.$refs.addForm.validate((valid) => {
@@ -545,7 +556,12 @@ export default {
     },
     selectRowClick (row) {
       this.editForm = row
-      // this.id = row.id
+      this.staffSelectId = row.id
+      this.firstClickIsQuit = true
+      if (this.initTab === '入离职管理') {
+        this.$refs['isQuit'].refreshTable(this.staffSelectId)
+        this.firstClickIsQuit = false
+      }
     },
     editRecord () {
       this.editForm.finalEditor = this.finalEditor
@@ -603,7 +619,7 @@ export default {
     margin-top: 5px;
   }
 
-  .el-tabs--border-card>.el-tabs__content {
+  .el-tabs--border-card > .el-tabs__content {
     padding: 0;
   }
 </style>

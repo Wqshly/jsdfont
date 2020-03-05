@@ -57,11 +57,35 @@
       </el-form>
       <!-- 编辑窗口 -->
       <el-form slot="edit" style="overflow: auto" label-width="100px">
-        <el-form-item label="拥有者" :model="editForm" prop="holder">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="车辆类型" :model="editForm" prop="type">
+              <el-select v-model="editForm.type" placeholder="请选择"
+                         @click.native="getTypeOption('basicCoding/findBasicCodingWithType/carCategory', 'carCategory')">
+                <el-option
+                  v-for="item in carCategory"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="车辆状态" :model="editForm" prop="numberPlate">
+              <el-select v-model="editForm.status" placeholder="请选择" @click.native="getTypeOption('basicCoding/findBasicCodingWithType/carStatus', 'carStatus')">
+                <el-option
+                  v-for="item in carStatus"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="车主" :model="editForm" prop="holder">
           <el-input v-model="editForm.holder"></el-input>
-        </el-form-item>
-        <el-form-item label="类型" :model="editForm" prop="type">
-          <el-input v-model="editForm.type"></el-input>
         </el-form-item>
         <el-form-item label="车牌号" :model="editForm" prop="carNumber">
           <el-input v-model="editForm.carNumber"></el-input>
@@ -69,24 +93,30 @@
         <el-form-item label="车辆编号" :model="editForm" prop="numberPlate">
           <el-input v-model="editForm.numberPlate"></el-input>
         </el-form-item>
-        <el-form-item label="登记时间" :model="editForm" prop="registerTime">
-          <el-input v-model="editForm.registerTime"></el-input>
-        </el-form-item>
       </el-form>
     </table-template>
     </el-col>
-    <el-col :span="24-spanNum" v-if="spanNum === 11"></el-col>
+    <el-col :span="24-spanNum" v-if="spanNum === 11">
+      <el-tabs tab-position="left" style="background: #FFFFFF;margin-left: 5px;border-radius: 5px">
+        <el-tab-pane label="入离职"></el-tab-pane>
+      </el-tabs>
+    </el-col>
   </div>
 </template>
 
 <script>
 import TableTemplate from '@/components/TableTemplate'
+import vehicleMaintenance from '@/views/car/vehicleMaintenance'
 
 export default {
+  components: {
+    TableTemplate,
+    vehicleMaintenance
+  },
   name: 'vehicleRegistration',
   data () {
     return {
-      spanNum: 24,
+      spanNum: 11,
       refreshObj: {},
       refreshUrl: 'carInfo/findAllCarInfo',
       addUrl: 'carInfo/addCarInfo',
@@ -98,11 +128,10 @@ export default {
       tableHeaderList: [ // 表头字段
         {value: 'type', label: '车辆类型', width: '120'},
         {value: 'numberPlate', label: '车辆编号', width: '120'},
-        {value: 'holder', label: '车主', width: '120'},
+        {value: 'holder', label: '车主', width: '100'},
         {value: 'carNumber', label: '车牌号', width: '120'},
         {value: 'status', label: '状态', width: '120'},
-        {value: 'registerTime', label: '车辆登记时间', width: '220'},
-        {value: 'finalEditor', label: '登记人', width: '120'},
+        {value: 'finalEditor', label: '修改人', width: '120'},
         {value: 'finalEditTime', label: '修改时间', width: '220'}
       ],
       addForm: {type: '', carNumber: '', holder: '', numberPlate: '', status: ''}, // 新增数据界面
@@ -120,9 +149,6 @@ export default {
         acceptOrder: false
       }
     }
-  },
-  components: {
-    TableTemplate
   },
   methods: {
     getTypeOption (url, optionName) {
