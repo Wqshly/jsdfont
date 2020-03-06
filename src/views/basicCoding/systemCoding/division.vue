@@ -162,7 +162,7 @@ export default {
       this.$refs[this.tableName].editDialogVisible = true
     },
     getOrderModelTable () {
-      this.$api.getRequestApi.get(this.refreshUrl)
+      this.$api.requestApi.get(this.refreshUrl)
         .then(res => {
           console.log(res.data)
           this.orderTypeTable = res.data.data

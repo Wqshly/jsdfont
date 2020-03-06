@@ -45,11 +45,11 @@
 
 import post from '@/views/basicCoding/systemCoding/post'
 import division from '@/views/basicCoding/systemCoding/division'
-import eduction from '@/views/basicCoding/eduction'
+import education from '@/views/basicCoding/systemCoding/education'
+import graduateSchool from '@/views/basicCoding/systemCoding/graduateSchool'
+import discipline from '@/views/basicCoding/systemCoding/discipline'
 import gender from '@/views/basicCoding/gender'
-import discipline from '@/views/basicCoding/discipline'
-import graduateSchool from '@/views/basicCoding/graduateSchool'
-import staffStatus from '@/views/basicCoding/businessCoding/staffStatus'
+import staffStatus from '@/views/basicCoding/systemCoding/staffStatus'
 import staffNumCoding from '@/views/basicCoding/staffNumCoding'
 import orderNumCoding from '@/views/basicCoding/orderNumCoding'
 import orderModel from '@/views/basicCoding/orderModel'
@@ -81,7 +81,7 @@ export default {
           children: [{
             id: 101,
             parent: 1,
-            label: '岗位管理'
+            label: '岗位设置'
           },
           {
             id: 102,
@@ -117,12 +117,12 @@ export default {
             {
               id: 201,
               parent: 2,
-              label: '工号格式编码'
+              label: '员工状态'
             },
             {
               id: 202,
               parent: 2,
-              label: '员工状态'
+              label: '工号格式编码'
             },
             {
               id: 203,
@@ -152,7 +152,7 @@ export default {
   },
   components: {
     post,
-    eduction,
+    education,
     gender,
     discipline,
     graduateSchool,
@@ -175,7 +175,7 @@ export default {
         this.show = 'post'
       }
       if (id === 102) {
-        this.show = 'eduction'
+        this.show = 'education'
       }
       if (id === 103) {
         this.show = 'division'
@@ -190,10 +190,10 @@ export default {
         this.show = 'discipline'
       }
       if (id === 201) {
-        this.show = 'staffNumCoding'
+        this.show = 'staffStatus'
       }
       if (id === 202) {
-        this.show = 'staffStatus'
+        this.show = 'staffNumCoding'
       }
       if (id === 203) {
         this.show = 'orderNumCoding'

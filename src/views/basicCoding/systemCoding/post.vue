@@ -104,7 +104,7 @@ export default {
       editUrl: 'basicCoding/editPost',
       deleteUrl: 'basicCoding/deletePost',
       tableName: 'postTable',
-      tableTitle: '岗位管理', // 表格标题
+      tableTitle: '岗位设置', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
         {value: 'name', label: '岗位名', width: '120'},
@@ -175,7 +175,7 @@ export default {
       this.$refs[this.tableName].editDialogVisible = true
     },
     getOrderModelTable () {
-      this.$api.getRequestApi.get(this.refreshUrl)
+      this.$api.requestApi.get(this.refreshUrl)
         .then(res => {
           console.log(res.data)
           this.orderTypeTable = res.data.data

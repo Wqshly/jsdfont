@@ -1,7 +1,7 @@
 <template>
   <div>
     <table-template
-      ref="disciplineTable"
+      ref="educationTable"
       :refresh-url="refreshUrl"
       :add-url="addUrl"
       :edit-url="editUrl"
@@ -16,7 +16,7 @@
       <!-- 新增窗口 -->
       <el-form slot="add" style="overflow: auto" label-width="100px">
         <el-form-item label="名称: " :model="addForm" prop="name">
-          <el-input v-model="addForm.name" placeholder="专业名称，如: 计算机系统科学等"></el-input>
+          <el-input v-model="addForm.name" placeholder="如:&nbsp;大专、大学、高中、中专等"></el-input>
         </el-form-item>
       </el-form>
       <!-- 编辑窗口 -->
@@ -30,29 +30,29 @@
 </template>
 
 <script>
-import TableTemplate from '../../components/TableTemplate'
+import TableTemplate from '@/components/TableTemplate'
 export default {
-  name: 'discipline',
+  name: 'education',
   data () {
     return {
       refreshObj: {},
-      refreshUrl: 'basicCoding/findBasicCodingWithType/disciplineCoding',
+      refreshUrl: 'basicCoding/findBasicCodingWithType/educationCoding',
       addUrl: 'basicCoding/addBasicCoding',
       editUrl: 'basicCoding/editBasicCoding',
       deleteUrl: 'basicCoding/deleteBasicCoding',
-      tableName: 'disciplineTable',
-      tableTitle: '专业编码', // 表格标题
+      tableName: 'educationTable',
+      tableTitle: '学历编码', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
-        {value: 'name', label: '名称', width: '220'},
-        {value: 'abbreviation', label: '名称缩写', width: '180'},
+        {value: 'name', label: '名称', width: '120'},
+        {value: 'abbreviation', label: '名称缩写', width: '120'},
         {value: 'finalEditor', label: '编辑人', width: '120'},
-        {value: 'finalEditTime', label: '最后编辑时间', width: '220'}
+        {value: 'finalEditTime', label: '最后编辑时间', width: '260'}
       ],
       addForm: {name: ''}, // 新增数据界面
       editForm: {id: null, name: null}, // 编辑数据界面
       finalEditor: sessionStorage.getItem('save_username'),
-      typeName: 'disciplineCoding',
+      typeName: 'educationCoding',
       buttonBoolean: {
         addBtn: true,
         editBtn: true,

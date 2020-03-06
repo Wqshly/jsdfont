@@ -15,7 +15,8 @@
         v-on:addRecord="addRecord"
         v-on:editRecord="editRecord"
         v-on:select-row="selectRowClick"
-        v-on:btn-click="btnClick">
+        v-on:btn-click="btnClick"
+        v-on:refresh-btn="refreshBtn">
         <!-- 新增窗口 -->
         <el-button v-if="spanNum === 11" slot="button-Area" @click.native="collapseRight" class="btnCollapse">折叠右侧栏
         </el-button>
@@ -36,6 +37,19 @@
             </el-col>
           </el-row>
           <el-row>
+            <el-col :span="9">
+              <el-form-item label="编码">
+                <el-radio v-model="addForm.radio" label="1">自动生成</el-radio>
+                <el-radio v-model="addForm.radio" label="2">手动编辑</el-radio>
+              </el-form-item>
+            </el-col>
+            <el-col :span="15">
+              <el-form-item v-if="addForm.radio === '2'" prop="number">
+                <el-input v-model="addForm.number"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="10">
               <el-form-item label="电话号码" :model="addForm" prop="phone">
                 <el-input v-model="addForm.phone"></el-input>
@@ -51,7 +65,7 @@
             <el-col :span="12">
               <el-form-item label="员工状态" prop="status">
                 <el-select v-model="addForm.status" placeholder="请选择"
-                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType?type=staffStatus', 'staffStatusOption')">
+                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType/staffStatus', 'staffStatusOption')">
                   <el-option
                     v-for="item in staffStatusOption"
                     :key="item.id"
@@ -64,7 +78,7 @@
             <el-col :span="12">
               <el-form-item label="性别" prop="sex">
                 <el-select v-model="addForm.sex" placeholder="请选择"
-                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType?type=genderCoding', 'genderOption')">
+                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType/genderCoding', 'genderOption')">
                   <el-option
                     v-for="item in genderOption"
                     :key="item.id"
@@ -90,16 +104,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="员工类别" prop="staffType">
-                <el-select v-model="addForm.staffType" placeholder="请选择"
-                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType?type=staffNumCoding', 'staffTypeOption')">
-                  <el-option
-                    v-for="item in staffTypeOption"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.name">
-                  </el-option>
-                </el-select>
+              <el-form-item label="出生年月日" prop="birth">
+                <el-date-picker v-model="addForm.birth" type="month" format="yyyy年MM月" placeholder="选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
@@ -119,7 +125,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="学历" :model="addForm" prop="education">
+              <el-form-item label="受教育程度" :model="addForm" prop="education">
                 <el-input v-model="addForm.education"></el-input>
               </el-form-item>
             </el-col>
@@ -131,44 +137,31 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="学科" prop="discipline">
+              <el-form-item label="所学专业" prop="discipline">
                 <el-input v-model="addForm.discipline"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
         <!-- 编辑窗口 -->
-        <el-form slot="edit" style="overflow: auto" label-width="100px">
+        <el-form slot="edit" style="overflow: auto" label-width="100px" :model="editForm">
           <el-row>
-            <el-col :span="8">
-              <el-form-item label="姓名" prop="name">
-                <el-input v-model="editForm.name"></el-input>
+            <el-col :span="12">
+              <el-form-item label="员工编号" prop="number">
+                <el-input v-model="editForm.number"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="16">
-              <el-form-item label="身份证" :model="editForm" prop="identify">
-                <el-input v-model="editForm.identify"></el-input>
+            <el-col :span="12">
+              <el-form-item label="姓名" prop="name">
+                <el-input v-model="editForm.name"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="员工状态" prop="status">
-                <el-select v-model="editForm.status" placeholder="请选择"
-                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType?type=staffStatus', 'staffStatusOption')">
-                  <el-option
-                    v-for="item in staffStatusOption"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.name">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
               <el-form-item label="性别" prop="sex">
                 <el-select v-model="editForm.sex" placeholder="请选择"
-                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType?type=genderCoding', 'genderOption')">
+                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType/genderCoding', 'genderOption')">
                   <el-option
                     v-for="item in genderOption"
                     :key="item.id"
@@ -178,8 +171,18 @@
                 </el-select>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item label="手机号码" prop="phone">
+                <el-input v-model="editForm.phone"></el-input>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row>
+            <el-col :span="12">
+              <el-form-item label="身份证" prop="identify">
+                <el-input v-model="editForm.identify"></el-input>
+              </el-form-item>
+            </el-col>
             <el-col :span="12">
               <el-form-item label="当前职位" prop="currentPosition">
                 <el-select v-model="editForm.currentPosition" placeholder="请选择"
@@ -193,12 +196,14 @@
                 </el-select>
               </el-form-item>
             </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="12">
-              <el-form-item label="员工类别" prop="staffType">
-                <el-select v-model="editForm.staffType" placeholder="请选择"
-                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType?type=staffNumCoding', 'staffTypeOption')">
+              <el-form-item label="员工状态" prop="status">
+                <el-select v-model="editForm.status" placeholder="请选择"
+                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType/staffStatus', 'staffStatusOption')">
                   <el-option
-                    v-for="item in staffTypeOption"
+                    v-for="item in staffStatusOption"
                     :key="item.id"
                     :label="item.name"
                     :value="item.name">
@@ -206,27 +211,20 @@
                 </el-select>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-form-item label="医保账号" :model="editForm" prop="medical_num">
-            <el-input v-model="editForm.medicalNum"></el-input>
-          </el-form-item>
-          <el-form-item label="银行账号" :model="editForm" prop="bankCardNum">
-            <el-input v-model="editForm.bankCardNum"></el-input>
-          </el-form-item>
-          <el-form-item label="地址:" :model="editForm" prop="address">
-            <multilevel-linkage @area-linkage="areaLinkageChange"></multilevel-linkage>
-          </el-form-item>
-          <el-form-item label="详细地址">
-            <el-input v-model="address2"></el-input>
-          </el-form-item>
-          <el-row>
             <el-col :span="12">
-              <el-form-item label="邮件" :model="editForm" prop="email">
+              <el-form-item label="邮件" prop="email">
                 <el-input v-model="editForm.email"></el-input>
               </el-form-item>
             </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="12">
-              <el-form-item label="学历" :model="editForm" prop="education">
+              <el-form-item label="出生年月日" prop="birth">
+                <el-date-picker v-model="editForm.birth" type="month" format="yyyy年MM月" placeholder="选择日期"></el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="受教育程度" :model="editForm" prop="education">
                 <el-input v-model="editForm.education"></el-input>
               </el-form-item>
             </el-col>
@@ -238,8 +236,27 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="学科" prop="discipline">
+              <el-form-item label="所学专业" prop="discipline">
                 <el-input v-model="editForm.discipline"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="医保账号" prop="medical_num">
+                <el-input v-model="editForm.medicalNum"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="银行账号" prop="bankCardNum">
+                <el-input v-model="editForm.bankCardNum"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="住址" prop="address">
+                <el-input v-model="editForm.address"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -247,114 +264,101 @@
         <!-- 详情窗口 -->
         <el-form slot="detail" style="overflow: auto;" label-width="100px">
           <el-row>
-            <el-col :span="8">
-              <el-form-item class="half-label" label="姓名" :model="editForm" prop="name">
+            <el-col :span="12">
+              <el-form-item class="half-label" label="编码: " :model="editForm" prop="number">
+                {{editForm.number !== null ? editForm.number : "未填写"}}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item class="half-label" label="姓名: " :model="editForm" prop="name">
                 {{editForm.name !== null ? editForm.name : "未填写"}}
               </el-form-item>
             </el-col>
-            <el-col :span="16">
-              <el-form-item class="half-label" label="身份证" :model="editForm" prop="identify">
-                {{editForm.identify !== null ? editForm.identify : "未填写"}}
-              </el-form-item>
-            </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="员工状态" prop="status">
-                <el-select v-model="editForm.status" placeholder="请选择"
-                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType?type=staffStatus', 'staffStatusOption')">
-                  <el-option
-                    v-for="item in staffStatusOption"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.name">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item class="half-label" label="性别" :model="editForm" prop="sex">
+              <el-form-item class="half-label" label="性别: " :model="editForm" prop="sex">
                 {{editForm.sex !== null ? editForm.sex : "未填写"}}
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item class="half-label" label="电话: " :model="editForm" prop="phone">
+                {{editForm.phone !== null ? editForm.phone : "未填写"}}
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item class="half-label" label="当前职位" :model="editForm" prop="currentPosition">
-                {{editForm.currentPosition !== null ? editForm.currentPosition : "未填写"}}
+              <el-form-item class="half-label" label="身份证: " :model="editForm" prop="identify">
+                {{editForm.identify !== null ? editForm.identify : "未填写"}}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item class="half-label" label="状态" :model="editForm" prop="status">
-                {{editForm.status !== null ? editForm.status : "未填写"}}
+              <el-form-item class="half-label" label="当前职位: " :model="editForm" prop="currentPosition">
+                {{editForm.currentPosition !== null ? editForm.currentPosition : "未填写"}}
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item class="half-label" label="医保账号" :model="editForm" prop="medicalNum">
-            {{editForm.medicalNum !== null ? editForm.medicalNum : "未填写"}}
-          </el-form-item>
-          <el-form-item class="half-label" label="银行账号" :model="editForm" prop="bankCardNum">
-            {{editForm.bankCardNum !== null ? editForm.bankCardNum : "未填写"}}
-          </el-form-item>
-          <el-form-item class="half-label" label="地址" :model="editForm" prop="address">
+          <el-form-item class="half-label" label="地址: " :model="editForm" prop="address">
             {{editForm.address !== null ? editForm.address : "未填写"}}
           </el-form-item>
           <el-row>
             <el-col :span="12">
-              <el-form-item class="half-label" label="邮件" :model="editForm" prop="email">
+              <el-form-item class="half-label" label="邮件: " :model="editForm" prop="email">
                 {{editForm.email !== null ? editForm.email : "未填写"}}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item class="half-label" label="学历" :model="editForm" prop="education">
-                {{editForm.education !== null ? editForm.education : "未填写"}}
+              <el-form-item class="half-label" label="出生年月: " :model="editForm" prop="birth">
+                <el-date-picker readonly v-model="editForm.birth" type="month" format="yyyy年MM月" placeholder="选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item class="half-label" label="毕业院校" :model="editForm" prop="graduateSchool">
-                {{editForm.graduateSchool !== null ? editForm.graduateSchool : "未填写"}}
+              <el-form-item class="half-label" label="受教育程度: " :model="editForm" prop="education">
+                {{editForm.education !== null ? editForm.education : "未填写"}}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item class="half-label" label="学科" :model="editForm" prop="discipline">
-                {{editForm.discipline !== null ? editForm.discipline : "未填写"}}
+              <el-form-item class="half-label" label="毕业院校: " :model="editForm" prop="graduateSchool">
+                {{editForm.graduateSchool !== null ? editForm.graduateSchool : "未填写"}}
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item class="half-label" label="编码" :model="editForm" prop="number">
-            {{editForm.number !== null ? editForm.number : "未填写"}}
-          </el-form-item>
-          <el-form-item class="half-label" label="电话" :model="editForm" prop="phone">
-            {{editForm.phone !== null ? editForm.phone : "未填写"}}
-          </el-form-item>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item class="half-label" label="专业: " :model="editForm" prop="discipline">
+                {{editForm.discipline !== null ? editForm.discipline : "未填写"}}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item class="half-label" label="医保账号: " :model="editForm" prop="medicalNum">
+                {{editForm.medicalNum !== null ? editForm.medicalNum : "未填写"}}
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item class="half-label" label="银行账号: " :model="editForm" prop="bankCardNum">
+                {{editForm.bankCardNum !== null ? editForm.bankCardNum : "未填写"}}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item class="half-label" label="状态: " :model="editForm" prop="status">
+                {{editForm.status !== null ? editForm.status : "未填写"}}
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-form>
       </table-template>
     </el-col>
     <el-col :span="24-spanNum" v-if="spanNum === 11">
-      <el-tabs tab-position="left" style="background: #FFFFFF;margin-left: 5px;border-radius: 5px" @tab-click="tabClick">
+      <el-tabs tab-position="left" style="background: #FFFFFF;margin-left: 5px;border-radius: 5px"
+               @tab-click="tabClick">
         <el-tab-pane label="入离职管理">
           <is-quit ref="isQuit"></is-quit>
         </el-tab-pane>
-<!--        <el-tab-pane label="绩效考核">-->
-<!--          <is-quit></is-quit>-->
-<!--        </el-tab-pane>-->
-<!--        <el-tab-pane label="职务变动">-->
-<!--          <is-quit></is-quit>-->
-<!--        </el-tab-pane>-->
-<!--        <el-tab-pane label="岗位变动">-->
-<!--          <is-quit></is-quit>-->
-<!--        </el-tab-pane>-->
-<!--        <el-tab-pane label="人员奖惩">-->
-<!--          <is-quit></is-quit>-->
-<!--        </el-tab-pane>-->
-<!--        <el-tab-pane label="劳动合同">-->
-<!--          <is-quit></is-quit>-->
-<!--        </el-tab-pane>-->
-<!--        <el-tab-pane label="请销假">-->
-<!--          <is-quit></is-quit>-->
-<!--        </el-tab-pane>-->
       </el-tabs>
     </el-col>
   </div>
@@ -449,6 +453,7 @@ export default {
       address1: '',
       address2: '',
       addForm: {
+        radio: '',
         number: '',
         name: '',
         staffType: '',
@@ -471,6 +476,11 @@ export default {
           {required: true, message: '请输入员工姓名', trigger: 'blur'},
           {min: 2, max: 11, message: '请输入正确的姓名', trigger: 'blur'}
         ],
+        phone: [
+          {required: true, message: '请输入电话号码', trigger: 'blur'},
+          {min: 11, max: 11, message: '输入正确的电话号码', trigger: 'blur'},
+          {pattern: /^1[34578]\d{9}$/, message: '输入正确的电话号码', trigger: 'blur'}
+        ],
         identify: [
           {required: true, message: '请输入身份证号', trigger: 'blur'},
           {
@@ -478,6 +488,15 @@ export default {
             message: '请输入正确的证件号'
           },
           {validator: idCardValidity, trigger: 'blur'}
+        ],
+        status: [
+          {required: true, message: '请勾选正确的选项', trigger: 'blur'}
+        ],
+        sex: [
+          {required: true, message: '请勾选正确的选项', trigger: 'blur'}
+        ],
+        currentPosition: [
+          {required: true, message: '请勾选正确的选项', trigger: 'blur'}
         ]
       },
       editForm: {
@@ -530,11 +549,16 @@ export default {
     isQuit
   },
   methods: {
+    refreshBtn () {
+      this.staffSelectId = null
+      this.$refs['isQuit'].clearTable()
+    },
     tabClick (data) {
       if (data.label === '入离职管理' && this.firstClickIsQuit) {
         this.firstClickIsQuit = false
         this.$refs['isQuit'].refreshTable(this.staffSelectId)
       }
+      this.initTab = data.label
     },
     // 增方法
     addRecord () {

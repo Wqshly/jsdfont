@@ -95,12 +95,15 @@ export default {
     TableTemplate
   },
   methods: {
+    clearTable () {
+      this.staffID = null
+    },
     refreshTable (id) {
       if (id !== null) {
         this.staffID = id
         this.addForm.staffId = id
         this.editForm.staffId = id
-        this.$refs.isQuitTable.refreshData(this.refreshUrl + '/' + id, this.refreshObj)
+        this.$refs.isQuitTable.refreshData(this.refreshUrl + '/' + this.staffID, this.refreshObj)
       }
     },
     // 增方法

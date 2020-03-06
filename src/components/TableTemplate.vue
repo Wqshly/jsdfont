@@ -67,7 +67,7 @@
         </div>
         <!-- 表格主体 -->
         <el-table :data="tableData"
-                  highlight-current-row @current-change="rowClick" v-loading="tableLoading"
+                  highlight-current-row @row-click="rowClick" v-loading="tableLoading"
                   @selection-change="selectChange" ref="TableTemplate" :height="tableHeight" stripe>
           <!-- 选择框 -->
           <el-table-column type="selection" width="55"></el-table-column>
@@ -317,7 +317,6 @@ export default {
     },
     // 下拉框数据获取
     getDropDownBoxInfo (url, tableName) {
-      console.log(123456)
       this.$api.requestApi.get(url)
         .then(res => {
           console.log(res.data)
@@ -362,6 +361,7 @@ export default {
     },
     // 表刷新数据
     refreshData (url, obj) {
+      this.selectRow = null
       if (url === null && obj === null) {
         url = this.lastUrl
         obj = this.lastObject
@@ -380,6 +380,7 @@ export default {
           console.log(res.data)
           this.tableData = res.data.data
           this.recordTotal = res.data.total // 总条数
+          this.$emit('refresh-btn')
           this.lastUrl = url
           this.lastObject = JSON.parse(objJson)
           console.log(res.data.recordTotal)
@@ -393,7 +394,6 @@ export default {
           this.tableLoading = false
           console.log(err.data)
         })
-      this.selectRow = null
     },
     // 批量删除
     deleteData: function () {

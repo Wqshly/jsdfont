@@ -45,11 +45,7 @@ import carCategory from '@/views/basicCoding/businessCoding/carCategory'
 import carStatus from '@/views/basicCoding/businessCoding/carStatus'
 import post from '@/views/basicCoding/systemCoding/post'
 import division from '@/views/basicCoding/systemCoding/division'
-import eduction from '@/views/basicCoding/eduction'
 import gender from '@/views/basicCoding/gender'
-import discipline from '@/views/basicCoding/discipline'
-import graduateSchool from '@/views/basicCoding/graduateSchool'
-import staffStatus from '@/views/basicCoding/businessCoding/staffStatus'
 import staffNumCoding from '@/views/basicCoding/staffNumCoding'
 import orderNumCoding from '@/views/basicCoding/orderNumCoding'
 import orderModel from '@/views/basicCoding/orderModel'
@@ -97,14 +93,9 @@ export default {
           label: '内部编码',
           children: [
             {
-              id: 2001,
-              parent: 200,
-              label: '订单类别设定'
-            },
-            {
               id: 2002,
               parent: 200,
-              label: '员工状态'
+              label: '订单类别设定'
             },
             {
               id: 2003,
@@ -136,12 +127,8 @@ export default {
     carCategory,
     carStatus,
     post,
-    eduction,
     gender,
-    discipline,
-    graduateSchool,
     division,
-    staffStatus,
     staffNumCoding,
     orderNumCoding,
     orderModel,
@@ -161,11 +148,8 @@ export default {
       if (id === 1002) {
         this.show = 'carStatus'
       }
-      if (id === 2001) {
-        this.show = 'staffNumCoding'
-      }
       if (id === 2002) {
-        this.show = 'staffStatus'
+        this.show = 'staffNumCoding'
       }
       if (id === 2003) {
         this.show = 'orderNumCoding'
