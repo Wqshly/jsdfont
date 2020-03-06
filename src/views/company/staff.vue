@@ -126,6 +126,15 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="受教育程度" :model="addForm" prop="education">
+                <el-select v-model="addForm.education" placeholder="请选择"
+                           @click.native="getTypeOption('basicCoding/findBasicCodingWithType/educationCoding', 'educationOption')">
+                  <el-option
+                    v-for="item in educationOption"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.name">
+                  </el-option>
+                </el-select>
                 <el-input v-model="addForm.education"></el-input>
               </el-form-item>
             </el-col>
@@ -450,6 +459,7 @@ export default {
       genderOption: [], // 性别选项
       currentPostOption: [], // 岗位选项
       staffStatusOption: [], // 员工状态选项
+      educationOption: [],
       address1: '',
       address2: '',
       addForm: {
