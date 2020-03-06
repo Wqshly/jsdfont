@@ -45,11 +45,11 @@
         </el-form-item>
       </el-form>
       <!-- 编辑窗口 -->
-      <el-form slot="edit" style="overflow: auto" label-width="120px">
-        <el-form-item label="编码" :model="editForm" prop="number">
+      <el-form slot="edit" style="overflow: auto" label-width="120px" :model="editForm">
+        <el-form-item label="编码" prop="number">
           <el-input v-model="editForm.number"></el-input>
         </el-form-item>
-        <el-form-item label="上级岗位名/编号" :model="editForm" prop="upperNumber">
+        <el-form-item label="上级岗位名/编号" prop="upperNumber">
           <el-select v-model="editForm.upperNumber" placeholder="请选择" @click.native="getOrderModelTable()">
             <el-option
               v-for="item in orderTypeTable"
@@ -59,28 +59,28 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="名称" :model="editForm" prop="name">
+        <el-form-item label="名称" prop="name">
           <el-input v-model="editForm.name"></el-input>
         </el-form-item>
-        <el-form-ite label="职责" :model="editForm" prop="responsibilities">
-          <el-input v-model="editForm.responsibilities"></el-input>
-        </el-form-ite>
-        <el-form-item label="备注" :model="editForm" prop="remarks">
-          <el-input v-model="editForm.remarks"></el-input>
+        <el-form-item label="职责" prop="responsibilities">
+          <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 5}" v-model="editForm.responsibilities"></el-input>
+        </el-form-item>
+        <el-form-item label="备注" prop="remarks">
+          <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 5}" v-model="editForm.remarks"></el-input>
         </el-form-item>
       </el-form>
       <!-- 详情页面 -->
-      <el-form slot="detail" style="overflow: auto;float: left;" label-width="120px">
-        <el-form-item class="half-label" label="岗位编码:" :model="editForm" prop="number">
+      <el-form slot="detail" style="overflow: auto;float: left;" label-width="120px" :model="editForm">
+        <el-form-item class="half-label" label="岗位编码:" prop="number">
           {{editForm.number !== null ? editForm.number : "未填写"}}
         </el-form-item>
-        <el-form-item class="half-label" label="岗位名称:" :model="editForm" prop="name">
+        <el-form-item class="half-label" label="岗位名称:" prop="name">
           {{editForm.name !== null ? editForm.name : "未填写"}}
         </el-form-item>
-        <el-form-item class="half-label" label="上级岗位编码:" :model="editForm" prop="name">
+        <el-form-item class="half-label" label="上级岗位编码:" prop="name">
           {{editForm.upperNumber !== null ? editForm.upperNumber : "未填写"}}
         </el-form-item>
-        <el-form-item class="half-label" style="width: 600px" label="职责:" :model="editForm" prop="phone">
+        <el-form-item class="half-label" style="width: 600px" label="职责:" prop="phone">
           {{editForm.responsibilities !== null ? editForm.responsibilities : "未填写"}}
         </el-form-item>
         <el-form-item class="half-label" style="width: 600px" label="备注:" prop="discipline">
