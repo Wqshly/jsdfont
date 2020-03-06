@@ -107,12 +107,12 @@ export default {
               title: '车辆信息'
             },
             {
-              index: 'vehicle-location',
-              title: '车辆定位'
-            },
-            {
               index: 'vehicle-user-location',
               title: '驾驶员定位'
+            },
+            {
+              index: 'vehicle-location',
+              title: '车辆定位'
             }
           ]
         },

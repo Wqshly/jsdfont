@@ -116,7 +116,7 @@ export default {
   name: 'vehicleRegistration',
   data () {
     return {
-      spanNum: 11,
+      spanNum: 24,
       refreshObj: {},
       refreshUrl: 'carInfo/findAllCarInfo',
       addUrl: 'carInfo/addCarInfo',
