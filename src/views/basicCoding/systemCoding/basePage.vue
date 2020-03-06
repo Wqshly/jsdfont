@@ -42,8 +42,8 @@
 </template>
 
 <script>
-
 import post from '@/views/basicCoding/systemCoding/post'
+import rolePlacement from '@/views/basicCoding/systemCoding/rolePlacement'
 import division from '@/views/basicCoding/systemCoding/division'
 import education from '@/views/basicCoding/systemCoding/education'
 import graduateSchool from '@/views/basicCoding/systemCoding/graduateSchool'
@@ -81,30 +81,35 @@ export default {
           children: [{
             id: 101,
             parent: 1,
-            label: '岗位设置'
+            label: '部门(岗位)设置'
           },
           {
             id: 102,
             parent: 1,
-            label: '学历编码'
+            label: '职位设置'
           },
           {
             id: 103,
             parent: 1,
-            label: '行政区划'
+            label: '学历编码'
           },
           {
             id: 104,
             parent: 1,
-            label: '性别编码'
+            label: '行政区划'
           },
           {
             id: 105,
             parent: 1,
-            label: '院校编码'
+            label: '性别编码'
           },
           {
             id: 106,
+            parent: 1,
+            label: '院校编码'
+          },
+          {
+            id: 107,
             parent: 1,
             label: '专业编码'
           }
@@ -152,6 +157,7 @@ export default {
   },
   components: {
     post,
+    rolePlacement,
     education,
     gender,
     discipline,
@@ -175,18 +181,21 @@ export default {
         this.show = 'post'
       }
       if (id === 102) {
-        this.show = 'education'
+        this.show = 'rolePlacement'
       }
       if (id === 103) {
-        this.show = 'division'
+        this.show = 'education'
       }
       if (id === 104) {
-        this.show = 'gender'
+        this.show = 'division'
       }
       if (id === 105) {
-        this.show = 'graduateSchool'
+        this.show = 'gender'
       }
       if (id === 106) {
+        this.show = 'graduateSchool'
+      }
+      if (id === 107) {
         this.show = 'discipline'
       }
       if (id === 201) {

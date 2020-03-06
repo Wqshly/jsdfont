@@ -35,7 +35,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="名称" prop="name">
-          <el-input v-model="addForm.name"></el-input>
+          <el-input v-model="addForm.name" placeholder="例: 总经办、技术部等"></el-input>
         </el-form-item>
         <el-form-item label="职责" prop="responsibilities">
           <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 5}" maxlength="240" show-word-limit v-model="addForm.responsibilities"></el-input>
