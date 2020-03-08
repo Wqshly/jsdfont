@@ -135,7 +135,6 @@
                     :value="item.name">
                   </el-option>
                 </el-select>
-                <el-input v-model="addForm.education"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -590,11 +589,13 @@ export default {
     },
     selectRowClick (row) {
       this.editForm = row
-      this.staffSelectId = row.id
-      this.firstClickIsQuit = true
-      if (this.initTab === '入离职管理') {
-        this.$refs['isQuit'].refreshTable(this.staffSelectId)
-        this.firstClickIsQuit = false
+      if (this.spanNum === 11) {
+        this.staffSelectId = row.id
+        this.firstClickIsQuit = true
+        if (this.initTab === '入离职管理') {
+          this.$refs['isQuit'].refreshTable(this.staffSelectId)
+          this.firstClickIsQuit = false
+        }
       }
     },
     editRecord () {

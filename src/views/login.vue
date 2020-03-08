@@ -13,7 +13,7 @@
           </el-form-item>
           <el-form-item style="margin-bottom: 10px" prop="password">
             <el-input type="password" v-model="loginForm.password" placeholder="请输入密码" prefix-icon="el-icon-wqs-suoding"
-                      clearable/>
+                      show-password clearable/>
           </el-form-item>
           <el-form-item style="margin-bottom: 5px;">
             <el-checkbox style="float: right;margin-right: 20px">记住密码</el-checkbox>
@@ -60,6 +60,7 @@ export default {
               console.log(res.data)
               let _this = this
               if (res.data.code === 0) {
+                sessionStorage.setItem('save_user_id', res.data.data.id)
                 sessionStorage.setItem('save_username', res.data.data.name)
                 _this.$router.push('/home')
               } else {

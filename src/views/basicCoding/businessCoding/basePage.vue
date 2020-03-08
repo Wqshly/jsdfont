@@ -50,6 +50,7 @@ import staffNumCoding from '@/views/basicCoding/staffNumCoding'
 import orderNumCoding from '@/views/basicCoding/orderNumCoding'
 import orderModel from '@/views/basicCoding/orderModel'
 import member from '@/views/basicCoding/member'
+import contractTemplate from '@/views/basicCoding/businessCoding/contractTemplate'
 
 export default {
   name: 'basePage',
@@ -119,6 +120,10 @@ export default {
               label: '会员级别设置'
             }
           ]
+        },
+        {
+          id: 400,
+          label: '合同模板'
         }
       ]
     }
@@ -132,7 +137,8 @@ export default {
     staffNumCoding,
     orderNumCoding,
     orderModel,
-    member
+    member,
+    contractTemplate
   },
   methods: {
     // 官网 节点过滤
@@ -156,6 +162,9 @@ export default {
       }
       if (id === 2004) {
         this.show = 'orderModel'
+      }
+      if (id === 400) {
+        this.show = 'contractTemplate'
       }
     },
     handleCheckChange (data) {

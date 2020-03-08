@@ -64,36 +64,17 @@ export default {
           ]
         },
         {
-          icon: 'el-icon-wqs-shezhi-zhanghaoguanli',
-          index: 'customer',
-          title: '客户管理',
+          icon: 'el-icon-wqs-xitongguanli',
+          index: 'company',
+          title: '企业管理',
           subs: [
             {
-              index: 'customer-info',
-              title: '客户信息管理'
+              index: 'staff',
+              title: '员工管理'
             },
             {
-              index: 'customer-contract',
-              title: '客户合同管理'
-            }
-          ]
-        },
-        {
-          icon: 'el-icon-wqs-shezhi-gongzhongpeizhi',
-          index: 'project',
-          title: '任务管理',
-          subs: [
-            {
-              index: 'order',
-              title: '订单信息'
-            },
-            {
-              index: 'task-decomposition',
-              title: '任务分解'
-            },
-            {
-              index: 'task-progress',
-              title: '订单进展'
+              index: 'structure',
+              title: '部门调整'
             }
           ]
         },
@@ -117,21 +98,40 @@ export default {
           ]
         },
         {
-          icon: 'el-icon-wqs-xitongguanli',
-          index: 'company',
-          title: '企业管理',
+          icon: 'el-icon-wqs-shezhi-zhanghaoguanli',
+          index: 'customer',
+          title: '客户管理',
           subs: [
             {
-              index: 'staff',
-              title: '员工管理'
+              index: 'customer-info',
+              title: '客户信息管理'
             },
             {
-              index: 'isQuit',
-              title: '离职管理'
+              index: 'new-contract',
+              title: '新建合同'
             },
             {
-              index: 'structure',
-              title: '部门调整'
+              index: 'customer-contract',
+              title: '客户合同管理'
+            }
+          ]
+        },
+        {
+          icon: 'el-icon-wqs-shezhi-gongzhongpeizhi',
+          index: 'project',
+          title: '任务管理',
+          subs: [
+            {
+              index: 'order',
+              title: '订单信息'
+            },
+            {
+              index: 'task-decomposition',
+              title: '任务分解'
+            },
+            {
+              index: 'task-progress',
+              title: '订单进展'
             }
           ]
         },

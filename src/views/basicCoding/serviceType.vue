@@ -12,19 +12,19 @@
       :button-boolean="buttonBoolean"
       v-on:addRecord="addRecord"
       v-on:editRecord="editRecord"
-      v-on:otherRefresh="getOrderModelTable"
       v-on:select-row="selectRowClick">
       <!-- 新增窗口 -->
-      <el-form slot="add" style="overflow: auto" label-width="100px">
+      <el-form slot="add" style="overflow: auto" label-width="100px" :model="addForm">
         <p style="text-align: center;font-size: 20px;margin-bottom:25px;">首次添加时请先增加根目录</p>
-        <el-form-item label="业务名称" :model="addForm" prop="name">
+        <el-form-item label="业务名称" prop="name">
           <el-input v-model="addForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="业务编码" :model="addForm" prop="number">
+        <el-form-item label="业务编码" prop="number">
           <el-input v-model="addForm.number"></el-input>
         </el-form-item>
-        <el-form-item label="上级业务名称" :model="addForm" prop="upperNumber">
-          <el-select :value="addForm.upperNumber" placeholder="请选择">
+        <el-form-item label="上级业务名称" prop="upperNumber">
+          <el-select v-model="addForm.upperNumber" placeholder="请选择"
+                     @click.native="getTypeOption('orderType/findAllOrderModel', 'orderTypeTable')">
             <el-option
               v-for="item in orderTypeTable"
               :key="item.id"
@@ -33,7 +33,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="业务描述" :model="addForm" prop="description">
+        <el-form-item label="业务描述" prop="description">
           <el-input v-model="addForm.description"></el-input>
         </el-form-item>
       </el-form>
@@ -64,12 +64,13 @@
 </template>
 
 <script>
-import TableTemplate from '../../components/TableTemplate'
+import TableTemplate from '@/components/TableTemplate'
 
 export default {
   name: 'serviceType',
   data () {
     return {
+      refreshObj: {},
       refreshUrl: 'orderType/findAllOrderModel',
       addUrl: 'orderType/addOrderModel',
       editUrl: 'orderType/editOrderModel',
@@ -113,7 +114,6 @@ export default {
     addRecord () {
       this.addForm.finalEditor = this.finalEditor
       this.$refs[this.tableName].createData(this.addUrl, this.refreshUrl, this.addForm)
-      this.getOrderModelTable(this.refreshUrl, this.orderTypeTable)
     },
     selectRowClick (row) {
       this.editForm = row
@@ -126,14 +126,15 @@ export default {
     deleteRecord () {
       this.$refs[this.tableName].deleteData(this.deleteUrl, this.refreshUrl)
     },
-    getOrderModelTable () {
-      this.$api.getRequestApi.get(this.refreshUrl)
+    getTypeOption (url, optionName) {
+      this.$api.requestApi.get(url)
         .then(res => {
           console.log(res.data)
-          this.orderTypeTable = res.data.data
-          console.log(this.orderTypeTable)
-          if (this.orderTypeTable.length === 0) {
-            this.orderTypeTable = [{
+          this[optionName] = res.data.data
+          console.log(this[optionName])
+          if (this[optionName].length === 0) {
+            this[optionName] = [{
+              id: '1',
               name: '根目录',
               number: 'Null'
             }]
@@ -152,7 +153,7 @@ export default {
     }
   },
   mounted () {
-    this.$refs[this.tableName].refreshData(this.refreshUrl)
+    this.$refs[this.tableName].refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>

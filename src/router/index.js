@@ -23,6 +23,7 @@ const businessDataCoding = () => Promise.resolve(require('@/views/basicCoding/bu
 const serviceType = () => Promise.resolve(require('@/views/basicCoding/serviceType'))
 
 const customerInfo = () => Promise.resolve(require('@/views/customer/customerInfo'))
+const newContract = () => Promise.resolve(require('@/views/customer/newContract'))
 const customerContract = () => Promise.resolve(require('@/views/customer/customerContract'))
 
 const tools = () => Promise.resolve(require('@/views/materiel/tools'))
@@ -115,12 +116,17 @@ export default new Router({
           meta: {title: '客户信息管理'}
         },
         {
+          path: '/new-contract',
+          name: 'newContract',
+          component: newContract,
+          meta: {title: '新建合同'}
+        },
+        {
           path: '/customer-contract',
           name: 'customerContract',
           component: customerContract,
           meta: {title: '客户合同管理'}
         },
-
         {
           path: '/staff',
           name: 'staff',

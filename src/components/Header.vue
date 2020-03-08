@@ -26,14 +26,17 @@
           <span class="message-tips-badge" v-if="message"></span>
         </div>
         <!-- 用户头像 -->
-        <div class="user-avatar"><img src="../assets/img/img.jpg"></div>
+        <div class="user-avatar">
+<!--          <img src="../assets/img/img.jpg">-->
+          <el-image class="img" :src="imgUrl"></el-image>
+        </div>
         <!-- 用户名下拉菜单 -->
         <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
                         {{username}} <i class="el-icon-caret-bottom"></i>
                     </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
+            <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -43,13 +46,15 @@
 
 <script>
 import bus from './bus'
+
 export default {
   name: 'Header',
   data () {
     return {
       collapse: false,
       fullscreen: false,
-      message: 1
+      message: 1,
+      imgUrl: ''
     }
   },
   computed: {
@@ -94,7 +99,7 @@ export default {
     // 用户名下拉菜单选择事件
     handleCommand (command) {
       if (command === 'loginout') {
-        // localStorage.removeItem('save_username')
+        sessionStorage.removeItem('save_user_id')
         sessionStorage.removeItem('save_username')
         this.$router.push('/login')
       }
@@ -104,6 +109,14 @@ export default {
     if (document.body.clientWidth < 1500) {
       this.collapseChage()
     }
+  },
+  created () {
+    let id = sessionStorage.getItem('save_user_id')
+    let url = 'user/getImgUrl/' + id
+    this.$api.requestApi.get(url).then(res => {
+      this.imgUrl = res.data.data
+      // console.log(res.data)
+    })
   }
 }
 </script>
@@ -118,35 +131,42 @@ export default {
     color: #fff;
     background-color: #283c50;
   }
+
   .collapse-btn {
     float: left;
     padding: 0 21px;
-    width:40px;
+    width: 40px;
     cursor: pointer;
     line-height: 70px;
   }
+
   .header .tips {
     float: left;
     line-height: 70px;
     font-size: 15px;
   }
+
   .header .hide-tips {
-    display:none;
+    display: none;
   }
-  .header .logo{
+
+  .header .logo {
     float: left;
     line-height: 70px;
   }
-  .header .header-right{
+
+  .header .header-right {
     float: right;
     padding-right: 50px;
   }
-  .header-user-control{
+
+  .header-user-control {
     display: flex;
     height: 70px;
     align-items: center;
   }
-  .message-tips, .btn-fullscreen{
+
+  .message-tips, .btn-fullscreen {
     position: relative;
     width: 30px;
     height: 30px;
@@ -154,15 +174,18 @@ export default {
     border-radius: 15px;
     cursor: pointer;
   }
-  .btn-fullscreen{
+
+  .btn-fullscreen {
     transform: rotate(45deg);
     margin-right: 5px;
     font-size: 24px;
   }
-  .message-tips .el-icon-bell{
+
+  .message-tips .el-icon-bell {
     color: #fff;
   }
-  .message-tips-badge{
+
+  .message-tips-badge {
     position: absolute;
     right: 0;
     top: -2px;
@@ -172,21 +195,25 @@ export default {
     background: #f56c6c;
     color: #fff;
   }
-  .user-avatar{
+
+  .user-avatar {
     margin-left: 20px;
     cursor: pointer;
   }
-  .user-avatar img{
+
+  .user-avatar .img {
     display: block;
-    width:40px;
-    height:40px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
   }
-  .el-dropdown-link{
+
+  .el-dropdown-link {
     color: #fff;
     cursor: pointer;
   }
-  .user-name{
+
+  .user-name {
     margin-left: 10px;
   }
 </style>

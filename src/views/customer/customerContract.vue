@@ -48,26 +48,29 @@ export default {
   name: 'customerContract',
   data () {
     return {
-      refreshUrl: 'customer/findAllCustomer',
-      addUrl: 'customer/addCustomer',
-      editUrl: 'customer/editCustomer',
-      deleteUrl: 'customer/deleteCustomer',
+      refreshObj: {},
+      refreshUrl: 'customer/findAllContract',
+      addUrl: 'customer/addContract',
+      editUrl: 'customer/editContract',
+      deleteUrl: 'customer/deleteContract',
       tableName: 'customerContractTable',
       tablePK: 'id', // 主键id值
       tableTitle: '客户合同管理', // 表格标题
       tableHeaderList: [ // 表头字段
-        {value: 'contractNumber', label: '合同编号', width: '220'},
-        {value: 'projectName', label: '项目名', width: '220'},
-        {value: 'customerAddress', label: '客户地址', width: '220'},
-        {value: 'customerPhone', label: '客户电话', width: '120'},
+        {value: 'contractNumber', label: '合同编号', width: '160'},
+        {value: 'projectName', label: '项目名称', width: '180'},
         {value: 'customerRepresent', label: '客户代表', width: '120'},
+        {value: '', label: '是否签约', width: '100'},
+        {value: 'signingTime', label: '签约时间', width: '120'},
+        {value: '', label: '是否已收保证金', width: '150'},
+        {value: 'pledge', label: '保证金金额', width: '120'},
+        {value: '', label: '甲方签约人', width: '200'},
+        {value: 'ourRepresent', label: '我方签约人', width: '120'},
+        {value: 'customerPhone', label: '甲方电话', width: '120'},
+        {value: 'customerAddress', label: '客户地址', width: '220'},
         {value: 'ourSide', label: '公司名称', width: '120'},
         {value: 'ourAddress', label: '我方地址', width: '120'},
-        {value: 'ourPhone', label: '我们的电话', width: '120'},
-        {value: 'ourRepresent', label: '签约人', width: '120'},
-        {value: 'signingTime', label: '签约时间', width: '120'},
-        {value: 'contractContent', label: '合约内容', width: '120'},
-        {value: 'pledge', label: '保证金', width: '120'},
+        {value: 'ourPhone', label: '我方电话', width: '120'},
         {value: 'otherItem', label: '其他事项', width: '120'},
         {value: 'finalEditorTime', label: '编辑人', width: '120'},
         {value: 'finalEditor', label: '编辑时间', width: '250'}
@@ -75,9 +78,9 @@ export default {
       addForm: {name: '', password: '', phone: ''},
       editForm: {id: null, name: null, password: null, phone: null},
       buttonBoolean: {
-        addBtn: false,
-        editBtn: false,
-        deleteBtn: false,
+        addBtn: true,
+        editBtn: true,
+        deleteBtn: true,
         refreshBtn: true,
         import: false,
         export: true,
@@ -100,11 +103,11 @@ export default {
       this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl, this.editForm)
     },
     deleteRecord () {
-      this.$refs[this.tableName].deleteDatas(this.deleteUrl, this.refreshUrl)
+      this.$refs[this.tableName].deleteData(this.deleteUrl, this.refreshUrl)
     }
   },
   mounted () {
-    this.$refs.customerTable.refreshData(this.refreshUrl)
+    this.$refs[this.tableName].refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>
