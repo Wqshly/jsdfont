@@ -107,10 +107,6 @@ export default {
               title: '客户信息管理'
             },
             {
-              index: 'new-contract',
-              title: '新建合同'
-            },
-            {
               index: 'customer-contract',
               title: '客户合同管理'
             }

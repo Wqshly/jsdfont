@@ -18,10 +18,10 @@
       <!-- 新增窗口 -->
       <el-form slot="add" style="overflow: auto" :model="addForm" label-width="120px" ref="addForm" :rules="addFormRules">
         <el-form-item label="编码">
-          <el-radio v-model="addForm.radio" label="1">自动生成</el-radio>
-          <el-radio v-model="addForm.radio" label="2">手动编辑</el-radio>
+          <el-radio v-model="addForm.radio" :label="false">自动生成</el-radio>
+          <el-radio v-model="addForm.radio" :label="true">手动编辑</el-radio>
         </el-form-item>
-        <el-form-item v-if="addForm.radio === '2'" prop="number">
+        <el-form-item v-if="addForm.radio" prop="number">
           <el-input v-model="addForm.number"></el-input>
         </el-form-item>
         <el-form-item label="上级岗位名/编号" prop="upperNumber">
@@ -112,7 +112,7 @@ export default {
         {value: 'finalEditor', label: '修改人', width: '120'},
         {value: 'finalEditTime', label: '修改时间', width: '200'}
       ],
-      addForm: {number: '', upperNumber: '', radio: '1', name: '', responsibilities: '', remarks: ''}, // 新增数据界面
+      addForm: {number: '', upperNumber: '', radio: false, name: '', responsibilities: '', remarks: ''}, // 新增数据界面
       addFormRules: {
         name: [
           {required: true, message: '请输入岗位名称', trigger: 'blur'},

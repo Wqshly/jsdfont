@@ -1,6 +1,6 @@
 <template>
   <div class="fill-contain">
-    <el-col :span="spanNum" style="padding-bottom: 10px">
+    <el-col :span="detail ? 9 : 24" style="padding-bottom: 10px">
       <table-template
         ref="staffTable"
         :refresh-url="refreshUrl"
@@ -18,9 +18,7 @@
         v-on:btn-click="btnClick"
         v-on:refresh-btn="refreshBtn">
         <!-- 新增窗口 -->
-        <el-button v-if="spanNum === 11" slot="button-Area" @click.native="collapseRight" class="btnCollapse">折叠右侧栏
-        </el-button>
-        <el-button v-if="spanNum === 24" slot="button-Area" @click.native="openRight" class="btnCollapse">展开右侧栏
+        <el-button slot="button-Area" @click.native="collapseRight" class="btnCollapse">{{detail ? buttonHiddenText : buttonShowText}}
         </el-button>
         <el-form slot="add" :model="addForm" style="overflow: auto" label-width="100px" ref="addForm"
                  :rules="addFormRule">
@@ -361,7 +359,7 @@
         </el-form>
       </table-template>
     </el-col>
-    <el-col :span="24-spanNum" v-if="spanNum === 11">
+    <el-col :span="detail ? 15 : 0">
       <el-tabs tab-position="left" style="background: #FFFFFF;margin-left: 5px;border-radius: 5px"
                @tab-click="tabClick">
         <el-tab-pane label="入离职管理">
@@ -435,7 +433,9 @@ export default {
       }
     }
     return {
-      spanNum: 11,
+      buttonHiddenText: '隐藏右侧栏',
+      buttonShowText: '显示右侧栏',
+      detail: false,
       refreshUrl: 'staff/findAllStaff',
       addUrl: 'staff/addStaff',
       editUrl: 'staff/editStaff',
@@ -582,10 +582,7 @@ export default {
       })
     },
     collapseRight () {
-      this.spanNum = 24
-    },
-    openRight () {
-      this.spanNum = 11
+      this.detail = !this.detail
     },
     selectRowClick (row) {
       this.editForm = row

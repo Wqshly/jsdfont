@@ -1,7 +1,7 @@
 <template>
   <div>
     <table-template
-      ref="customerTable"
+      ref="contractDetailTable"
       :refresh-url="refreshUrl"
       :add-url="addUrl"
       :edit-url="editUrl"
@@ -57,6 +57,7 @@
 
 <script>
 import TableTemplate from '../../components/TableTemplate'
+
 export default {
   name: 'customerInfo',
   data () {
@@ -66,9 +67,9 @@ export default {
       addUrl: 'customer/addCustomer',
       editUrl: 'customer/editCustomer',
       deleteUrl: 'customer/deleteCustomer',
-      tableName: 'customerTable',
+      tableName: 'contractDetailTable',
       tablePK: 'id', // 主键id值
-      tableTitle: '客户信息管理', // 表格标题
+      tableTitle: '合同详情表', // 表格标题
       tableHeaderList: [ // 表头字段
         {value: 'name', label: '客户姓名', width: '160'},
         {value: 'nickName', label: '客户昵称', width: '160'},
@@ -120,9 +121,6 @@ export default {
     rightBtn (data) {
       this.$refs[this.tableName].editDialogVisible = true
     }
-  },
-  mounted () {
-    this.$refs[this.tableName].refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>

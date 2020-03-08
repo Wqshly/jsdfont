@@ -122,9 +122,6 @@ export default {
     deleteRecord () {
       this.$refs[this.tableName].deleteData(this.deleteUrl, this.refreshUrl)
     }
-  },
-  mounted () {
-    // this.$refs.isQuitTable.refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>

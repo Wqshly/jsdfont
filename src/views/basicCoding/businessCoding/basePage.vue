@@ -43,6 +43,7 @@
 <script>
 import carCategory from '@/views/basicCoding/businessCoding/carCategory'
 import carStatus from '@/views/basicCoding/businessCoding/carStatus'
+import contractStatus from '@/views/basicCoding/businessCoding/contractStatus'
 import post from '@/views/basicCoding/systemCoding/post'
 import division from '@/views/basicCoding/systemCoding/division'
 import gender from '@/views/basicCoding/gender'
@@ -94,6 +95,11 @@ export default {
           label: '内部编码',
           children: [
             {
+              id: 2001,
+              parent: 200,
+              label: '合同状态'
+            },
+            {
               id: 2002,
               parent: 200,
               label: '订单类别设定'
@@ -132,6 +138,7 @@ export default {
     carCategory,
     carStatus,
     post,
+    contractStatus,
     gender,
     division,
     staffNumCoding,
@@ -153,6 +160,9 @@ export default {
       }
       if (id === 1002) {
         this.show = 'carStatus'
+      }
+      if (id === 2001) {
+        this.show = 'contractStatus'
       }
       if (id === 2002) {
         this.show = 'staffNumCoding'
