@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import TableTemplate from '../../components/TableTemplate'
+import TableTemplate from '@/components/TableTemplate'
 export default {
   name: 'isQuit',
   data () {
