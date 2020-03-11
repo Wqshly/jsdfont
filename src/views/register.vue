@@ -145,7 +145,7 @@ export default {
     }
   },
   methods: {
-    changeUpload (file) {
+    async changeUpload (file) {
       const minSize = file.size / 1024 > 20
       const maxSize = file.size / 1024 / 1024 < 8
       if (!minSize) {
