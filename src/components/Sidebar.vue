@@ -73,6 +73,10 @@ export default {
               title: '员工管理'
             },
             {
+              index: 'qualification-management',
+              title: '资质管理'
+            },
+            {
               index: 'structure',
               title: '部门调整'
             }

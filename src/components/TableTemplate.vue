@@ -81,16 +81,22 @@
             <template slot-scope="scope">
               <!-- 通过tableHeader.value获取表数据 -->
               <el-popover trigger="hover" placement="top">
-                <template v-if="tableHeader.value !== 'finalEditTime'">
-                  <p>{{ scope.row[tableHeader.value] }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    {{ scope.row[tableHeader.value] }}
-                  </div>
-                </template>
-                <template v-else>
+                <template v-if="tableHeader.value === 'finalEditTime'">
                   <p>{{ scope.row[tableHeader.value] | formatDate }}</p>
                   <div slot="reference" class="name-wrapper">
                     {{ scope.row[tableHeader.value] | formatDate }}
+                  </div>
+                </template>
+                <template v-if="tableHeader.value === 'signingTime' || tableHeader.value === 'entryIntoForceTime'">
+                  <p>{{ scope.row[tableHeader.value] | formatDate2 }}</p>
+                  <div slot="reference" class="name-wrapper">
+                    {{ scope.row[tableHeader.value] | formatDate2}}
+                  </div>
+                </template>
+                <template v-if="tableHeader.value !== 'finalEditTime' && tableHeader.value !== 'signingTime' && tableHeader.value !== 'entryIntoForceTime'">
+                  <p>{{ scope.row[tableHeader.value]}}</p>
+                  <div slot="reference" class="name-wrapper">
+                    {{ scope.row[tableHeader.value] }}
                   </div>
                 </template>
               </el-popover>
@@ -164,6 +170,10 @@ export default {
     formatDate (time) {
       const date = new Date(time)
       return formatDate(date, 'yyyy年MM月dd日 hh时mm分')
+    },
+    formatDate2 (time) {
+      const date = new Date(time)
+      return formatDate(date, 'yyyy年MM月dd日')
     }
   },
   name: 'TableTemplate',

@@ -16,6 +16,7 @@ const vehicleLocation = () => Promise.resolve(require('@/views/car/vehicleLocati
 const vehicleUserLocation = () => Promise.resolve(require('@/views/car/vehicleUserLocation'))
 
 const staff = () => Promise.resolve(require('@/views/company/staff'))
+const qualificationManagement = () => Promise.resolve(require('@/views/company/qualificationManagement'))
 const isQuit = () => Promise.resolve(require('@/views/company/isQuit'))
 
 const systemDataCoding = () => Promise.resolve(require('@/views/basicCoding/systemCoding/basePage'))
@@ -125,6 +126,12 @@ export default new Router({
           name: 'staff',
           component: staff,
           meta: {title: '员工管理'}
+        },
+        {
+          path: '/qualification-management',
+          name: 'qualificationManagement',
+          component: qualificationManagement,
+          meta: {title: '资质管理'}
         },
         {
           path: '/tools',

@@ -223,7 +223,7 @@ export default {
       tablePK: 'id', // 主键id值
       tableTitle: '客户合同管理', // 表格标题
       tableHeaderList: [ // 表头字段
-        {value: 'contractNumber', label: '合同编号', width: '140'},
+        {value: 'contractNumber', label: '合同编号', width: '150'},
         {value: 'projectName', label: '项目名称', width: '160'},
         {value: 'contractStatus', label: '合同状态', width: '120'},
         {value: 'partyA', label: '甲方', width: '140'},
@@ -328,5 +328,8 @@ export default {
 </script>
 
 <style scoped>
-
+  .btnCollapse {
+    float: right;
+    margin-top: 5px;
+  }
 </style>
