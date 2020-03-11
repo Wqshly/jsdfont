@@ -159,9 +159,9 @@ export default {
       this.fileinfo = file
       console.log(file)
       // this.option.image = window.URL.createObjectURL(file.raw)
-      this.$nextTick(() => {
-        console.log(this.option.image)
-      })
+      // this.$nextTick(() => {
+      //   console.log(this.option.image)
+      // })
     },
     async uploadPicture () {
       this.$refs.cropper.getCropData((data) => {
