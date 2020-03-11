@@ -29,8 +29,8 @@
           <el-form-item label="用户头像:" prop="picLocation">
             <el-upload class="avatar-uploader" action='string' :before-upload="beforeUpload"
                        :auto-upload="false" :show-file-list="false" :on-change='changeUpload'>
-              <img :src="option.image" class="avatar" alt="">
-<!--              <i class="el-icon-plus avatar-uploader-icon"></i>-->
+              <img v-if="uploadSuccess" :src="imageFile.file" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
           <el-form-item style="padding-top: 15px;">
@@ -47,19 +47,13 @@
           <vue-cropper
             ref="cropper"
             :img="option.image"
-            :outputSize="option.size"
-            :outputType="option.outputType"
-            :info="true"
-            :full="option.full"
-            :canMove="option.canMove"
             :canMoveBox="option.canMoveBox"
             :original="option.original"
             :autoCrop="option.autoCrop"
             :fixed="option.fixed"
-            :fixedNumber="option.fixedNumber"
-            :centerBox="option.centerBox"
-            :infoTrue="option.infoTrue"
-            :fixedBox="option.fixedBox"></vue-cropper>
+            :fixedBox="option.fixedBox"
+            :infoTrue="option.infoTrue">
+          </vue-cropper>
         </div>
       </div>
       <div slot="footer">
@@ -88,20 +82,11 @@ export default {
       dialogVisible: false,
       option: {
         image: '',
-        info: true, // 裁剪框的大小信息
-        outputSize: 1, // 裁剪生成图片的质量
-        outputType: 'jpeg', // 裁剪生成图片的格式
-        canScale: false, // 图片是否允许滚轮缩放
-        autoCrop: true, // 是否默认生成截图框
-        autoCropWidth: 200, // 默认生成截图框宽度
-        autoCropHeight: 200, // 默认生成截图框高度
-        fixedBox: true, // 固定截图框大小 不允许改变
-        fixed: true, // 是否开启截图框宽高固定比例
-        fixedNumber: [1, 1], // 截图框的宽高比例
-        full: true, // 是否输出原图比例的截图
         canMoveBox: false, // 截图框能否拖动
         original: false, // 上传图片按照原始比例渲染
-        centerBox: false, // 截图框是否被限制在图片里面
+        autoCrop: true, // 是否默认生成截图框
+        fixed: true, // 是否开启截图框宽高固定比例
+        fixedBox: true, // 固定截图框大小 不允许改变
         infoTrue: true // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
       },
       loading: false, // 防止重复提交
