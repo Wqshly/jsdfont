@@ -264,6 +264,7 @@ export default {
     width: 120px;
     height: 120px;
     display: block;
+    line-height: 120px;
   }
 
   .avatar-uploader {
