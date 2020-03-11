@@ -145,7 +145,7 @@ export default {
     }
   },
   methods: {
-    beforeUpload (file) {
+    async beforeUpload (file) {
       const minSize = file.size / 1024 > 20
       const maxSize = file.size / 1024 / 1024 < 8
       if (!minSize) {
@@ -154,16 +154,16 @@ export default {
         this.$message.error('上传图片最大不能大于8M')
       }
       this.fileinfo = file
-      console.log(file)
     },
     async changeUpload (file) {
+      console.log(file)
       this.option.image = window.URL.createObjectURL(file.raw)
       this.$nextTick(() => {
         console.log(this.option.image)
         this.dialogVisible = true
       })
     },
-    uploadPicture () {
+    async uploadPicture () {
       this.$refs.cropper.getCropData((data) => {
         const splitName = this.fileinfo.name.split('.')
         const type = splitName[splitName.length - 1]
