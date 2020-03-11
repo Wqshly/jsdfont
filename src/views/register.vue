@@ -29,7 +29,7 @@
           <el-form-item label="用户头像:" prop="picLocation">
             <el-upload class="avatar-uploader" action='string' :before-upload="beforeUpload"
                        :auto-upload="false" :show-file-list="false" :on-change='changeUpload'>
-              <img v-if="uploadSuccess" :src="imageFile.file" class="avatar">
+              <img v-if="uploadSuccess" :src="imageFile.file" style="line-height:120px" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -264,7 +264,6 @@ export default {
     width: 120px;
     height: 120px;
     display: block;
-    line-height: 120px;
   }
 
   .avatar-uploader {
