@@ -103,7 +103,19 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="出生年月日" prop="birth">
-                <el-date-picker v-model="addForm.birth" type="month" format="yyyy年MM月" placeholder="选择日期"></el-date-picker>
+                <el-date-picker v-model="addForm.birth" type="date" format="yyyy年MM月DD日" placeholder="选择日期"></el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="员工父亲生日" prop="fatherBirth">
+                <el-date-picker v-model="addForm.fatherBirth" type="date" format="yyyy年MM月DD日" placeholder="选择日期"></el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="员工母亲生日" prop="motherBirth">
+                <el-date-picker v-model="addForm.motherBirth" type="date" format="yyyy年MM月DD日" placeholder="选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
@@ -225,8 +237,20 @@
           </el-row>
           <el-row>
             <el-col :span="12">
+              <el-form-item label="员工父亲生日" prop="fatherBirth">
+                <el-date-picker v-model="editForm.fatherBirth" type="date" format="yyyy年MM月DD日" placeholder="选择日期"></el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="员工母亲生日" prop="motherBirth">
+                <el-date-picker v-model="editForm.motherBirth" type="date" format="yyyy年MM月DD日" placeholder="选择日期"></el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
               <el-form-item label="出生年月日" prop="birth">
-                <el-date-picker v-model="editForm.birth" type="month" format="yyyy年MM月" placeholder="选择日期"></el-date-picker>
+                <el-date-picker v-model="editForm.birth" type="date" format="yyyy年MM月DD日" placeholder="选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -268,90 +292,105 @@
           </el-row>
         </el-form>
         <!-- 详情窗口 -->
-        <el-form slot="detail" style="overflow: auto;" label-width="100px">
+        <el-form slot="detail" style="overflow: auto;" label-width="100px" :model="editForm">
           <el-row>
             <el-col :span="12">
-              <el-form-item class="half-label" label="编码: " :model="editForm" prop="number">
+              <el-form-item class="half-label" label="编码: " prop="number">
                 {{editForm.number !== null ? editForm.number : "未填写"}}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item class="half-label" label="姓名: " :model="editForm" prop="name">
+              <el-form-item class="half-label" label="姓名: " prop="name">
                 {{editForm.name !== null ? editForm.name : "未填写"}}
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item class="half-label" label="性别: " :model="editForm" prop="sex">
+              <el-form-item class="half-label" label="性别: " prop="sex">
                 {{editForm.sex !== null ? editForm.sex : "未填写"}}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item class="half-label" label="电话: " :model="editForm" prop="phone">
+              <el-form-item class="half-label" label="电话: " prop="phone">
                 {{editForm.phone !== null ? editForm.phone : "未填写"}}
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item class="half-label" label="身份证: " :model="editForm" prop="identify">
+              <el-form-item class="half-label" label="身份证: " prop="identify">
                 {{editForm.identify !== null ? editForm.identify : "未填写"}}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item class="half-label" label="当前职位: " :model="editForm" prop="currentPosition">
+              <el-form-item class="half-label" label="当前职位: " prop="currentPosition">
                 {{editForm.currentPosition !== null ? editForm.currentPosition : "未填写"}}
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item class="half-label" label="地址: " :model="editForm" prop="address">
+          <el-form-item class="half-label" label="地址: " prop="address">
             {{editForm.address !== null ? editForm.address : "未填写"}}
           </el-form-item>
           <el-row>
             <el-col :span="12">
-              <el-form-item class="half-label" label="邮件: " :model="editForm" prop="email">
+              <el-form-item class="half-label" label="邮件: " prop="email">
                 {{editForm.email !== null ? editForm.email : "未填写"}}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item class="half-label" label="出生年月: " :model="editForm" prop="birth">
-                <el-date-picker readonly v-model="editForm.birth" type="month" format="yyyy年MM月" placeholder="选择日期"></el-date-picker>
+              <el-form-item class="half-label" label="出生年月日: " prop="birth">
+                <div v-if="editForm.birth !== null">{{editForm.birth | formatDate}}</div>
+                <div v-else>{{"未填写"}}</div>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item class="half-label" label="受教育程度: " :model="editForm" prop="education">
+              <el-form-item class="half-label" label="父亲生日: " prop="fatherBirth">
+                <div v-if="editForm.fatherBirth !== null">{{editForm.fatherBirth | formatDate}}</div>
+                <div v-else>{{"未填写"}}</div>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item class="half-label" label="母亲生日: " prop="motherBirth">
+                <div v-if="editForm.motherBirth !== null">{{editForm.motherBirth | formatDate}}</div>
+                <div v-else>{{"未填写"}}</div>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item class="half-label" label="受教育程度: " prop="education">
                 {{editForm.education !== null ? editForm.education : "未填写"}}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item class="half-label" label="毕业院校: " :model="editForm" prop="graduateSchool">
+              <el-form-item class="half-label" label="毕业院校: " prop="graduateSchool">
                 {{editForm.graduateSchool !== null ? editForm.graduateSchool : "未填写"}}
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item class="half-label" label="专业: " :model="editForm" prop="discipline">
+              <el-form-item class="half-label" label="专业: " prop="discipline">
                 {{editForm.discipline !== null ? editForm.discipline : "未填写"}}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item class="half-label" label="医保账号: " :model="editForm" prop="medicalNum">
+              <el-form-item class="half-label" label="医保账号: " prop="medicalNum">
                 {{editForm.medicalNum !== null ? editForm.medicalNum : "未填写"}}
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item class="half-label" label="银行账号: " :model="editForm" prop="bankCardNum">
+              <el-form-item class="half-label" label="银行账号: " prop="bankCardNum">
                 {{editForm.bankCardNum !== null ? editForm.bankCardNum : "未填写"}}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item class="half-label" label="状态: " :model="editForm" prop="status">
+              <el-form-item class="half-label" label="状态: " prop="status">
                 {{editForm.status !== null ? editForm.status : "未填写"}}
               </el-form-item>
             </el-col>
@@ -374,8 +413,15 @@
 import TableTemplate from '@/components/TableTemplate'
 import MultilevelLinkage from '@/components/MultilevelLinkage'
 import isQuit from '../company/isQuit'
+import {formatDate} from '@/commons/date'
 
 export default {
+  filters: {
+    formatDate (time) {
+      const date = new Date(time)
+      return formatDate(date, 'yyyy年MM月dd日')
+    }
+  },
   name: 'staff',
   data () {
     const idCardValidity = (rule, code, callback) => {
@@ -451,6 +497,8 @@ export default {
         {value: 'phone', label: '电话', width: '120'},
         {value: 'currentPosition', label: '当前职务', width: '160'},
         {value: 'status', label: '状态', width: '120'},
+        {value: 'fatherBirth', label: '父亲生日', width: '180'},
+        {value: 'motherBirth', label: '母亲生日', width: '180'},
         {value: 'finalEditor', label: '最后修改人', width: '120'},
         {value: 'finalEditTime', label: '最后修改时间', width: '220'}
       ],
@@ -477,6 +525,8 @@ export default {
         discipline: '',
         graduateSchool: '',
         birth: '',
+        fatherBirth: '',
+        motherBirth: '',
         address: '',
         currentPosition: ''
       }, // 新增数据界面
@@ -523,6 +573,8 @@ export default {
         discipline: null,
         graduateSchool: null,
         birth: null,
+        fatherBirth: '',
+        motherBirth: '',
         address: null,
         currentPosition: null
       }, // 编辑数据界面
