@@ -156,7 +156,7 @@ export default {
       this.fileinfo = file
       console.log(file)
       this.$nextTick(() => {
-        this.option.image = URL.createObjectURL(file.raw)
+        this.option.image = window.URL.createObjectURL(file.raw)
         console.log(this.option.image)
         this.dialogVisible = true
       })
