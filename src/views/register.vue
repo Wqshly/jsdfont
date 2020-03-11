@@ -10,7 +10,7 @@
                  style="padding-top: 50px;padding-right: 60px;" ref="registerForm">
           <el-form-item label="电话号码:" prop="phone">
             <el-input v-model="registerForm.phone" placeholder="输入您的手机号，用以核对是否是本公司的员工" prefix-icon="el-icon-wqs-suoding"
-                      clearable/>
+                      :onblur="validPhoneNumber" clearable/>
           </el-form-item>
           <el-form-item label="昵称:" prop="nickName">
             <el-input v-model="registerForm.nickName" placeholder="输入昵称" prefix-icon="el-icon-wqs-suoding"
@@ -26,7 +26,7 @@
                       prefix-icon="el-icon-wqs-suoding"
                       clearable/>
           </el-form-item>
-          <el-form-item label="用户头像:" prop="picLocal">
+          <el-form-item label="用户头像:" prop="picLocation">
             <el-upload class="avatar-uploader" action='string'
                        :auto-upload="false" :show-file-list="false" :on-change='changeUpload'>
               <img v-if="uploadSuccess" :src="imageFile.file" class="avatar">
@@ -156,7 +156,15 @@ export default {
       this.fileinfo = file
       console.log(file)
       this.$nextTick(() => {
-        this.option.image = URL.createObjectURL(file.raw)
+        let url = null
+        if (window.createObjectURL !== undefined) {
+          url = window.createObjectURL(file)
+        } else if (window.URL !== undefined) {
+          url = window.URL.createObjectURL(file)
+        } else if (window.webkitURL !== undefined) {
+          url = window.webkitURL.createObjectURL(file)
+        }
+        this.option.image = url
         console.log(this.option.image)
         this.dialogVisible = true
       })
@@ -182,7 +190,7 @@ export default {
     returnLoginPage () {
       this.$router.push('/login')
     },
-    validPhoneNumber () {
+    async validPhoneNumber () {
       this.$api.requestApi.postJson('/staff/staffValid', this.registerForm.phone)
         .then(res => {
           if (res.data.data === false) {
@@ -200,12 +208,18 @@ export default {
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },
-    submitForm (formName) {
+    async submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this[formName].password = this.$commonsMethod.encryptedData(this[formName].password)
           this[formName].rePassword = this.$commonsMethod.encryptedData(this[formName].rePassword)
           this.$api.postRequestApi.post('/user/register', this.registerForm)
+            .then(res => {
+              console.log(res.data)
+            })
+            .catch(err => {
+              console.log(err)
+            })
         }
       })
     }
