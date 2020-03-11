@@ -153,14 +153,14 @@ export default {
       } else if (!maxSize) {
         this.$message.error('上传图片最大不能大于8M')
       }
-      this.fileinfo = file
     },
     async changeUpload (file) {
+      this.dialogVisible = true
+      this.fileinfo = file
       console.log(file)
-      this.option.image = window.URL.createObjectURL(file.raw)
+      // this.option.image = window.URL.createObjectURL(file.raw)
       this.$nextTick(() => {
         console.log(this.option.image)
-        this.dialogVisible = true
       })
     },
     async uploadPicture () {
