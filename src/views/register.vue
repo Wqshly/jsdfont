@@ -156,15 +156,7 @@ export default {
       this.fileinfo = file
       console.log(file)
       this.$nextTick(() => {
-        let url = null
-        if (window.createObjectURL !== undefined) {
-          url = window.createObjectURL(file)
-        } else if (window.URL !== undefined) {
-          url = window.URL.createObjectURL(file)
-        } else if (window.webkitURL !== undefined) {
-          url = window.webkitURL.createObjectURL(file)
-        }
-        this.option.image = url
+        this.option.image = URL.createObjectURL(file.raw)
         console.log(this.option.image)
         this.dialogVisible = true
       })
