@@ -47,13 +47,19 @@
           <vue-cropper
             ref="cropper"
             :img="option.image"
+            :outputSize="option.outputSize"
+            :outputType="option.outputType"
+            :info="option.info"
+            :full="option.full"
+            :canMove="option.canMove"
             :canMoveBox="option.canMoveBox"
             :original="option.original"
             :autoCrop="option.autoCrop"
             :fixed="option.fixed"
-            :fixedBox="option.fixedBox"
-            :infoTrue="option.infoTrue">
-          </vue-cropper>
+            :fixedNumber="option.fixedNumber"
+            :centerBox="option.centerBox"
+            :infoTrue="option.infoTrue"
+            :fixedBox="option.fixedBox"></vue-cropper>
         </div>
       </div>
       <div slot="footer">
@@ -82,12 +88,22 @@ export default {
       dialogVisible: false,
       option: {
         image: '',
+        info: true, // 裁剪框的大小信息
+        outputSize: 1, // 裁剪生成图片的质量
+        outputType: 'jpeg', // 裁剪生成图片的格式
+        canScale: false, // 图片是否允许滚轮缩放
+        autoCropWidth: 200, // 默认生成截图框宽度
+        autoCropHeight: 200, // 默认生成截图框高度
+        full: true, // 是否输出原图比例的截图
+        canMove: true,
         canMoveBox: false, // 截图框能否拖动
         original: false, // 上传图片按照原始比例渲染
         autoCrop: true, // 是否默认生成截图框
         fixed: true, // 是否开启截图框宽高固定比例
-        fixedBox: true, // 固定截图框大小 不允许改变
-        infoTrue: true // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
+        fixedNumber: [1, 1], // 截图框的宽高比例
+        centerBox: false, // 截图框是否被限制在图片里面
+        infoTrue: true, // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
+        fixedBox: true // 固定截图框大小 不允许改变
       },
       loading: false, // 防止重复提交
       registerForm: {
@@ -207,7 +223,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   @import "../style/style";
 
   .form-container {
