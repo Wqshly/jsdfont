@@ -45,7 +45,7 @@
               accept="image/jpeg,image/png"
               class="avatar-uploader"
               name="picture"
-              action="http://localhost:8088/api/user/imageUpload"
+              action="http://localhost:8088/api/user/imageUpload1"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :on-error="handleAvatarFailed"
