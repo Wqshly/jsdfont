@@ -33,6 +33,8 @@ const order = () => Promise.resolve(require('@/views/project/order'))
 const taskDecomposition = () => Promise.resolve(require('@/views/project/taskDecomposition'))
 const taskProgress = () => Promise.resolve(require('@/views/project/taskProgress'))
 
+const test = () => Promise.resolve(require('@/views/test'))
+
 // 多次点击同一路由时，执行catch，避免报错。
 const routerPush = Router.prototype.push
 
@@ -168,6 +170,12 @@ export default new Router({
           name: 'isQuit',
           component: isQuit,
           meta: {title: '离职管理'}
+        },
+        {
+          path: 'test',
+          name: 'test',
+          component: test,
+          meta: {title: '测试'}
         }
       ]
     },

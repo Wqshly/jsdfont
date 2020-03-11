@@ -12,6 +12,9 @@ import './assets/icon/iconfont.css'
 import api from '@/request/api/index'
 import commonsMethod from '@/commons/index'
 import AMap from 'vue-amap'
+import VueCropper from 'vue-cropper'
+
+Vue.use(VueCropper)
 
 Vue.use(ElementUI)
 Vue.use(AMap)
@@ -36,7 +39,7 @@ global.base_url = 'http://localhost:8080/jsd_war_exploded/'
 // 使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
   const role = sessionStorage.getItem('save_username')
-  if (!role && to.path !== '/login' && to.path !== '/register' && to.path !== '/initRegister') {
+  if (!role && to.path !== '/login' && to.path !== '/register' && to.path !== '/initRegister' && to.path !== '/test') {
     next('/login')
   } else if (to.meta.permission) {
     // 如果是管理员权限则可进入，这里只是简单的模拟管理员权限而已
