@@ -158,11 +158,7 @@ export default {
       this.dialogVisible = true
       this.fileinfo = file
       console.log(file)
-      let a = window.URL.createObjectURL(file.raw)
-      let b = a.split(':')[3]
-      console.log(b)
-      this.option.image = 'blob:http://localhost:' + b
-      // this.option.image = window.URL.createObjectURL(file.raw)
+      this.option.image = window.URL.createObjectURL(file.raw)
       this.$nextTick(() => {
         console.log(this.option.image)
       })
