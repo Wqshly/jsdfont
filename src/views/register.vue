@@ -223,7 +223,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   @import "../style/style";
 
   .form-container {
