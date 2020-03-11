@@ -27,7 +27,7 @@
                       clearable/>
           </el-form-item>
           <el-form-item label="用户头像:" prop="picLocation">
-            <el-upload class="avatar-uploader" action='string'
+            <el-upload class="avatar-uploader" action='string' :before-upload="beforeUpload"
                        :auto-upload="false" :show-file-list="false" :on-change='changeUpload'>
               <img v-if="uploadSuccess" :src="imageFile.file" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -145,7 +145,7 @@ export default {
     }
   },
   methods: {
-    async changeUpload (file) {
+    beforeUpload (file) {
       const minSize = file.size / 1024 > 20
       const maxSize = file.size / 1024 / 1024 < 8
       if (!minSize) {
@@ -155,8 +155,10 @@ export default {
       }
       this.fileinfo = file
       console.log(file)
+    },
+    async changeUpload (file) {
+      this.option.image = window.URL.createObjectURL(file.raw)
       this.$nextTick(() => {
-        this.option.image = window.URL.createObjectURL(file.raw)
         console.log(this.option.image)
         this.dialogVisible = true
       })
