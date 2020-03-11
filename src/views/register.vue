@@ -29,8 +29,8 @@
           <el-form-item label="用户头像:" prop="picLocation">
             <el-upload class="avatar-uploader" action='string' :before-upload="beforeUpload"
                        :auto-upload="false" :show-file-list="false" :on-change='changeUpload'>
-              <img v-if="uploadSuccess" :src="imageFile.file" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              <img :src="option.image" class="avatar" alt="">
+<!--              <i class="el-icon-plus avatar-uploader-icon"></i>-->
             </el-upload>
           </el-form-item>
           <el-form-item style="padding-top: 15px;">
@@ -153,6 +153,7 @@ export default {
       } else if (!maxSize) {
         this.$message.error('上传图片最大不能大于8M')
       }
+      this.option.image = window.URL.createObjectURL(file.raw)
     },
     async changeUpload (file) {
       this.dialogVisible = true
