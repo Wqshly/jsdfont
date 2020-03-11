@@ -71,11 +71,14 @@ export default {
       tablePK: 'id', // 主键id值
       tableTitle: '合同详情表', // 表格标题
       tableHeaderList: [ // 表头字段
-        {value: 'name', label: '客户姓名', width: '160'},
-        {value: 'nickName', label: '客户昵称', width: '160'},
-        {value: 'password', label: '密码', width: '220'},
-        {value: 'phone', label: '电话', width: '180'},
-        {value: 'sex', label: '性别', width: '120'}
+        {value: 'name', label: '合同阶段', width: '160'},
+        {value: 'name', label: '费用', width: '160'},
+        {value: 'name', label: '付费状况', width: '160'},
+        {value: 'name', label: '承接人', width: '160'},
+        {value: 'name', label: '承接时间', width: '160'},
+        {value: 'name', label: '完成时间', width: '160'},
+        {value: 'name', label: '记录人', width: '160'},
+        {value: 'name', label: '记录时间', width: '160'}
       ],
       addForm: {name: '', nickName: '', password: '', phone: '', sex: ''},
       editForm: {id: null, name: null, nickName: null, password: null, phone: null, sex: null},

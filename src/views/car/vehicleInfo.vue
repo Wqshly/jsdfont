@@ -98,7 +98,11 @@
     </el-col>
     <el-col :span="24-spanNum" v-if="spanNum === 11">
       <el-tabs tab-position="left" style="background: #FFFFFF;margin-left: 5px;border-radius: 5px">
-        <el-tab-pane label="入离职"></el-tab-pane>
+        <el-tab-pane label="出车记录"></el-tab-pane>
+        <el-tab-pane label="保养记录"></el-tab-pane>
+        <el-tab-pane label="维修记录"></el-tab-pane>
+        <el-tab-pane label="加油记录"></el-tab-pane>
+        <el-tab-pane label="高速等记录"></el-tab-pane>
       </el-tabs>
     </el-col>
   </div>
