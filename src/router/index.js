@@ -17,7 +17,7 @@ const vehicleUserLocation = () => Promise.resolve(require('@/views/car/vehicleUs
 
 const staff = () => Promise.resolve(require('@/views/company/staff'))
 const qualificationManagement = () => Promise.resolve(require('@/views/company/qualificationManagement'))
-const isQuit = () => Promise.resolve(require('@/views/company/isQuit'))
+const isQuit = () => Promise.resolve(require('@/views/company/staffManage/isQuit'))
 
 const systemDataCoding = () => Promise.resolve(require('@/views/basicCoding/systemCoding/basePage'))
 const businessDataCoding = () => Promise.resolve(require('@/views/basicCoding/businessCoding/basePage'))

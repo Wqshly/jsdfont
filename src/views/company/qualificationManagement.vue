@@ -14,39 +14,39 @@
       v-on:editRecord="editRecord"
       v-on:select-row="selectRowClick">
       <!-- 新增窗口 -->
-      <el-form slot="add" style="overflow: auto" label-width="100px">
-        <el-form-item label="员工ID" :model="addForm" prop="staffId">
-          <el-input v-model="addForm.staffId"></el-input>
+      <el-form slot="add" style="overflow: auto" label-width="100px" :model="addForm">
+        <el-form-item label="编码" prop="staffId">
+          <el-input v-model="addForm.number"></el-input>
         </el-form-item>
-        <el-form-item label="入职时间" :model="addForm" prop="startTime">
-          <el-input v-model="addForm.startTime"></el-input>
+        <el-form-item label="名称" prop="staffId">
+          <el-input v-model="addForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="离职时间" :model="addForm" prop="endTime">
-          <el-input v-model="addForm.endTime"></el-input>
+        <el-form-item label="资质类别" prop="startTime">
+          <el-input v-model="addForm.category"></el-input>
         </el-form-item>
-        <el-form-item label="离职原因" :model="addForm" prop="reasons">
-          <el-input v-model="addForm.reasons"></el-input>
+        <el-form-item label="生效时间" prop="endTime">
+          <el-input v-model="addForm.entryIntoForceTime" placeholder="填写时间请按: 2005-05-30的格式填写"></el-input>
         </el-form-item>
-        <el-form-item label="备注" :model="addForm" prop="remarks">
-          <el-input v-model="addForm.remarks"></el-input>
+        <el-form-item label="到期时间" prop="reasons">
+          <el-input v-model="addForm.deadline"></el-input>
         </el-form-item>
       </el-form>
       <!-- 编辑窗口 -->
-      <el-form slot="edit" style="overflow: auto" label-width="100px">
-        <el-form-item label="员工ID" :model="editForm" prop="staffId">
-          <el-input v-model="editForm.staffId"></el-input>
+      <el-form slot="edit" style="overflow: auto" label-width="100px" :model="editForm">
+        <el-form-item label="编码" prop="staffId">
+          <el-input v-model="editForm.number"></el-input>
         </el-form-item>
-        <el-form-item label="入职时间" :model="editForm" prop="startTime">
-          <el-input v-model="editForm.startTime"></el-input>
+        <el-form-item label="名称" prop="staffId">
+          <el-input v-model="editForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="离职时间" :model="editForm" prop="endTime">
-          <el-input v-model="editForm.endTime"></el-input>
+        <el-form-item label="资质类别" prop="startTime">
+          <el-input v-model="editForm.category"></el-input>
         </el-form-item>
-        <el-form-item label="离职原因" :model="editForm" prop="reasons">
-          <el-input v-model="editForm.reasons"></el-input>
+        <el-form-item label="生效时间" prop="endTime">
+          <el-input v-model="editForm.entryIntoForceTime"></el-input>
         </el-form-item>
-        <el-form-item label="备注" :model="editForm" prop="remarks">
-          <el-input v-model="editForm.remarks"></el-input>
+        <el-form-item label="到期时间" prop="reasons">
+          <el-input v-model="editForm.deadline"></el-input>
         </el-form-item>
       </el-form>
     </table-template>
@@ -62,24 +62,24 @@ export default {
     return {
       staffID: null,
       refreshObj: {},
-      refreshUrl: 'qualificationManagement/findAllIsQuit',
-      addUrl: 'qualificationManagement/addIsQuit',
-      editUrl: 'qualificationManagement/editIsQuit',
-      deleteUrl: 'qualificationManagement/deleteIsQuit',
+      refreshUrl: 'qualification/findAllQualification',
+      addUrl: 'qualification/addQualification',
+      editUrl: 'qualification/editQualification',
+      deleteUrl: 'qualification/deleteQualification',
       tableName: 'qualificationManagementTable',
       tableTitle: '资质管理', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
-        {value: 'number', label: '编码', width: '120'},
+        {value: 'number', label: '编码', width: '140'},
         {value: 'name', label: '名称', width: '120'},
-        {value: 'category', label: '类别', width: '120'},
-        {value: 'entryIntoForceTime', label: '生效时间', width: '120'},
-        {value: 'deadline', label: '到期时间', width: '120'},
+        {value: 'category', label: '资质类别', width: '120'},
+        {value: 'entryIntoForceTime', label: '生效时间', width: '150'},
+        {value: 'deadline', label: '到期时间', width: '150'},
         {value: 'finalEditor', label: '最后修改', width: '120'},
-        {value: 'final_edit_time', label: '最后修改时间', width: '120'}
+        {value: 'finalEditTime', label: '最后修改时间', width: '200'}
       ],
-      addForm: {staffId: '', startTime: '', endTime: '', reasons: '', remarks: ''}, // 新增数据界面
-      editForm: {id: null, staffId: null, startTime: null, endTime: null, reasons: null, remarks: null}, // 编辑数据界面
+      addForm: {number: '', name: '', category: '', entryIntoForceTime: '', deadline: '', finalEditor: '', finalEditTime: ''}, // 新增数据界面
+      editForm: {number: null, name: null, category: null, entryIntoForceTime: null, deadline: null, finalEditor: null, finalEditTime: null}, // 编辑数据界面
       finalEditor: sessionStorage.getItem('save_username'),
       buttonBoolean: {
         addBtn: true,
@@ -104,7 +104,7 @@ export default {
         this.staffID = id
         this.addForm.staffId = id
         this.editForm.staffId = id
-        this.$refs.qualificationManagementTable.refreshData(this.refreshUrl + '/' + this.staffID, this.refreshObj)
+        this.$refs.qualificationManagementTable.refreshData(this.refreshUrl, this.refreshObj)
       }
     },
     // 增方法
@@ -123,6 +123,9 @@ export default {
     deleteRecord () {
       this.$refs[this.tableName].deleteData(this.deleteUrl, this.refreshUrl)
     }
+  },
+  mounted () {
+    this.$refs[this.tableName].refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>

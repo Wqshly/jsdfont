@@ -90,7 +90,7 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="当前职位" prop="currentPosition">
+              <el-form-item label="所在部门" prop="currentPosition">
                 <el-select v-model="addForm.currentPosition" placeholder="请选择"
                            @click.native="getTypeOption('basicCoding/findAllPost', 'currentPostOption')">
                   <el-option
@@ -203,7 +203,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="当前职位" prop="currentPosition">
+              <el-form-item label="所在部门" prop="currentPosition">
                 <el-select v-model="editForm.currentPosition" placeholder="请选择"
                            @click.native="getTypeOption('basicCoding/findAllPost', 'currentPostOption')">
                   <el-option
@@ -325,7 +325,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item class="half-label" label="当前职位: " prop="currentPosition">
+              <el-form-item class="half-label" label="所在部门: " prop="currentPosition">
                 {{editForm.currentPosition !== null ? editForm.currentPosition : "未填写"}}
               </el-form-item>
             </el-col>
@@ -399,6 +399,21 @@
     <el-col :span="detail ? 15 : 0">
       <el-tabs tab-position="left" style="background: #FFFFFF;margin-left: 5px;border-radius: 5px"
                @tab-click="tabClick">
+        <el-tab-pane label="当前职务">
+          <current-job ref="currentJob"></current-job>
+        </el-tab-pane>
+        <el-tab-pane label="岗位变动">
+          <post-change ref="postChange"></post-change>
+        </el-tab-pane>
+        <el-tab-pane label="职务调整">
+          <job-change ref="jobChange"></job-change>
+        </el-tab-pane>
+        <el-tab-pane label="奖惩记录">
+          <rewards-punishment-record ref="rewardsPunishmentRecord"></rewards-punishment-record>
+        </el-tab-pane>
+        <el-tab-pane label="考勤记录">
+          <attendance-record ref="attendanceRecord"></attendance-record>
+        </el-tab-pane>
         <el-tab-pane label="入离职管理">
           <is-quit ref="isQuit"></is-quit>
         </el-tab-pane>
@@ -410,16 +425,15 @@
 <script>
 import TableTemplate from '@/components/TableTemplate'
 import MultilevelLinkage from '@/components/MultilevelLinkage'
-import isQuit from '../company/isQuit'
-import {formatDate} from '@/commons/date'
+
+import currentJob from '@/views/company/staffManage/currentJob'
+import postChange from '@/views/company/staffManage/postChange'
+import jobChange from '@/views/company/staffManage/jobChange'
+import rewardsPunishmentRecord from '@/views/company/staffManage/rewardsPunishmentRecord'
+import attendanceRecord from '@/views/company/staffManage/attendanceRecord'
+import isQuit from '@/views/company/staffManage/isQuit'
 
 export default {
-  filters: {
-    formatDate (time) {
-      const date = new Date(time)
-      return formatDate(date, 'yyyy年MM月dd日')
-    }
-  },
   name: 'staff',
   data () {
     const idCardValidity = (rule, code, callback) => {
@@ -477,8 +491,8 @@ export default {
       }
     }
     return {
-      buttonHiddenText: '隐藏右侧栏',
-      buttonShowText: '显示右侧栏',
+      buttonHiddenText: '折叠管理栏',
+      buttonShowText: '展开管理栏',
       detail: false,
       refreshUrl: 'staff/findAllStaff',
       addUrl: 'staff/addStaff',
@@ -493,7 +507,7 @@ export default {
         {value: 'number', label: '员工编号', width: '120'},
         {value: 'name', label: '员工姓名', width: '120'},
         {value: 'phone', label: '电话', width: '120'},
-        {value: 'currentPosition', label: '当前职务', width: '160'},
+        {value: 'currentPosition', label: '所在部门', width: '160'},
         {value: 'status', label: '状态', width: '120'},
         {value: 'fatherBirth', label: '父亲生日', width: '180'},
         {value: 'motherBirth', label: '母亲生日', width: '180'},
@@ -605,6 +619,11 @@ export default {
   components: {
     TableTemplate,
     MultilevelLinkage,
+    currentJob,
+    postChange,
+    jobChange,
+    rewardsPunishmentRecord,
+    attendanceRecord,
     isQuit
   },
   methods: {
