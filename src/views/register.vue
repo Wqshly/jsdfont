@@ -230,6 +230,7 @@ export default {
               }
             })
             .catch(err => {
+              this.$message.error('未知错误，请联系管理员!')
               console.log(err)
             })
         }

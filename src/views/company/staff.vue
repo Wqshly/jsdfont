@@ -18,7 +18,8 @@
         v-on:btn-click="btnClick"
         v-on:refresh-btn="refreshBtn">
         <!-- 新增窗口 -->
-        <el-button slot="button-Area" @click.native="collapseRight" class="btnCollapse">{{detail ? buttonHiddenText : buttonShowText}}
+        <el-button slot="button-Area" @click.native="collapseRight" class="btnCollapse">{{detail ? buttonHiddenText :
+          buttonShowText}}
         </el-button>
         <el-form slot="add" :model="addForm" style="overflow: auto" label-width="100px" ref="addForm"
                  :rules="addFormRule">
@@ -103,19 +104,19 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="出生年月日" prop="birth">
-                <el-date-picker v-model="addForm.birth" type="date" format="yyyy年MM月DD日" placeholder="选择日期"></el-date-picker>
+                <el-input v-model="addForm.birth"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="员工父亲生日" prop="fatherBirth">
-                <el-date-picker v-model="addForm.fatherBirth" type="date" format="yyyy年MM月DD日" placeholder="选择日期"></el-date-picker>
+                <el-input v-model="addForm.fatherBirth"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="员工母亲生日" prop="motherBirth">
-                <el-date-picker v-model="addForm.motherBirth" type="date" format="yyyy年MM月DD日" placeholder="选择日期"></el-date-picker>
+                <el-input v-model="addForm.motherBirth"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -238,19 +239,19 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="员工父亲生日" prop="fatherBirth">
-                <el-date-picker v-model="editForm.fatherBirth" type="date" format="yyyy年MM月DD日" placeholder="选择日期"></el-date-picker>
+                <el-input v-model="editForm.fatherBirth"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="员工母亲生日" prop="motherBirth">
-                <el-date-picker v-model="editForm.motherBirth" type="date" format="yyyy年MM月DD日" placeholder="选择日期"></el-date-picker>
+                <el-input v-model="editForm.motherBirth"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="出生年月日" prop="birth">
-                <el-date-picker v-model="editForm.birth" type="date" format="yyyy年MM月DD日" placeholder="选择日期"></el-date-picker>
+                <el-input v-model="editForm.birth"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -340,22 +341,19 @@
             </el-col>
             <el-col :span="12">
               <el-form-item class="half-label" label="出生年月日: " prop="birth">
-                <div v-if="editForm.birth !== null">{{editForm.birth | formatDate}}</div>
-                <div v-else>{{"未填写"}}</div>
+                {{editForm.birth !== null ? editForm.birth : editForm.birth = "未填写" }}
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item class="half-label" label="父亲生日: " prop="fatherBirth">
-                <div v-if="editForm.fatherBirth !== null">{{editForm.fatherBirth | formatDate}}</div>
-                <div v-else>{{"未填写"}}</div>
+                {{editForm.fatherBirth !== null ? editForm.fatherBirth : editForm.fatherBirth = "未填写"}}
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item class="half-label" label="母亲生日: " prop="motherBirth">
-                <div v-if="editForm.motherBirth !== null">{{editForm.motherBirth | formatDate}}</div>
-                <div v-else>{{"未填写"}}</div>
+                {{editForm.motherBirth !== null ? editForm.motherBirth : editForm.motherBirth = "未填写"}}
               </el-form-item>
             </el-col>
           </el-row>
