@@ -10,7 +10,7 @@
                  style="padding-top: 50px;padding-right: 60px;" ref="registerForm">
           <el-form-item label="电话号码:" prop="phone">
             <el-input v-model="registerForm.phone" placeholder="输入您的手机号，用以核对是否是本公司的员工" prefix-icon="el-icon-wqs-suoding"
-                      :onblur="validPhoneNumber" clearable/>
+                      clearable/>
           </el-form-item>
           <el-form-item label="昵称:" prop="nickName">
             <el-input v-model="registerForm.nickName" placeholder="输入昵称" prefix-icon="el-icon-wqs-suoding"
@@ -123,7 +123,7 @@ export default {
           {required: true, message: '请输入电话号码', trigger: 'blur'},
           {min: 11, max: 11, message: '输入正确的电话号码', trigger: 'blur'},
           {pattern: /^1[34578]\d{9}$/, message: '输入正确的电话号码', trigger: 'blur'},
-          {validator: isRegister, message: '该员工不存在或公司尚未录入该员工信息,请待录入信息后再进行注册!', trigger: 'blur'}
+          {validator: isRegister, trigger: 'blur'}
         ],
         nickName: [
           {required: true, message: '请输入昵称', trigger: 'blur'},
@@ -187,19 +187,26 @@ export default {
       this.$router.push('/login')
     },
     async validPhoneNumber () {
-      this.$api.requestApi.postJson('/staff/staffValid', this.registerForm.phone)
+      this.$api.requestApi.getJson('/user/userValid/' + this.registerForm.phone)
         .then(res => {
-          if (res.data.data === false) {
+          console.log(res.data)
+          const value = res.data.code
+          if (value === 1003) {
             this.$message({
               message: '公司无此员工或尚未录入此员工信息!',
               type: 'error'
             })
-            return false
-          } else {
-            return true
+          } else if (value === 1004) {
+            this.$message({
+              message: '公司无此员工或尚未录入此员工信息!',
+              type: 'error'
+            })
           }
+          return res.data.code === 0
         })
-        .catch()
+        .catch(err => {
+          console.log(err)
+        })
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
@@ -212,6 +219,15 @@ export default {
           this.$api.postRequestApi.post('/user/register', this.registerForm)
             .then(res => {
               console.log(res.data)
+              if (res.data.code === 0) {
+                this.$message({
+                  message: '注册成功!',
+                  type: 'success'
+                })
+                this.$router.push('/login')
+              } else {
+                this.$message.error('注册失败!')
+              }
             })
             .catch(err => {
               console.log(err)
