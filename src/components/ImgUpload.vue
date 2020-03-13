@@ -1,11 +1,11 @@
 <template>
     <div>
-      <el-upload class="avatar-uploader" action='string' :before-upload="beforeUpload"
+      <el-upload action='string' :before-upload="beforeUpload"
                  :auto-upload="false" :show-file-list="false" :on-change='changeUpload'>
         <img v-if="uploadSuccess" :src="imageFile.file" class="avatar" alt="图片未正常显示">
         <i v-else class="el-icon-plus avatar-uploader-icon" style="line-height:120px"></i>
       </el-upload>
-      <el-dialog :visible.sync="dialogVisible" append-to-body>
+      <el-dialog :visible.sync="dialogVisible" append-to-body width="40%">
         <div class="cropper-content">
           <div class="cropper" style="text-align:center">
             <vue-cropper

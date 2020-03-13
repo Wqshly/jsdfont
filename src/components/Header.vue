@@ -27,8 +27,7 @@
         </div>
         <!-- 用户头像 -->
         <div class="user-avatar">
-<!--          <img src="../assets/img/img.jpg">-->
-          <el-image class="img" :src="imgUrl" @click="uploadImg"></el-image>
+          <el-image class="img" :src="imgUrl"></el-image>
         </div>
         <!-- 用户名下拉菜单 -->
         <el-dropdown class="user-name" trigger="click" @command="handleCommand">
@@ -36,6 +35,7 @@
                         {{username}} <i class="el-icon-caret-bottom"></i>
                     </span>
           <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="changeImg">更换头像</el-dropdown-item>
             <el-dropdown-item divided command="loginOut">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -45,9 +45,13 @@
 </template>
 
 <script>
-import bus from './bus'
+import ImgUpload from '@/components/ImgUpload'
+import bus from '@/components/bus'
 
 export default {
+  components: {
+    ImgUpload
+  },
   name: 'Header',
   data () {
     return {
@@ -64,6 +68,17 @@ export default {
     }
   },
   methods: {
+    async uploadPic (data) {
+      this.$api.requestApi.post('/user/imageUpload/', data)
+        .then(res => {
+          console.log(res.data)
+          this.registerForm.picLocation = res.data.data
+          console.log(this.registerForm.picLocation)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     // 侧边栏折叠
     collapseChage () {
       this.collapse = !this.collapse
@@ -98,14 +113,14 @@ export default {
     },
     // 用户名下拉菜单选择事件
     handleCommand (command) {
+      if (command === 'changeImg') {
+      }
       if (command === 'loginOut') {
         sessionStorage.removeItem('save_user_id')
         sessionStorage.removeItem('save_username')
         this.$router.push('/login')
       }
-    },
-    // 修改头像
-    uploadImg () {}
+    }
   },
   mounted () {
     if (document.body.clientWidth < 1500) {
@@ -124,6 +139,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+  @import "../style/style";
   .header {
     position: relative;
     box-sizing: border-box;

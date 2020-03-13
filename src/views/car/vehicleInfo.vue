@@ -19,10 +19,10 @@
         <el-button v-if="spanNum === 11" slot="button-Area" @click.native="collapseRight" class="btnCollapse">折叠右侧栏
         </el-button>
         <!-- 新增窗口 -->
-        <el-form slot="add" style="overflow: auto" label-width="100px">
+        <el-form slot="add" style="overflow: auto" label-width="100px" :model="addForm">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="车辆类型" :model="addForm" prop="type">
+              <el-form-item label="车辆类型" prop="type">
                 <el-select v-model="addForm.type" placeholder="请选择"
                            @click.native="getTypeOption('basicCoding/findBasicCodingWithType/carCategory', 'carCategory')">
                   <el-option
@@ -35,7 +35,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="车辆状态" :model="addForm" prop="numberPlate">
+              <el-form-item label="车辆状态" prop="numberPlate">
                 <el-select v-model="addForm.status" placeholder="请选择"
                            @click.native="getTypeOption('basicCoding/findBasicCodingWithType/carStatus', 'carStatus')">
                   <el-option
@@ -48,21 +48,24 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="车主" :model="addForm" prop="holder">
+          <el-form-item label="车主" prop="holder">
             <el-input v-model="addForm.holder"></el-input>
           </el-form-item>
-          <el-form-item label="车牌号" :model="addForm" prop="carNumber">
+          <el-form-item label="车牌号" prop="carNumber">
             <el-input v-model="addForm.carNumber"></el-input>
           </el-form-item>
-          <el-form-item label="车辆编号" :model="addForm" prop="numberPlate">
+          <el-form-item label="车辆编号" prop="numberPlate">
             <el-input v-model="addForm.numberPlate"></el-input>
+          </el-form-item>
+          <el-form-item label="备注" prop="remarks">
+            <el-input v-model="addForm.remarks"></el-input>
           </el-form-item>
         </el-form>
         <!-- 编辑窗口 -->
-        <el-form slot="edit" style="overflow: auto" label-width="100px">
+        <el-form slot="edit" style="overflow: auto" label-width="100px" :model="editForm">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="车辆类型" :model="editForm" prop="type">
+              <el-form-item label="车辆类型" prop="type">
                 <el-select v-model="editForm.type" placeholder="请选择"
                            @click.native="getTypeOption('basicCoding/findBasicCodingWithType/carCategory', 'carCategory')">
                   <el-option
@@ -75,7 +78,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="车辆状态" :model="editForm" prop="numberPlate">
+              <el-form-item label="车辆状态" prop="numberPlate">
                 <el-select v-model="editForm.status" placeholder="请选择"
                            @click.native="getTypeOption('basicCoding/findBasicCodingWithType/carStatus', 'carStatus')">
                   <el-option
@@ -88,14 +91,17 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="车主" :model="editForm" prop="holder">
+          <el-form-item label="车主" prop="holder">
             <el-input v-model="editForm.holder"></el-input>
           </el-form-item>
-          <el-form-item label="车牌号" :model="editForm" prop="carNumber">
+          <el-form-item label="车牌号" prop="carNumber">
             <el-input v-model="editForm.carNumber"></el-input>
           </el-form-item>
-          <el-form-item label="车辆编号" :model="editForm" prop="numberPlate">
+          <el-form-item label="车辆编号" prop="numberPlate">
             <el-input v-model="editForm.numberPlate"></el-input>
+          </el-form-item>
+          <el-form-item label="备注" prop="remarks">
+            <el-input v-model="editForm.remarks"></el-input>
           </el-form-item>
         </el-form>
       </table-template>
@@ -162,10 +168,11 @@ export default {
         {value: 'holder', label: '车主', width: '180'},
         {value: 'carNumber', label: '车牌号', width: '120'},
         {value: 'status', label: '状态', width: '120'},
+        {value: 'remarks', label: '备注', width: '160'},
         {value: 'finalEditor', label: '修改人', width: '120'},
         {value: 'finalEditTime', label: '修改时间', width: '220'}
       ],
-      addForm: {type: '', carNumber: '', holder: '', numberPlate: '', status: ''}, // 新增数据界面
+      addForm: {type: '', carNumber: '', holder: '', numberPlate: '', status: '', remarks: ''}, // 新增数据界面
       editForm: {
         id: null,
         holder: null,
@@ -175,7 +182,8 @@ export default {
         finalEditor: null,
         finalEditTime: null,
         registerTime: null,
-        status: null
+        status: null,
+        remarks: null
       }, // 编辑数据界面
       finalEditor: sessionStorage.getItem('save_username'),
       carCategory: [],

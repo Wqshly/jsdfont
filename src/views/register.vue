@@ -27,7 +27,9 @@
                       clearable/>
           </el-form-item>
           <el-form-item label="用户头像:" prop="picLocation">
-            <img-upload v-on:upload-pic="uploadPic"></img-upload>
+            <div class="avatar-uploader">
+              <img-upload v-on:upload-pic="uploadPic"></img-upload>
+            </div>
           </el-form-item>
           <el-form-item style="padding-top: 15px;">
             <el-button style="float: left;" type="primary" @click="submitForm('registerForm')">立即创建</el-button>
@@ -175,6 +177,10 @@ export default {
     .background-img("../assets/img/register.jpg");
   }
 
+  .avatar-uploader {
+    float: left;
+  }
+
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
@@ -202,9 +208,5 @@ export default {
     width: 120px;
     height: 120px;
     display: block;
-  }
-
-  .avatar-uploader {
-    float: left;
   }
 </style>
