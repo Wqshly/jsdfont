@@ -115,7 +115,7 @@ export default {
     let url = 'user/getImgUrl/' + id
     this.$api.requestApi.get(url).then(res => {
       this.imgUrl = res.data.data
-      // console.log(res.data)
+      console.log(res.data)
     })
   }
 }

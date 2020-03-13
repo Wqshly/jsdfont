@@ -127,12 +127,12 @@
 
 <script>
 import TableTemplate from '@/components/TableTemplate'
-import drivingRecord from '@/views/car/drivingRecord'
-import violationRecord from '@/views/car/violationRecord'
-import vehicleMaintenance from '@/views/car/vehicleMaintenance'
-import vehicleRepair from '@/views/car/vehicleRepair'
-import oilAdditionRecord from '@/views/car/oilAdditionRecord'
-import highSpeedDrivingRecord from '@/views/car/highSpeedDrivingRecord'
+import drivingRecord from '@/views/car/carManage/drivingRecord'
+import violationRecord from '@/views/car/carManage/violationRecord'
+import vehicleMaintenance from '@/views/car/carManage/vehicleMaintenance'
+import vehicleRepair from '@/views/car/carManage/vehicleRepair'
+import oilAdditionRecord from '@/views/car/carManage/oilAdditionRecord'
+import highSpeedDrivingRecord from '@/views/car/carManage/highSpeedDrivingRecord'
 
 export default {
   components: {

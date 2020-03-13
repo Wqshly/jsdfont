@@ -32,7 +32,7 @@
               </el-button>
             </el-popover>
             <el-popover placement="top" trigger="hover">
-              <div class="button-tips">刷新</div>
+              <div class="button-tips">刷新表单数</div>
               <el-button ref="refreshButton" slot="reference" content="刷新" @click="dataRefresh"
                          v-if="this.buttonBoolean.refreshBtn" class="button" style="color:#13ce66">
                 <span class="el-icon-wqs-shuaxin table_icon"></span>
