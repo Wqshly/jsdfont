@@ -27,11 +27,7 @@
                       clearable/>
           </el-form-item>
           <el-form-item label="用户头像:" prop="picLocation">
-            <el-upload class="avatar-uploader" action='string' :before-upload="beforeUpload"
-                       :auto-upload="false" :show-file-list="false" :on-change='changeUpload'>
-              <img v-if="uploadSuccess" :src="imageFile.file" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon" style="line-height:120px"></i>
-            </el-upload>
+            <img-upload v-on:upload-pic="uploadPic"></img-upload>
           </el-form-item>
           <el-form-item style="padding-top: 15px;">
             <el-button style="float: left;" type="primary" @click="submitForm('registerForm')">立即创建</el-button>
@@ -41,37 +37,15 @@
         </el-form>
       </section>
     </div>
-    <el-dialog :visible.sync="dialogVisible" append-to-body>
-      <div class="cropper-content">
-        <div class="cropper" style="text-align:center">
-          <vue-cropper
-            ref="cropper"
-            :img="option.image"
-            :outputSize="option.outputSize"
-            :outputType="option.outputType"
-            :info="option.info"
-            :full="option.full"
-            :canMove="option.canMove"
-            :canMoveBox="option.canMoveBox"
-            :original="option.original"
-            :autoCrop="option.autoCrop"
-            :fixed="option.fixed"
-            :fixedNumber="option.fixedNumber"
-            :centerBox="option.centerBox"
-            :infoTrue="option.infoTrue"
-            :fixedBox="option.fixedBox"></vue-cropper>
-        </div>
-      </div>
-      <div slot="footer">
-        <el-button type="primary" @click.native="uploadPicture">确认</el-button>
-        <el-button @click="dialogVisible = false">取消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
+import ImgUpload from '@/components/ImgUpload'
 export default {
+  components: {
+    ImgUpload
+  },
   data () {
     const isRegister = this.validPhoneNumber
     const validatePass = (rule, value, callback) => {
@@ -84,39 +58,12 @@ export default {
       }
     }
     return {
-      uploadSuccess: false,
-      dialogVisible: false,
-      option: {
-        image: '',
-        info: true, // 裁剪框的大小信息
-        outputSize: 1, // 裁剪生成图片的质量
-        outputType: 'jpeg', // 裁剪生成图片的格式
-        canScale: false, // 图片是否允许滚轮缩放
-        autoCropWidth: 200, // 默认生成截图框宽度
-        autoCropHeight: 200, // 默认生成截图框高度
-        full: true, // 是否输出原图比例的截图
-        canMove: true,
-        canMoveBox: false, // 截图框能否拖动
-        original: false, // 上传图片按照原始比例渲染
-        autoCrop: true, // 是否默认生成截图框
-        fixed: true, // 是否开启截图框宽高固定比例
-        fixedNumber: [1, 1], // 截图框的宽高比例
-        centerBox: false, // 截图框是否被限制在图片里面
-        infoTrue: true, // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
-        fixedBox: true // 固定截图框大小 不允许改变
-      },
-      loading: false, // 防止重复提交
       registerForm: {
         phone: '',
         nickName: '',
         password: '',
         rePassword: '',
         picLocation: ''
-      },
-      imageFile: {
-        name: '',
-        type: '',
-        file: ''
       },
       rules: {
         phone: [
@@ -146,42 +93,16 @@ export default {
     }
   },
   methods: {
-    async beforeUpload (file) {
-      const minSize = file.size / 1024 > 20
-      const maxSize = file.size / 1024 / 1024 < 8
-      if (!minSize) {
-        this.$message.error('上传图片大小不能小于20k')
-      } else if (!maxSize) {
-        this.$message.error('上传图片最大不能大于8M')
-      }
-      this.option.image = window.URL.createObjectURL(file.raw)
-    },
-    async changeUpload (file) {
-      this.dialogVisible = true
-      this.fileinfo = file
-      console.log(file)
-      this.option.image = window.URL.createObjectURL(file.raw)
-      this.$nextTick(() => {
-        console.log(this.option.image)
-      })
-    },
-    async uploadPicture () {
-      this.$refs.cropper.getCropData((data) => {
-        const splitName = this.fileinfo.name.split('.')
-        const type = splitName[splitName.length - 1]
-        this.imageFile.name = 'user' + this.fileinfo.uid + '.' + type
-        this.imageFile.file = data
-        this.$api.requestApi.post('/user/imageUpload/', this.imageFile)
-          .then(res => {
-            console.log(res.data)
-            this.registerForm.picLocation = res.data.data
-            this.dialogVisible = false
-            this.uploadSuccess = true
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      })
+    async uploadPic (data) {
+      this.$api.requestApi.post('/user/imageUpload/', data)
+        .then(res => {
+          console.log(res.data)
+          this.registerForm.picLocation = res.data.data
+          console.log(this.registerForm.picLocation)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     returnLoginPage () {
       this.$router.push('/login')
@@ -285,12 +206,5 @@ export default {
 
   .avatar-uploader {
     float: left;
-  }
-
-  .cropper-content {
-    .cropper {
-      width: auto;
-      height: 300px;
-    }
   }
 </style>

@@ -28,7 +28,7 @@
         <!-- 用户头像 -->
         <div class="user-avatar">
 <!--          <img src="../assets/img/img.jpg">-->
-          <el-image class="img" :src="imgUrl"></el-image>
+          <el-image class="img" :src="imgUrl" @click="uploadImg"></el-image>
         </div>
         <!-- 用户名下拉菜单 -->
         <el-dropdown class="user-name" trigger="click" @command="handleCommand">
@@ -36,7 +36,7 @@
                         {{username}} <i class="el-icon-caret-bottom"></i>
                     </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
+            <el-dropdown-item divided command="loginOut">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -98,12 +98,14 @@ export default {
     },
     // 用户名下拉菜单选择事件
     handleCommand (command) {
-      if (command === 'loginout') {
+      if (command === 'loginOut') {
         sessionStorage.removeItem('save_user_id')
         sessionStorage.removeItem('save_username')
         this.$router.push('/login')
       }
-    }
+    },
+    // 修改头像
+    uploadImg () {}
   },
   mounted () {
     if (document.body.clientWidth < 1500) {
