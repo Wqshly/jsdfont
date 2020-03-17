@@ -147,7 +147,9 @@ export default {
     height: 70px;
     font-size: 22px;
     color: #fff;
-    background-color: #283c50;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, .2);
+    box-shadow: 3px 3px 6px 3px rgba(0, 0, 0, .1);
   }
 
   .collapse-btn {

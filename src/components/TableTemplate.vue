@@ -76,8 +76,8 @@
           <!-- 正式内容 -->
           <!-- 通过 Scoped slot 可以获取到 row, column, $index 和 store（table 内部的状态管理）的数据。 -->
           <!-- 使用sortable="custom" 即可通过后端排序 -->
-          <el-table-column v-for="tableHeader in tableHeaderList" :key="tableHeader.value" :prop="tableHeader.value"
-                           :label="tableHeader.label" :width="tableHeader.width" sortable="custom">
+          <el-table-column v-for="tableHeader in tableHeaderList" :key="tableHeader.value" :prop="tableHeader.value" header-align="center" align="center"
+                           :label="tableHeader.label" :min-width="tableHeader.minWidth" :width="tableHeader.width" sortable="custom">
             <template slot-scope="scope">
               <!-- 通过tableHeader.value获取表数据 -->
               <el-popover trigger="hover" placement="top">
@@ -221,7 +221,7 @@ export default {
       addDialogVisible: false,
       editDialogVisible: false,
       detailVisible: false,
-      tableHeight: (`${document.documentElement.clientHeight}` - 250),
+      tableHeight: (`${document.documentElement.clientHeight}` - 289),
       currentPageNumber: 1, // 当前页
       selectRow: null, // 当前选中的行
       selects: [], // 列表中选中的多行数据
@@ -449,9 +449,14 @@ export default {
 </script>
 
 <style scoped lang="less">
+
+  .el-table {
+    background: rgba(255, 255, 255, 0.6);
+  }
+
   .table-title {
-    background-color: #335ae0;
-    height: 37px;
+    background: rgba(109, 90, 255, 0.55);
+    height: 47px;
     color: #FFF;
     line-height: 37px;
     text-align: center;
@@ -504,7 +509,7 @@ export default {
   }
 
   .table-footer {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.7);
     height: 40px;
   }
 

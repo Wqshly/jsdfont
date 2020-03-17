@@ -512,7 +512,7 @@ export default {
         {value: 'fatherBirth', label: '父亲生日', width: '180'},
         {value: 'motherBirth', label: '母亲生日', width: '180'},
         {value: 'finalEditor', label: '最后修改人', width: '120'},
-        {value: 'finalEditTime', label: '最后修改时间', width: '220'}
+        {value: 'finalEditTime', label: '最后修改时间', minWidth: '220'}
       ],
       staffTypeOption: [], // 员工类型选择框
       genderOption: [], // 性别选项

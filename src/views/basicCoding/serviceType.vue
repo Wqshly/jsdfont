@@ -84,7 +84,7 @@ export default {
         {value: 'upperNumber', label: '上一级业务编码', width: '220'},
         {value: 'description', label: '业务描述', width: '220'},
         {value: 'finalEditor', label: '编辑人', width: '120'},
-        {value: 'finalEditTime', label: '编辑时间', width: '220'}
+        {value: 'finalEditTime', label: '编辑时间', minWidth: '220'}
       ],
       addForm: {name: '', number: '', upperNumber: '', description: ''}, // 新增数据界面
       editForm: {

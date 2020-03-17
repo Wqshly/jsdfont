@@ -1,7 +1,6 @@
 <template>
   <div class="sidebar">
-    <el-menu class="sidebar-el-menu" :collapse="collapse" background-color="#324157"
-             text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
+    <el-menu class="sidebar-el-menu" :collapse="collapse" text-color="#303133" active-text-color="#409EFF" unique-opened router>
       <template v-for="item in items">
         <!--        有子目录的-->
         <template v-if="item.subs">
@@ -43,6 +42,26 @@ export default {
           icon: 'el-icon-wqs-shouye',
           index: 'home',
           title: '首页'
+        },
+        {
+          icon: 'el-icon-wqs-shouye',
+          index: 'potential-loss-analysis',
+          title: '潜在流失客户分析'
+        },
+        {
+          icon: 'el-icon-wqs-shouye',
+          index: 'optimization-algorithm',
+          title: '方案优化',
+          subs: [
+            {
+              index: 'dispatching-optimization',
+              title: '派工顺序优化'
+            },
+            {
+              index: 'work-path-optimization',
+              title: '出工路径优化'
+            }
+          ]
         },
         {
           icon: 'el-icon-wqs-shouye',
@@ -220,13 +239,54 @@ export default {
 }
 </script>
 
+<style>
+
+  .el-menu--popup {
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .el-menu .el-submenu__title:hover {
+    font-weight: 700;
+    -webkit-transition: all .5s;
+  }
+
+  .el-submenu .el-menu {
+    /*position: absolute;*/
+    top: 0; bottom: 0;
+    left: 0; right: 0;
+    margin: auto;
+    background: rgba(255, 255, 255, .1);
+   }
+
+  .el-menu-item:hover {
+    font-weight: 700;
+    -webkit-transition: all .5s;
+  }
+</style>
+
 <style scoped lang="less">
+
+  // 磨砂效果
+  .el-menu {
+    /*position: absolute;*/
+    top: 0; bottom: 0;
+    left: 0; right: 0;
+    line-height: 2;
+    margin: auto;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, .3);
+  }
+
+  .is-opened .el-menu {
+    background: rgba(255, 255, 255, .3);
+  }
+
   .sidebar {
     display: block;
     position: absolute;
     left: 0;
-    top: 70px;
-    bottom: 0;
+    top: 80px;
+    bottom: 30px;
     overflow-y: scroll;
   }
 
@@ -237,6 +297,10 @@ export default {
   /*未折叠时侧边栏的宽度*/
   .sidebar-el-menu:not(.el-menu--collapse) {
     width: 250px;
+  }
+
+  .sidebar-el-menu {
+    backdrop-filter: blur(10px) brightness(110%);
   }
 
   .sidebar > ul {
