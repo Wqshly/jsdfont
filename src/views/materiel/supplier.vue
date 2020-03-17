@@ -73,7 +73,7 @@ export default {
         {value: 'supplier_name', label: '供应商名称', width: '220'},
         {value: 'Address', label: '地址', width: '120'},
         {value: 'phone', label: '电话', width: '220'},
-        {value: 'repression', label: '法人代表', width: '120'}
+        {value: 'repression', label: '法人代表', minWidth: '120'}
       ],
       addForm: {number: '', supplier_name: '', Address: '', phone: '', repression: ''},
       editForm: {number: null, supplier_name: null, Address: null, phone: null, repression: null},

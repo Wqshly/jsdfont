@@ -78,7 +78,7 @@ export default {
         {value: 'service_name', label: '服务名称', width: '220'},
         {value: 'address', label: '服务地点', width: '220'},
         {value: 'order_time', label: '下单时间', width: '120'},
-        {value: 'is_done', label: '是否完成', width: '220'}
+        {value: 'is_done', label: '是否完成', minWidth: '220'}
       ],
       addForm: {customerId: '', service_type: '', service_name: '', address: '', order_time: '', is_done: ''}, // 新增数据界面
       editForm: {id: null, customer_id: null, service_type: null, service_name: null, address: null, order_time: null, is_done: null}, // 编辑数据界面

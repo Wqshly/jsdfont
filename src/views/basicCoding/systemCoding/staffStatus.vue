@@ -48,7 +48,7 @@ export default {
         {value: 'abbreviation', label: '名称缩写', width: '180'},
         {value: 'codingStyle', label: '状态编码', width: '200'},
         {value: 'finalEditor', label: '编辑人', width: '120'},
-        {value: 'finalEditTime', label: '最后编辑时间', width: '220'}
+        {value: 'finalEditTime', label: '最后编辑时间', minWidth: '220'}
       ],
       addForm: {name: '', codingStyle: ''}, // 新增数据界面
       addFormRule: {

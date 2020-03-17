@@ -46,7 +46,7 @@ export default {
       tableHeaderList: [ // 表头字段
         {value: 'order_type', label: '订单类型', width: '120'},
         {value: 'final_editor', label: '最后修改', width: '120'},
-        {value: 'final_edit_time', label: '最后修改时间', width: '120'}
+        {value: 'final_edit_time', label: '最后修改时间', minWidth: '120'}
       ],
       addForm: {order_type: ''}, // 新增数据界面
       editForm: {id: null, order_type: null}, // 编辑数据界面

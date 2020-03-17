@@ -75,7 +75,7 @@ export default {
         {value: 'reasons', label: '离职原因', width: '120'},
         {value: 'remarks', label: '备注', width: '220'},
         {value: 'finalEditor', label: '最后修改', width: '120'},
-        {value: 'final_edit_time', label: '最后修改时间', width: '120'}
+        {value: 'final_edit_time', label: '最后修改时间', minWidth: '120'}
       ],
       addForm: {staffId: '', startTime: '', endTime: '', reasons: '', remarks: ''}, // 新增数据界面
       editForm: {id: null, staffId: null, startTime: null, endTime: null, reasons: null, remarks: null}, // 编辑数据界面

@@ -109,7 +109,7 @@ export default {
         {value: 'name', label: '区划名', width: '120'},
         {value: 'upperNumber', label: '上级区划名(区划编码)', width: '200'},
         {value: 'finalEditor', label: '最后修改人', width: '120'},
-        {value: 'finalEditTime', label: '最后修改时间', width: '220'}
+        {value: 'finalEditTime', label: '最后修改时间', minWidth: '220'}
       ],
       addForm: {number: '', upperNumber: '', name: '', radio: '1', responsibilities: '', remarks: ''}, // 新增数据界面
       editForm: {id: null, number: null, upperNumber: null, name: null, responsibilities: null, remarks: null}, // 编辑数据界面

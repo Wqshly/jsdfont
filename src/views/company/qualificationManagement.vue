@@ -76,7 +76,7 @@ export default {
         {value: 'entryIntoForceTime', label: '生效时间', width: '150'},
         {value: 'deadline', label: '到期时间', width: '150'},
         {value: 'finalEditor', label: '最后修改', width: '120'},
-        {value: 'finalEditTime', label: '最后修改时间', width: '200'}
+        {value: 'finalEditTime', label: '最后修改时间', minWidth: '200'}
       ],
       addForm: {number: '', name: '', category: '', entryIntoForceTime: '', deadline: '', finalEditor: '', finalEditTime: ''}, // 新增数据界面
       editForm: {number: null, name: null, category: null, entryIntoForceTime: null, deadline: null, finalEditor: null, finalEditTime: null}, // 编辑数据界面

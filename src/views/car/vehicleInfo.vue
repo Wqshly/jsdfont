@@ -170,7 +170,7 @@ export default {
         {value: 'status', label: '状态', width: '120'},
         {value: 'remarks', label: '备注', width: '160'},
         {value: 'finalEditor', label: '修改人', width: '120'},
-        {value: 'finalEditTime', label: '修改时间', width: '220'}
+        {value: 'finalEditTime', label: '修改时间', minWidth: '220'}
       ],
       addForm: {type: '', carNumber: '', holder: '', numberPlate: '', status: '', remarks: ''}, // 新增数据界面
       editForm: {

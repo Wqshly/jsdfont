@@ -52,7 +52,7 @@ export default {
         {value: 'name', label: '工具名称', width: '120'},
         {value: 'type', label: '工具名称', width: '220'},
         {value: 'final_editor', label: '最后修改', width: '220'},
-        {value: 'final_edit_time', label: '最后修改时间', width: '220'}
+        {value: 'final_edit_time', label: '最后修改时间', minWidth: '220'}
       ],
       addForm: {name: '', type: ''},
       editForm: {name: null, type: null},

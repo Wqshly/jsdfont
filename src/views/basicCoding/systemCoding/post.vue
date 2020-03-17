@@ -110,7 +110,7 @@ export default {
         {value: 'name', label: '岗位名', width: '120'},
         {value: 'upperNumber', label: '上级岗位名', width: '120'},
         {value: 'finalEditor', label: '修改人', width: '120'},
-        {value: 'finalEditTime', label: '修改时间', width: '200'}
+        {value: 'finalEditTime', label: '修改时间', minWidth: '200'}
       ],
       addForm: {number: '', upperNumber: '', radio: false, name: '', responsibilities: '', remarks: ''}, // 新增数据界面
       addFormRules: {

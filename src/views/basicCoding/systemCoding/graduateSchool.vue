@@ -47,7 +47,7 @@ export default {
         {value: 'name', label: '院校名字', width: '180'},
         {value: 'abbreviation', label: '首字母缩写', width: '120'},
         {value: 'finalEditor', label: '编辑人', width: '120'},
-        {value: 'finalEditTime', label: '最后修改时间', width: '240'}
+        {value: 'finalEditTime', label: '最后修改时间', minWidth: '240'}
       ],
       addForm: {name: '', finalEditor: ''}, // 新增数据界面
       editForm: {id: null, name: null}, // 编辑数据界面

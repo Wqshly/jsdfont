@@ -65,7 +65,7 @@ export default {
         {value: 'password', label: '密码', width: '120'},
         {value: 'staffId', label: '员工ID', width: '220'},
         {value: 'finalEditor', label: '最后修改', width: '120'},
-        {value: 'final_edit_time', label: '最后修改时间', width: '120'}
+        {value: 'final_edit_time', label: '最后修改时间', minWidth: '120'}
       ],
       addForm: {phone: '', password: '', staffId: '', finalEditor: ''}, // 新增数据界面
       editForm: {id: null, phone: null, password: null, staffId: null, finalEditor: null}, // 编辑数据界面

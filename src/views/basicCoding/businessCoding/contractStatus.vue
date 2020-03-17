@@ -46,7 +46,7 @@ export default {
       tableHeaderList: [ // 表头字段
         {value: 'name', label: '状态名称', width: '120'},
         {value: 'finalEditor', label: '编辑人', width: '120'},
-        {value: 'finalEditTime', label: '最后编辑时间', width: '260'}
+        {value: 'finalEditTime', label: '最后编辑时间', minWidth: '260'}
       ],
       addForm: {name: '', codingStyle: ''}, // 新增数据界面
       addFormRule: {

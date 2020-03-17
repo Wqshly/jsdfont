@@ -74,7 +74,7 @@ export default {
         {value: 'nickName', label: '客户昵称', width: '160'},
         {value: 'password', label: '密码', width: '220'},
         {value: 'phone', label: '电话', width: '180'},
-        {value: 'sex', label: '性别', width: '120'}
+        {value: 'sex', label: '性别', minWidth: '120'}
       ],
       addForm: {name: '', nickName: '', password: '', phone: '', sex: ''},
       editForm: {id: null, name: null, nickName: null, password: null, phone: null, sex: null},

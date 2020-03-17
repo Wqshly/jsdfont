@@ -78,7 +78,7 @@ export default {
         {value: 'name', label: '承接时间', width: '160'},
         {value: 'name', label: '完成时间', width: '160'},
         {value: 'name', label: '记录人', width: '160'},
-        {value: 'name', label: '记录时间', width: '220'}
+        {value: 'name', label: '记录时间', minWidth: '220'}
       ],
       addForm: {name: '', nickName: '', password: '', phone: '', sex: ''},
       editForm: {id: null, name: null, nickName: null, password: null, phone: null, sex: null},

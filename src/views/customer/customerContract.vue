@@ -233,7 +233,7 @@ export default {
         {value: 'signingTime', label: '签约时间', width: '180'},
         {value: 'entryIntoForceTime', label: '合约生效日期', width: '180'},
         {value: 'finalEditor', label: '修改人', width: '120'},
-        {value: 'finalEditTime', label: '最后修改时间', width: '220'}
+        {value: 'finalEditTime', label: '最后修改时间', minWidth: '220'}
       ],
       addForm: {
         radio: false,
