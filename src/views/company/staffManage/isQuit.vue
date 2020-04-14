@@ -53,7 +53,12 @@
       <!-- 编辑窗口 -->
       <el-form slot="edit" style="overflow: auto" label-width="100px" :model="editForm">
         <el-form-item label="入职时间" prop="startTime">
-          <el-input v-model="editForm.startTime"></el-input>
+          <el-date-picker
+          v-model="editForm.startTime"
+          value-format="yyyy-MM-dd"
+          type="date"
+          placeholder="选择日期">
+          </el-date-picker>
         </el-form-item>
         <el-form-item label="是否离职" prop="isQuit">
           <el-select v-model="editForm.isQuit" placeholder="请选择">
@@ -67,7 +72,12 @@
         </el-form-item>
         <div v-if="editForm.isQuit === '是'">
           <el-form-item label="离职时间" prop="endTime">
-            <el-input v-model="editForm.endTime"></el-input>
+            <el-date-picker
+              v-model="editForm.endTime"
+              value-format="yyyy-MM-dd"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
           </el-form-item>
           <el-form-item label="离职原因" prop="reasons">
             <el-input v-model="editForm.reasons"></el-input>
@@ -154,7 +164,7 @@ export default {
         })
       } else {
         this.addForm.staffId = this.staffID
-        this.$refs[this.tableName].createData(this.addUrl, this.refreshUrl, this.addForm)
+        this.$refs[this.tableName].createData(this.addUrl, this.refreshUrl + '/' + this.staffID, this.addForm)
         console.log(this.staffID)
       }
       // this.addForm.finalEditor = this.finalEditor
@@ -170,7 +180,7 @@ export default {
       } else {
         this.editForm.staffId = this.staffID
         this.editForm.finalEditor = this.finalEditor
-        this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl, this.editForm)
+        this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl + '/' + this.staffID, this.editForm)
       }
     },
     selectRowClick (row) {
