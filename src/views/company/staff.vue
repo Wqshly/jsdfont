@@ -426,12 +426,12 @@
 import TableTemplate from '@/components/TableTemplate'
 import MultilevelLinkage from '@/components/MultilevelLinkage'
 
+import isQuit from '@/views/company/staffManage/isQuit'
 import currentJob from '@/views/company/staffManage/currentJob'
 import postChange from '@/views/company/staffManage/postChange'
 import jobChange from '@/views/company/staffManage/jobChange'
 import rewardsPunishmentRecord from '@/views/company/staffManage/rewardsPunishmentRecord'
 import attendanceRecord from '@/views/company/staffManage/attendanceRecord'
-import isQuit from '@/views/company/staffManage/isQuit'
 
 export default {
   name: 'staff',
@@ -615,6 +615,8 @@ export default {
       initTab: '入离职管理',
       staffSelectId: null,
       firstClickIsQuit: false,
+      firstClickPostChange: false,
+      firstClickJobChange: false,
       firstClickCurrentJob: false
     }
   },
@@ -632,11 +634,19 @@ export default {
     refreshBtn () {
       this.staffSelectId = null
       this.$refs['isQuit'].clearTable()
+      this.$refs['postChange'].clearTable()
+      this.$refs['jobChange'].clearTable()
     },
     tabClick (data) {
       if (data.label === '入离职管理' && this.firstClickIsQuit) {
         this.firstClickIsQuit = false
-        this.$refs['isQuit'].refreshData(this.staffSelectId)
+        this.$refs['isQuit'].refreshTable(this.staffSelectId)
+      } else if (data.label === '岗位变动' && this.firstClickPostChange) {
+        this.firstClickPostChange = false
+        this.$refs['postChange'].refreshTable(this.staffSelectId)
+      } else if (data.label === '职务调整' && this.firstClickJobChange) {
+        this.firstClickJobChange = false
+        this.$refs['jobChange'].refreshTable(this.staffSelectId)
       }
       this.initTab = data.label
     },
@@ -646,9 +656,17 @@ export default {
         this.staffSelectId = row.id
         console.log(this.staffSelectId)
         this.firstClickIsQuit = true
+        this.firstClickPostChange = true
+        this.firstClickJobChange = true
         if (this.initTab === '入离职管理') {
-          this.$refs['isQuit'].refreshData(this.staffSelectId)
+          this.$refs['isQuit'].refreshTable(this.staffSelectId)
           this.firstClickIsQuit = false
+        } else if (this.initTab === '岗位变动') {
+          this.$refs['postChange'].refreshTable(this.staffSelectId)
+          this.firstClickPostChange = false
+        } else if (this.initTab === '职务调整') {
+          this.$refs['jobChange'].refreshTable(this.staffSelectId)
+          this.firstClickJobChange = false
         }
       }
     },
