@@ -1,7 +1,7 @@
 <template>
   <div>
     <table-template
-      ref="rewardsPunishmentRecordTable"
+      ref="workRecord"
       :refresh-url="refreshUrl"
       :add-url="addUrl"
       :edit-url="editUrl"
@@ -56,7 +56,7 @@
 <script>
 import TableTemplate from '@/components/TableTemplate'
 export default {
-  name: 'rewardsPunishmentRecord',
+  name: 'workRecord',
   data () {
     return {
       staffID: null,
@@ -65,16 +65,17 @@ export default {
       addUrl: 'isQuit/addIsQuit',
       editUrl: 'isQuit/editIsQuit',
       deleteUrl: 'isQuit/deleteIsQuit',
-      tableName: 'rewardsPunishmentRecordTable',
-      tableTitle: '奖惩记录', // 表格标题
+      tableName: 'workRecord',
+      tableTitle: '工作记录', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
-        {value: 'startTime', label: '入职时间', width: '220'},
-        {value: 'endTime', label: '离职时间', width: '120'},
-        {value: 'reasons', label: '离职原因', width: '120'},
-        {value: 'remarks', label: '备注', width: '220'},
-        {value: 'finalEditor', label: '最后修改', width: '120'},
-        {value: 'final_edit_time', label: '最后修改时间', minWidth: '120'}
+        {value: 'number', label: '订单编号', width: '160'},
+        {value: 'price', label: '订单金额', width: '140'},
+        {value: 'nop', label: '参与人数', width: '120'},
+        {value: 'exeDate', label: '执行日期', width: '220'},
+        {value: 'day', label: '花费时间', width: '120'},
+        {value: 'finalEditor', label: '记录人', width: '120'},
+        {value: 'finalEditTime', label: '记录时间', minWidth: '200'}
       ],
       addForm: {staffId: '', startTime: '', endTime: '', reasons: '', remarks: ''}, // 新增数据界面
       editForm: {id: null, staffId: null, startTime: null, endTime: null, reasons: null, remarks: null}, // 编辑数据界面

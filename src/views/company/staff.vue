@@ -402,8 +402,8 @@
         <el-tab-pane label="入离职管理">
           <is-quit ref="isQuit"></is-quit>
         </el-tab-pane>
-        <el-tab-pane label="当前职务">
-          <current-job ref="currentJob"></current-job>
+        <el-tab-pane label="工作记录">
+          <work-record ref="workRecord"></work-record>
         </el-tab-pane>
         <el-tab-pane label="岗位变动">
           <post-change ref="postChange"></post-change>
@@ -426,8 +426,8 @@
 import TableTemplate from '@/components/TableTemplate'
 import MultilevelLinkage from '@/components/MultilevelLinkage'
 
+import workRecord from '@/views/company/staffManage/workRecord'
 import isQuit from '@/views/company/staffManage/isQuit'
-import currentJob from '@/views/company/staffManage/currentJob'
 import postChange from '@/views/company/staffManage/postChange'
 import jobChange from '@/views/company/staffManage/jobChange'
 import rewardsPunishmentRecord from '@/views/company/staffManage/rewardsPunishmentRecord'
@@ -615,6 +615,7 @@ export default {
       initTab: '入离职管理',
       staffSelectId: null,
       firstClickIsQuit: false,
+      firstClickWorkRecord: false,
       firstClickPostChange: false,
       firstClickJobChange: false,
       firstClickCurrentJob: false
@@ -623,8 +624,8 @@ export default {
   components: {
     TableTemplate,
     MultilevelLinkage,
+    workRecord,
     isQuit,
-    currentJob,
     postChange,
     jobChange,
     rewardsPunishmentRecord,
@@ -634,8 +635,10 @@ export default {
     refreshBtn () {
       this.staffSelectId = null
       this.$refs['isQuit'].clearTable()
+      this.$refs['workRecord'].clearTable()
       this.$refs['postChange'].clearTable()
       this.$refs['jobChange'].clearTable()
+      this.$refs['rewardsPunishmentRecord'].clearTable()
     },
     tabClick (data) {
       if (data.label === '入离职管理' && this.firstClickIsQuit) {
@@ -647,6 +650,9 @@ export default {
       } else if (data.label === '职务调整' && this.firstClickJobChange) {
         this.firstClickJobChange = false
         this.$refs['jobChange'].refreshTable(this.staffSelectId)
+      } else if (data.label === '工作记录' && this.firstClickWorkRecord) {
+        this.firstClickWorkRecord = false
+        this.$refs['workRecord'].refreshTable(this.staffSelectId)
       }
       this.initTab = data.label
     },
@@ -667,6 +673,9 @@ export default {
         } else if (this.initTab === '职务调整') {
           this.$refs['jobChange'].refreshTable(this.staffSelectId)
           this.firstClickJobChange = false
+        } else if (this.initTab === '工作记录') {
+          this.$refs['workRecord'].refreshTable(this.staffSelectId)
+          this.firstClickWorkRecord = false
         }
       }
     },
