@@ -88,14 +88,14 @@
                   </div>
                 </template>
                 <template
-                  v-if="tableHeader.value === 'signingTime' || tableHeader.value === 'entryIntoForceTime' || tableHeader.value === 'deadline'">
+                  v-if="tableHeader.value === 'signingTime' || tableHeader.value === 'entryIntoForceTime' || tableHeader.value === 'deadline' || tableHeader.value === 'startTime'">
                   <p>{{ scope.row[tableHeader.value] | formatDate2 }}</p>
                   <div slot="reference" class="name-wrapper">
                     {{ scope.row[tableHeader.value] | formatDate2}}
                   </div>
                 </template>
                 <template
-                  v-if="tableHeader.value !== 'finalEditTime' && tableHeader.value !== 'signingTime' && tableHeader.value !== 'entryIntoForceTime' && tableHeader.value !== 'deadline'">
+                  v-if="tableHeader.value !== 'finalEditTime' && tableHeader.value !== 'signingTime' && tableHeader.value !== 'entryIntoForceTime' && tableHeader.value !== 'deadline' && tableHeader.value !== 'startTime'">
                   <p>{{ scope.row[tableHeader.value]}}</p>
                   <div slot="reference" class="name-wrapper">
                     {{ scope.row[tableHeader.value] }}

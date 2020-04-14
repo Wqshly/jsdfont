@@ -16,7 +16,12 @@
       <!-- 新增窗口 -->
       <el-form slot="add" style="overflow: auto" label-width="100px" :model="addForm">
         <el-form-item label="入职时间" prop="startTime">
-          <el-input v-model="addForm.startTime"></el-input>
+          <el-date-picker
+            v-model="addForm.startTime"
+            value-format="yyyy-MM-dd"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
         </el-form-item>
         <el-form-item label="是否离职" prop="isQuit">
           <el-select v-model="addForm.isQuit" placeholder="请选择">
@@ -30,7 +35,12 @@
         </el-form-item>
         <div v-if="addForm.isQuit === '是'">
           <el-form-item label="离职时间" prop="endTime">
-            <el-input v-model="addForm.endTime"></el-input>
+            <el-date-picker
+              v-model="addForm.endTime"
+              value-format="yyyy-MM-dd"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
           </el-form-item>
           <el-form-item label="离职原因" prop="reasons">
             <el-input v-model="addForm.reasons"></el-input>
@@ -46,14 +56,23 @@
           <el-input v-model="editForm.startTime"></el-input>
         </el-form-item>
         <el-form-item label="是否离职" prop="isQuit">
-          <el-input v-model="editForm.isQuit"></el-input>
+          <el-select v-model="editForm.isQuit" placeholder="请选择">
+            <el-option
+              v-for="item in isQuitOption"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="离职时间" prop="endTime">
-          <el-input v-model="editForm.endTime"></el-input>
-        </el-form-item>
-        <el-form-item label="离职原因" prop="reasons">
-          <el-input v-model="editForm.reasons"></el-input>
-        </el-form-item>
+        <div v-if="editForm.isQuit === '是'">
+          <el-form-item label="离职时间" prop="endTime">
+            <el-input v-model="editForm.endTime"></el-input>
+          </el-form-item>
+          <el-form-item label="离职原因" prop="reasons">
+            <el-input v-model="editForm.reasons"></el-input>
+          </el-form-item>
+        </div>
         <el-form-item label="备注" prop="remarks">
           <el-input v-model="editForm.remarks"></el-input>
         </el-form-item>
@@ -141,13 +160,22 @@ export default {
       // this.addForm.finalEditor = this.finalEditor
       // this.$refs[this.tableName].createData(this.addUrl, this.refreshUrl, this.addForm)
     },
+    editRecord () {
+      if (this.staffID === null) {
+        console.log('未选择人员')
+        this.$message({
+          message: '请选择人员',
+          type: 'warning'
+        })
+      } else {
+        this.editForm.staffId = this.staffID
+        this.editForm.finalEditor = this.finalEditor
+        this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl, this.editForm)
+      }
+    },
     selectRowClick (row) {
       this.editForm = row
       // this.id = row.id
-    },
-    editRecord () {
-      this.editForm.finalEditor = this.finalEditor
-      this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl, this.editForm)
     },
     deleteRecord () {
       this.$refs[this.tableName].deleteData(this.deleteUrl, this.refreshUrl)
