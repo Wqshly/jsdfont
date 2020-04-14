@@ -66,16 +66,16 @@ export default {
       editUrl: 'isQuit/editIsQuit',
       deleteUrl: 'isQuit/deleteIsQuit',
       tableName: 'isQuitTable',
-      tableTitle: '离职管理', // 表格标题
+      tableTitle: '岗位变动', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
-        {value: 'staffId', label: '员工ID', width: '120'},
-        {value: 'startTime', label: '入职时间', width: '220'},
-        {value: 'endTime', label: '离职时间', width: '120'},
-        {value: 'reasons', label: '离职原因', width: '120'},
+        {value: 'before', label: '变更前岗位', width: '200'},
+        {value: 'after', label: '变更后岗位', width: '120'},
+        {value: 'startTime', label: '开始时间', width: '160'},
+        {value: 'endTime', label: '结束时间', width: '220'},
         {value: 'remarks', label: '备注', width: '220'},
-        {value: 'finalEditor', label: '最后修改', width: '120'},
-        {value: 'final_edit_time', label: '最后修改时间', minWidth: '120'}
+        {value: 'finalEditor', label: '编辑人', width: '120'},
+        {value: 'final_edit_time', label: '编辑时间', minWidth: '120'}
       ],
       addForm: {staffId: '', startTime: '', endTime: '', reasons: '', remarks: ''}, // 新增数据界面
       editForm: {id: null, staffId: null, startTime: null, endTime: null, reasons: null, remarks: null}, // 编辑数据界面

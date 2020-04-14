@@ -66,7 +66,7 @@ export default {
       editUrl: 'isQuit/editIsQuit',
       deleteUrl: 'isQuit/deleteIsQuit',
       tableName: 'isQuitTable',
-      tableTitle: '离职管理', // 表格标题
+      tableTitle: '奖惩记录', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
         {value: 'staffId', label: '员工ID', width: '120'},

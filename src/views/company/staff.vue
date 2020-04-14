@@ -1,6 +1,6 @@
 <template>
   <div class="fill-contain">
-    <el-col :span="detail ? 9 : 24" style="padding-bottom: 10px">
+    <el-col :span="detail ? spanNum : 24" style="padding-bottom: 10px">
       <table-template
         ref="staffTable"
         :refresh-url="refreshUrl"
@@ -399,6 +399,9 @@
     <el-col :span="detail ? 15 : 0">
       <el-tabs tab-position="left" style="background: #FFFFFF;margin-left: 5px;border-radius: 5px"
                @tab-click="tabClick">
+        <el-tab-pane label="入离职管理">
+          <is-quit ref="isQuit"></is-quit>
+        </el-tab-pane>
         <el-tab-pane label="当前职务">
           <current-job ref="currentJob"></current-job>
         </el-tab-pane>
@@ -413,9 +416,6 @@
         </el-tab-pane>
         <el-tab-pane label="考勤记录">
           <attendance-record ref="attendanceRecord"></attendance-record>
-        </el-tab-pane>
-        <el-tab-pane label="入离职管理">
-          <is-quit ref="isQuit"></is-quit>
         </el-tab-pane>
       </el-tabs>
     </el-col>
@@ -494,6 +494,7 @@ export default {
       buttonHiddenText: '折叠管理栏',
       buttonShowText: '展开管理栏',
       detail: false,
+      spanNum: 9,
       refreshUrl: 'staff/findAllStaff',
       addUrl: 'staff/addStaff',
       editUrl: 'staff/editStaff',
@@ -613,18 +614,19 @@ export default {
       },
       initTab: '入离职管理',
       staffSelectId: null,
-      firstClickIsQuit: false
+      firstClickIsQuit: false,
+      firstClickCurrentJob: false
     }
   },
   components: {
     TableTemplate,
     MultilevelLinkage,
+    isQuit,
     currentJob,
     postChange,
     jobChange,
     rewardsPunishmentRecord,
-    attendanceRecord,
-    isQuit
+    attendanceRecord
   },
   methods: {
     refreshBtn () {
@@ -634,9 +636,21 @@ export default {
     tabClick (data) {
       if (data.label === '入离职管理' && this.firstClickIsQuit) {
         this.firstClickIsQuit = false
-        this.$refs['isQuit'].refreshTable(this.staffSelectId)
+        this.$refs['isQuit'].refreshData(this.staffSelectId)
       }
       this.initTab = data.label
+    },
+    selectRowClick (row) {
+      this.editForm = row
+      if (this.spanNum === 9) {
+        this.staffSelectId = row.id
+        console.log(this.staffSelectId)
+        this.firstClickIsQuit = true
+        if (this.initTab === '入离职管理') {
+          this.$refs['isQuit'].refreshData(this.staffSelectId)
+          this.firstClickIsQuit = false
+        }
+      }
     },
     // 增方法
     addRecord () {
@@ -652,17 +666,6 @@ export default {
     },
     collapseRight () {
       this.detail = !this.detail
-    },
-    selectRowClick (row) {
-      this.editForm = row
-      if (this.spanNum === 11) {
-        this.staffSelectId = row.id
-        this.firstClickIsQuit = true
-        if (this.initTab === '入离职管理') {
-          this.$refs['isQuit'].refreshTable(this.staffSelectId)
-          this.firstClickIsQuit = false
-        }
-      }
     },
     editRecord () {
       this.editForm.finalEditor = this.finalEditor
