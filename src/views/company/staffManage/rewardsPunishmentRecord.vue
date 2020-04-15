@@ -25,7 +25,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="奖惩形式" prop="type">
+        <el-form-item label="奖惩方式" prop="type">
           <el-input v-model="addForm.type"></el-input>
         </el-form-item>
         <el-form-item label="奖惩原因" prop="reason">
@@ -55,7 +55,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="奖惩形式" prop="type">
+        <el-form-item label="奖惩方式" prop="type">
           <el-input v-model="editForm.type"></el-input>
         </el-form-item>
         <el-form-item label="奖惩原因" prop="reason">
@@ -101,12 +101,12 @@ export default {
       }],
       tableHeaderList: [ // 表头字段
         {value: 'rOrP', label: '奖励或处罚', width: '140'},
-        {value: 'type', label: '奖惩形式', width: '140'},
+        {value: 'type', label: '奖惩方式', width: '140'},
         {value: 'reason', label: '奖惩原因', width: '220'},
-        {value: 'startTime', label: '执行时间', width: '120'},
+        {value: 'startTime', label: '执行时间', width: '140'},
         {value: 'remarks', label: '备注', width: '220'},
         {value: 'finalEditor', label: '执行人', width: '120'},
-        {value: 'finalEditTime', label: '录入时间', minWidth: '120'}
+        {value: 'finalEditTime', label: '录入时间', minWidth: '200'}
       ],
       addForm: {staffId: '', rOrP: '', type: '', reason: '', startTime: '', remarks: ''}, // 新增数据界面
       editForm: {id: null, staffId: null, rOrP: null, type: null, reason: null, startTime: null, remarks: null}, // 编辑数据界面
