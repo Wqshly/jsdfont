@@ -174,8 +174,10 @@ export default {
       return formatDate(date, 'yyyy年MM月dd日 hh时mm分')
     },
     formatDate2 (time) {
-      const date = new Date(time)
-      return formatDate(date, 'yyyy年MM月dd日')
+      if (time !== null) {
+        const date = new Date(time)
+        return formatDate(date, 'yyyy年MM月dd日')
+      }
     }
   },
   name: 'TableTemplate',
