@@ -18,8 +18,8 @@
         v-on:btn-click="btnClick"
         v-on:refresh-btn="refreshBtn">
         <!-- 新增窗口 -->
-        <el-button slot="button-Area" @click.native="collapseRight" class="btnCollapse">{{detail ? buttonHiddenText :
-          buttonShowText}}
+        <el-button slot="button-Area" @click.native="collapseRight" class="btnCollapse">
+          {{detail ? buttonHiddenText : buttonShowText}}
         </el-button>
         <el-form slot="add" :model="addForm" style="overflow: auto" label-width="100px" ref="addForm"
                  :rules="addFormRule">
@@ -396,9 +396,12 @@
         </el-form>
       </table-template>
     </el-col>
-    <el-col :span="detail ? 15 : 0">
+    <el-col :span="detail ? 24-spanNum : 0">
       <el-tabs tab-position="left" style="background: #FFFFFF;margin-left: 5px;border-radius: 5px"
                @tab-click="tabClick">
+        <el-tab-pane label="员工合同管理">
+          <staff-contract ref="staffContract"></staff-contract>
+        </el-tab-pane>
         <el-tab-pane label="入离职管理">
           <is-quit ref="isQuit"></is-quit>
         </el-tab-pane>
@@ -426,6 +429,7 @@
 import TableTemplate from '@/components/TableTemplate'
 import MultilevelLinkage from '@/components/MultilevelLinkage'
 
+import staffContract from '@/views/company/staffManage/staffContract'
 import workRecord from '@/views/company/staffManage/workRecord'
 import isQuit from '@/views/company/staffManage/isQuit'
 import postChange from '@/views/company/staffManage/postChange'
@@ -612,8 +616,9 @@ export default {
           }
         ]
       },
-      initTab: '入离职管理',
+      initTab: '员工合同管理',
       staffSelectId: null,
+      firstClickStaffContract: false,
       firstClickIsQuit: false,
       firstClickWorkRecord: false,
       firstClickPostChange: false,
@@ -625,6 +630,7 @@ export default {
   components: {
     TableTemplate,
     MultilevelLinkage,
+    staffContract,
     workRecord,
     isQuit,
     postChange,
@@ -635,6 +641,7 @@ export default {
   methods: {
     refreshBtn () {
       this.staffSelectId = null
+      this.$refs['staffContract'].clearTable()
       this.$refs['isQuit'].clearTable()
       this.$refs['workRecord'].clearTable()
       this.$refs['postChange'].clearTable()
@@ -643,7 +650,10 @@ export default {
       this.$refs['attendanceRecord'].clearTable()
     },
     tabClick (data) {
-      if (data.label === '入离职管理' && this.firstClickIsQuit) {
+      if (data.label === '员工合同管理' && this.firstClickStaffContract) {
+        this.firstClickStaffContract = false
+        this.$refs['staffContract'].refreshTable(this.staffSelectId)
+      } else if (data.label === '入离职管理' && this.firstClickIsQuit) {
         this.firstClickIsQuit = false
         this.$refs['isQuit'].refreshTable(this.staffSelectId)
       } else if (data.label === '岗位变动' && this.firstClickPostChange) {
@@ -669,13 +679,17 @@ export default {
       if (this.spanNum === 9) {
         this.staffSelectId = row.id
         console.log(this.staffSelectId)
+        this.firstClickStaffContract = true
         this.firstClickIsQuit = true
         this.firstClickPostChange = true
         this.firstClickJobChange = true
         this.firstClickWorkRecord = true
         this.firstClickRewardsPunishmentRecord = true
         this.firstClickAttendanceRecord = true
-        if (this.initTab === '入离职管理') {
+        if (this.initTab === '员工合同管理') {
+          this.$refs['staffContract'].refreshTable(this.staffSelectId)
+          this.firstClickStaffContract = false
+        } else if (this.initTab === '入离职管理') {
           this.$refs['isQuit'].refreshTable(this.staffSelectId)
           this.firstClickIsQuit = false
         } else if (this.initTab === '岗位变动') {

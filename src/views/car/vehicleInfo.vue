@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-col :span="spanNum" style="padding-bottom: 10px">
+    <el-col :span="detail ? spanNum : 24" style="padding-bottom: 10px">
       <table-template
         ref="carInfoTable"
         :refresh-url="refreshUrl"
@@ -13,10 +13,10 @@
         :button-boolean="buttonBoolean"
         v-on:addRecord="addRecord"
         v-on:editRecord="editRecord"
-        v-on:select-row="selectRowClick">
-        <el-button v-if="spanNum === 24" slot="button-Area" @click.native="openRight" class="btnCollapse">展开右侧栏
-        </el-button>
-        <el-button v-if="spanNum === 11" slot="button-Area" @click.native="collapseRight" class="btnCollapse">折叠右侧栏
+        v-on:select-row="selectRowClick"
+        v-on:refresh-btn="refreshBtn">
+        <el-button slot="button-Area" @click.native="collapseRight" class="btnCollapse">
+          {{detail ? buttonHiddenText : buttonShowText}}
         </el-button>
         <!-- 新增窗口 -->
         <el-form slot="add" style="overflow: auto" label-width="100px" :model="addForm">
@@ -106,10 +106,11 @@
         </el-form>
       </table-template>
     </el-col>
-    <el-col :span="24-spanNum" v-if="spanNum === 11">
-      <el-tabs tab-position="left" style="background: #FFFFFF;margin-left: 5px;border-radius: 5px">
+    <el-col  :span="detail ? 24-spanNum : 0">
+      <el-tabs tab-position="left" style="background: #FFFFFF;margin-left: 5px;border-radius: 5px"
+               @tab-click="tabClick">
         <el-tab-pane label="行驶记录">
-          <driving-record></driving-record>
+          <driving-record ref="drivingRecord"></driving-record>
         </el-tab-pane>
         <el-tab-pane label="违章记录">
           <violation-record></violation-record>
@@ -153,7 +154,10 @@ export default {
   name: 'vehicleRegistration',
   data () {
     return {
-      spanNum: 24,
+      buttonHiddenText: '折叠管理栏',
+      buttonShowText: '展开管理栏',
+      spanNum: 9,
+      detail: false,
       refreshObj: {},
       refreshUrl: 'carInfo/findAllCarInfo',
       addUrl: 'carInfo/addCarInfo',
@@ -196,10 +200,17 @@ export default {
         import: false,
         export: false,
         acceptOrder: false
-      }
+      },
+      initTab: '行驶记录',
+      vehicleSelectId: null,
+      firstClickDrivingRecord: false
     }
   },
   methods: {
+    refreshBtn () {
+      this.vehicleSelectId = null
+      this.$refs['drivingRecord'].clearTable()
+    },
     getTypeOption (url, optionName) {
       this.$api.requestApi.get(url)
         .then(res => {
@@ -216,18 +227,31 @@ export default {
         })
     },
     collapseRight () {
-      this.spanNum = 24
-    },
-    openRight () {
-      this.spanNum = 11
+      this.detail = !this.detail
     },
     // 增方法
     addRecord () {
       this.addForm.finalEditor = this.finalEditor
       this.$refs[this.tableName].createData(this.addUrl, this.refreshUrl, this.addForm)
     },
+    tabClick (data) {
+      if (data.label === '行驶记录' && this.firstClickDrivingRecord) {
+        this.firstClickDrivingRecord = false
+        this.$refs['drivingRecord'].refreshTable(this.vehicleSelectId)
+      }
+      this.initTab = data.label
+    },
     selectRowClick (row) {
       this.editForm = row
+      if (this.spanNum === 9) {
+        this.vehicleSelectId = row.id
+        console.log(this.vehicleSelectId)
+        this.firstClickDrivingRecord = true
+        if (this.initTab === '行驶记录') {
+          this.$refs['drivingRecord'].refreshTable(this.vehicleSelectId)
+          this.firstClickDrivingRecord = false
+        }
+      }
       // this.id = row.id
     },
     editRecord () {

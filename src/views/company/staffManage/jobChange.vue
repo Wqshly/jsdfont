@@ -77,7 +77,7 @@ export default {
         {value: 'name', label: '职务名称', width: '120'},
         {value: 'startTime', label: '任命时间', width: '160'},
         {value: 'duty', label: '职务职责', width: '180'},
-        {value: 'finalEditor', label: '任命人', width: '120'},
+        {value: 'finalEditor', label: '信息录入人', width: '120'},
         {value: 'finalEditTime', label: '职务调整时间', minWidth: '200'}
       ],
       addForm: {staffId: '', name: '', startTime: '', duty: ''}, // 新增数据界面
