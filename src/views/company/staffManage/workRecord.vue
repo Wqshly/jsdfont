@@ -14,39 +14,39 @@
       v-on:editRecord="editRecord"
       v-on:select-row="selectRowClick">
       <!-- 新增窗口 -->
-      <el-form slot="add" style="overflow: auto" label-width="100px">
-        <el-form-item label="员工ID" :model="addForm" prop="staffId">
-          <el-input v-model="addForm.staffId"></el-input>
+      <el-form slot="add" style="overflow: auto" label-width="100px" :model="addForm">
+        <el-form-item label="订单编号" prop="number">
+          <el-input v-model="addForm.number"></el-input>
         </el-form-item>
-        <el-form-item label="入职时间" :model="addForm" prop="startTime">
-          <el-input v-model="addForm.startTime"></el-input>
+        <el-form-item label="订单金额" prop="price">
+          <el-input v-model="addForm.price"></el-input>
         </el-form-item>
-        <el-form-item label="离职时间" :model="addForm" prop="endTime">
-          <el-input v-model="addForm.endTime"></el-input>
+        <el-form-item label="参与人数" prop="nop">
+          <el-input v-model="addForm.nop"></el-input>
         </el-form-item>
-        <el-form-item label="离职原因" :model="addForm" prop="reasons">
-          <el-input v-model="addForm.reasons"></el-input>
+        <el-form-item label="执行日期" prop="exeDate">
+          <el-input v-model="addForm.exeDate"></el-input>
         </el-form-item>
-        <el-form-item label="备注" :model="addForm" prop="remarks">
-          <el-input v-model="addForm.remarks"></el-input>
+        <el-form-item label="花费时间" prop="day">
+          <el-input v-model="addForm.day"></el-input>
         </el-form-item>
       </el-form>
       <!-- 编辑窗口 -->
       <el-form slot="edit" style="overflow: auto" label-width="100px">
-        <el-form-item label="员工ID" :model="editForm" prop="staffId">
-          <el-input v-model="editForm.staffId"></el-input>
+        <el-form-item label="订单编号" prop="number">
+          <el-input v-model="editForm.number"></el-input>
         </el-form-item>
-        <el-form-item label="入职时间" :model="editForm" prop="startTime">
-          <el-input v-model="editForm.startTime"></el-input>
+        <el-form-item label="订单金额" prop="price">
+          <el-input v-model="editForm.price"></el-input>
         </el-form-item>
-        <el-form-item label="离职时间" :model="editForm" prop="endTime">
-          <el-input v-model="editForm.endTime"></el-input>
+        <el-form-item label="参与人数" prop="nop">
+          <el-input v-model="editForm.nop"></el-input>
         </el-form-item>
-        <el-form-item label="离职原因" :model="editForm" prop="reasons">
-          <el-input v-model="editForm.reasons"></el-input>
+        <el-form-item label="执行日期" prop="exeDate">
+          <el-input v-model="editForm.exeDate"></el-input>
         </el-form-item>
-        <el-form-item label="备注" :model="editForm" prop="remarks">
-          <el-input v-model="editForm.remarks"></el-input>
+        <el-form-item label="花费时间" prop="day">
+          <el-input v-model="editForm.day"></el-input>
         </el-form-item>
       </el-form>
     </table-template>
@@ -61,10 +61,10 @@ export default {
     return {
       staffID: null,
       refreshObj: {},
-      refreshUrl: 'isQuit/findAllIsQuit',
-      addUrl: 'isQuit/addIsQuit',
-      editUrl: 'isQuit/editIsQuit',
-      deleteUrl: 'isQuit/deleteIsQuit',
+      refreshUrl: 'workRecord/findAllWorkRecord',
+      addUrl: 'workRecord/addWorkRecord',
+      editUrl: 'workRecord/editWorkRecord',
+      deleteUrl: 'workRecord/deleteWorkRecord',
       tableName: 'workRecord',
       tableTitle: '工作记录', // 表格标题
       tablePK: 'id', // 主键id值
@@ -77,8 +77,8 @@ export default {
         {value: 'finalEditor', label: '记录人', width: '120'},
         {value: 'finalEditTime', label: '记录时间', minWidth: '200'}
       ],
-      addForm: {staffId: '', startTime: '', endTime: '', reasons: '', remarks: ''}, // 新增数据界面
-      editForm: {id: null, staffId: null, startTime: null, endTime: null, reasons: null, remarks: null}, // 编辑数据界面
+      addForm: {staffId: '', number: '', price: '', nop: '', exeDate: '', day: ''}, // 新增数据界面
+      editForm: {id: null, staffId: null, number: null, price: null, nop: null, exeDate: null, day: null}, // 编辑数据界面
       finalEditor: sessionStorage.getItem('save_username'),
       buttonBoolean: {
         addBtn: true,
