@@ -14,38 +14,62 @@
       v-on:editRecord="editRecord"
       v-on:select-row="selectRowClick">
       <!-- 新增窗口 -->
-      <el-form slot="add" style="overflow: auto" label-width="100px">
-        <el-form-item label="员工ID" :model="addForm" prop="staffId">
-          <el-input v-model="addForm.staffId"></el-input>
+      <el-form slot="add" style="overflow: auto" label-width="100px" :model="addForm">
+        <el-form-item label="奖励/处罚" prop="rOrP">
+          <el-select v-model="addForm.rOrP" placeholder="请选择">
+            <el-option
+              v-for="item in rOrPOption"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="入职时间" :model="addForm" prop="startTime">
-          <el-input v-model="addForm.startTime"></el-input>
+        <el-form-item label="奖惩形式" prop="type">
+          <el-input v-model="addForm.type"></el-input>
         </el-form-item>
-        <el-form-item label="离职时间" :model="addForm" prop="endTime">
-          <el-input v-model="addForm.endTime"></el-input>
+        <el-form-item label="奖惩原因" prop="reason">
+          <el-input v-model="addForm.reason"></el-input>
         </el-form-item>
-        <el-form-item label="离职原因" :model="addForm" prop="reasons">
-          <el-input v-model="addForm.reasons"></el-input>
+        <el-form-item label="执行时间" prop="startTime">
+          <el-date-picker
+            v-model="addForm.startTime"
+            value-format="yyyy-MM-dd"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
         </el-form-item>
-        <el-form-item label="备注" :model="addForm" prop="remarks">
+        <el-form-item label="备注" prop="remarks">
           <el-input v-model="addForm.remarks"></el-input>
         </el-form-item>
       </el-form>
       <!-- 编辑窗口 -->
       <el-form slot="edit" style="overflow: auto" label-width="100px">
-        <el-form-item label="员工ID" :model="editForm" prop="staffId">
-          <el-input v-model="editForm.staffId"></el-input>
+        <el-form-item label="奖励/处罚" prop="rOrP">
+          <el-select v-model="editForm.rOrP" placeholder="请选择">
+            <el-option
+              v-for="item in rOrPOption"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="入职时间" :model="editForm" prop="startTime">
-          <el-input v-model="editForm.startTime"></el-input>
+        <el-form-item label="奖惩形式" prop="type">
+          <el-input v-model="editForm.type"></el-input>
         </el-form-item>
-        <el-form-item label="离职时间" :model="editForm" prop="endTime">
-          <el-input v-model="editForm.endTime"></el-input>
+        <el-form-item label="奖惩原因" prop="reason">
+          <el-input v-model="editForm.reason"></el-input>
         </el-form-item>
-        <el-form-item label="离职原因" :model="editForm" prop="reasons">
-          <el-input v-model="editForm.reasons"></el-input>
+        <el-form-item label="执行时间" prop="startTime">
+          <el-date-picker
+            v-model="editForm.startTime"
+            value-format="yyyy-MM-dd"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
         </el-form-item>
-        <el-form-item label="备注" :model="editForm" prop="remarks">
+        <el-form-item label="备注" prop="remarks">
           <el-input v-model="editForm.remarks"></el-input>
         </el-form-item>
       </el-form>
@@ -61,23 +85,31 @@ export default {
     return {
       staffID: null,
       refreshObj: {},
-      refreshUrl: 'isQuit/findAllIsQuit',
-      addUrl: 'isQuit/addIsQuit',
-      editUrl: 'isQuit/editIsQuit',
-      deleteUrl: 'isQuit/deleteIsQuit',
+      refreshUrl: 'rewardPunishment/findAllRewardPunishment',
+      addUrl: 'rewardPunishment/addRewardPunishment',
+      editUrl: 'rewardPunishment/editRewardPunishment',
+      deleteUrl: 'rewardPunishment/deleteRewardPunishment',
       tableName: 'rewardsPunishmentRecordTable',
       tableTitle: '奖惩记录', // 表格标题
       tablePK: 'id', // 主键id值
+      rOrPOption: [{
+        value: '奖励',
+        label: '奖励'
+      }, {
+        value: '处罚',
+        label: '处罚'
+      }],
       tableHeaderList: [ // 表头字段
-        {value: 'startTime', label: '入职时间', width: '220'},
-        {value: 'endTime', label: '离职时间', width: '120'},
-        {value: 'reasons', label: '离职原因', width: '120'},
+        {value: 'rOrP', label: '奖励或处罚', width: '140'},
+        {value: 'type', label: '奖惩形式', width: '140'},
+        {value: 'reason', label: '奖惩原因', width: '220'},
+        {value: 'startTime', label: '执行时间', width: '120'},
         {value: 'remarks', label: '备注', width: '220'},
-        {value: 'finalEditor', label: '最后修改', width: '120'},
-        {value: 'final_edit_time', label: '最后修改时间', minWidth: '120'}
+        {value: 'finalEditor', label: '执行人', width: '120'},
+        {value: 'finalEditTime', label: '录入时间', minWidth: '120'}
       ],
-      addForm: {staffId: '', startTime: '', endTime: '', reasons: '', remarks: ''}, // 新增数据界面
-      editForm: {id: null, staffId: null, startTime: null, endTime: null, reasons: null, remarks: null}, // 编辑数据界面
+      addForm: {staffId: '', rOrP: '', type: '', reason: '', startTime: '', remarks: ''}, // 新增数据界面
+      editForm: {id: null, staffId: null, rOrP: null, type: null, reason: null, startTime: null, remarks: null}, // 编辑数据界面
       finalEditor: sessionStorage.getItem('save_username'),
       buttonBoolean: {
         addBtn: true,

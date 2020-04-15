@@ -618,7 +618,7 @@ export default {
       firstClickWorkRecord: false,
       firstClickPostChange: false,
       firstClickJobChange: false,
-      firstClickCurrentJob: false
+      firstClickRewardsPunishmentRecord: false
     }
   },
   components: {
@@ -653,6 +653,9 @@ export default {
       } else if (data.label === '工作记录' && this.firstClickWorkRecord) {
         this.firstClickWorkRecord = false
         this.$refs['workRecord'].refreshTable(this.staffSelectId)
+      } else if (data.label === '奖惩记录' && this.firstClickRewardsPunishmentRecord) {
+        this.firstClickRewardsPunishmentRecord = false
+        this.$refs['rewardsPunishmentRecord'].refreshTable(this.staffSelectId)
       }
       this.initTab = data.label
     },
@@ -676,6 +679,9 @@ export default {
         } else if (this.initTab === '工作记录') {
           this.$refs['workRecord'].refreshTable(this.staffSelectId)
           this.firstClickWorkRecord = false
+        } else if (this.initTab === '奖惩记录') {
+          this.$refs['rewardsPunishmentRecord'].refreshTable(this.staffSelectId)
+          this.firstClickRewardsPunishmentRecord = false
         }
       }
     },
