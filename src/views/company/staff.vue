@@ -402,9 +402,6 @@
         <el-tab-pane label="入离职管理">
           <is-quit ref="isQuit"></is-quit>
         </el-tab-pane>
-        <el-tab-pane label="工作记录">
-          <work-record ref="workRecord"></work-record>
-        </el-tab-pane>
         <el-tab-pane label="岗位变动">
           <post-change ref="postChange"></post-change>
         </el-tab-pane>
@@ -416,6 +413,9 @@
         </el-tab-pane>
         <el-tab-pane label="请/销假记录">
           <attendance-record ref="attendanceRecord"></attendance-record>
+        </el-tab-pane>
+        <el-tab-pane label="工作记录">
+          <work-record ref="workRecord"></work-record>
         </el-tab-pane>
       </el-tabs>
     </el-col>
