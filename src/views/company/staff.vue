@@ -414,7 +414,7 @@
         <el-tab-pane label="奖惩记录">
           <rewards-punishment-record ref="rewardsPunishmentRecord"></rewards-punishment-record>
         </el-tab-pane>
-        <el-tab-pane label="考勤记录">
+        <el-tab-pane label="请/销假记录">
           <attendance-record ref="attendanceRecord"></attendance-record>
         </el-tab-pane>
       </el-tabs>
@@ -618,7 +618,8 @@ export default {
       firstClickWorkRecord: false,
       firstClickPostChange: false,
       firstClickJobChange: false,
-      firstClickRewardsPunishmentRecord: false
+      firstClickRewardsPunishmentRecord: false,
+      firstClickAttendanceRecord: false
     }
   },
   components: {
@@ -639,6 +640,7 @@ export default {
       this.$refs['postChange'].clearTable()
       this.$refs['jobChange'].clearTable()
       this.$refs['rewardsPunishmentRecord'].clearTable()
+      this.$refs['attendanceRecord'].clearTable()
     },
     tabClick (data) {
       if (data.label === '入离职管理' && this.firstClickIsQuit) {
@@ -656,6 +658,9 @@ export default {
       } else if (data.label === '奖惩记录' && this.firstClickRewardsPunishmentRecord) {
         this.firstClickRewardsPunishmentRecord = false
         this.$refs['rewardsPunishmentRecord'].refreshTable(this.staffSelectId)
+      } else if (data.label === '请/销假记录' && this.firstClickAttendanceRecord) {
+        this.firstClickAttendanceRecord = false
+        this.$refs['attendanceRecord'].refreshTable(this.staffSelectId)
       }
       this.initTab = data.label
     },
@@ -667,6 +672,9 @@ export default {
         this.firstClickIsQuit = true
         this.firstClickPostChange = true
         this.firstClickJobChange = true
+        this.firstClickWorkRecord = true
+        this.firstClickRewardsPunishmentRecord = true
+        this.firstClickAttendanceRecord = true
         if (this.initTab === '入离职管理') {
           this.$refs['isQuit'].refreshTable(this.staffSelectId)
           this.firstClickIsQuit = false
@@ -682,6 +690,9 @@ export default {
         } else if (this.initTab === '奖惩记录') {
           this.$refs['rewardsPunishmentRecord'].refreshTable(this.staffSelectId)
           this.firstClickRewardsPunishmentRecord = false
+        } else if (this.initTab === '请/销假记录') {
+          this.$refs['attendanceRecord'].refreshTable(this.staffSelectId)
+          this.firstClickAttendanceRecord = false
         }
       }
     },
