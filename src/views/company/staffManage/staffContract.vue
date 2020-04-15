@@ -24,6 +24,9 @@
             placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
+        <el-form-item label="合同期限" prop="year">
+          <el-input v-model="addForm.year"></el-input>
+        </el-form-item>
         <el-form-item label="结束时间" prop="endTime">
           <el-date-picker
             v-model="addForm.endTime"
@@ -64,15 +67,19 @@
         </el-form-item>
       </el-form>
       <!-- 编辑窗口 -->
-      <el-form slot="edit" style="overflow: auto" label-width="100px" :model="editForm"><el-form-item label="合同开始时间" prop="startTime">
-        <el-date-picker
-          v-model="editForm.startTime"
-          :picker-options="pickerOptionStart"
-          value-format="yyyy-MM-dd"
-          type="date"
-          placeholder="选择日期">
-        </el-date-picker>
-      </el-form-item>
+      <el-form slot="edit" style="overflow: auto" label-width="100px" :model="editForm">
+        <el-form-item label="合同开始时间" prop="startTime">
+          <el-date-picker
+            v-model="editForm.startTime"
+            :picker-options="pickerOptionStart"
+            value-format="yyyy-MM-dd"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="合同期限" prop="year">
+          <el-input v-model="editForm.year"></el-input>
+        </el-form-item>
         <el-form-item label="结束时间" prop="endTime">
           <el-date-picker
             v-model="editForm.endTime"
