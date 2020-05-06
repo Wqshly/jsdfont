@@ -126,8 +126,12 @@ export default {
           title: '客户管理',
           subs: [
             {
-              index: 'customer-info',
-              title: '客户信息管理'
+              index: 'individual-customer',
+              title: '个体客户信息'
+            },
+            {
+              index: 'company-customer',
+              title: '企业客户信息'
             },
             {
               index: 'customer-contract',

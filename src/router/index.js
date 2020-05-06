@@ -23,7 +23,8 @@ const systemDataCoding = () => Promise.resolve(require('@/views/basicCoding/syst
 const businessDataCoding = () => Promise.resolve(require('@/views/basicCoding/businessCoding/basePage'))
 const serviceType = () => Promise.resolve(require('@/views/basicCoding/serviceType'))
 
-const customerInfo = () => Promise.resolve(require('@/views/customer/customerInfo'))
+const individualCustomer = () => Promise.resolve(require('@/views/customer/individualCustomer'))
+const companyCustomer = () => Promise.resolve(require('@/views/customer/companyCustomer'))
 const customerContract = () => Promise.resolve(require('@/views/customer/customerContract'))
 
 const tools = () => Promise.resolve(require('@/views/materiel/tools'))
@@ -110,16 +111,22 @@ export default new Router({
           meta: {title: '服务类别设置'}
         },
         {
-          path: '/customer-info',
-          name: 'customerInfo',
-          component: customerInfo,
-          meta: {title: '客户信息管理'}
+          path: '/individual-customer',
+          name: 'individualCustomer',
+          component: individualCustomer,
+          meta: {title: '个体客户信息'}
+        },
+        {
+          path: '/company-customer',
+          name: 'companyCustomer',
+          component: companyCustomer,
+          meta: {title: '企业客户信息'}
         },
         {
           path: '/customer-contract',
           name: 'customerContract',
           component: customerContract,
-          meta: {title: '客户合同管理'}
+          meta: {title: '客户注册信息'}
         },
         {
           path: '/staff',
