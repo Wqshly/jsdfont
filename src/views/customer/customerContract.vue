@@ -60,7 +60,15 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="签约人(甲方)" prop="signatoryPartyA">
-                <el-input v-model="addForm.signatoryPartyA"></el-input>
+                <el-select v-model="addForm.signatoryPartyA" placeholder="请选择"
+                           @click.native="getTypeOption('customer/findAllCustomer', 'partyA')">
+                  <el-option
+                    v-for="item in partyA"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.name">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -73,7 +81,7 @@
             <el-col :span="12">
               <el-form-item label="签约人(乙方)" prop="signatoryPartyB">
                 <el-select v-model="addForm.signatoryPartyB" placeholder="请选择"
-                           @click.native="getTypeOption('customer/findAllCustomer', 'partyB')">
+                           @click.native="getTypeOption('staff/findAllStaff', 'partyB')">
                   <el-option
                     v-for="item in partyB"
                     :key="item.id"
@@ -269,6 +277,7 @@ export default {
         export: true,
         acceptOrder: false
       },
+      partyA: [],
       partyB: [],
       contractStatus: []
     }

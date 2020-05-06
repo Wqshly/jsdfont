@@ -113,19 +113,19 @@
           <driving-record ref="drivingRecord"></driving-record>
         </el-tab-pane>
         <el-tab-pane label="违章记录">
-          <violation-record></violation-record>
+          <violation-record ref="violationRecord"></violation-record>
         </el-tab-pane>
         <el-tab-pane label="保养记录">
-          <vehicle-maintenance></vehicle-maintenance>
+          <vehicle-maintenance ref="vehicleMaintenance"></vehicle-maintenance>
         </el-tab-pane>
         <el-tab-pane label="维修记录">
-          <vehicle-repair></vehicle-repair>
+          <vehicle-repair ref="vehicleRepair"></vehicle-repair>
         </el-tab-pane>
         <el-tab-pane label="加油记录">
-          <oil-addition-record></oil-addition-record>
+          <oil-addition-record ref="oilAdditionRecord"></oil-addition-record>
         </el-tab-pane>
         <el-tab-pane label="高速记录">
-          <high-speed-driving-record></high-speed-driving-record>
+          <high-speed-driving-record ref="highSpeedDrivingRecord"></high-speed-driving-record>
         </el-tab-pane>
       </el-tabs>
     </el-col>
