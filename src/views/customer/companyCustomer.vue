@@ -56,28 +56,30 @@
 </template>
 
 <script>
-import TableTemplate from '../../components/TableTemplate'
+import TableTemplate from '@/components/TableTemplate'
 export default {
   name: 'companyCustomer',
   data () {
     return {
       refreshObj: {},
-      refreshUrl: 'customer/findAllCustomer',
-      addUrl: 'customer/addCustomer',
-      editUrl: 'customer/editCustomer',
-      deleteUrl: 'customer/deleteCustomer',
+      refreshUrl: 'enterpriseCustomer/findAllEnterpriseCustomer',
+      addUrl: 'enterpriseCustomer/addEnterpriseCustomer',
+      editUrl: 'enterpriseCustomer/editEnterpriseCustomer',
+      deleteUrl: 'enterpriseCustomer/deleteEnterpriseCustomer',
       tableName: 'customerTable',
       tablePK: 'id', // 主键id值
-      tableTitle: '客户注册信息', // 表格标题
+      tableTitle: '企业客户信息', // 表格标题
       tableHeaderList: [ // 表头字段
-        {value: 'name', label: '客户姓名', width: '160'},
-        {value: 'nickName', label: '客户昵称', width: '160'},
-        {value: 'password', label: '密码', width: '220'},
-        {value: 'phone', label: '电话', width: '180'},
-        {value: 'sex', label: '性别', minWidth: '120'}
+        {value: 'companyName', label: '企业名称', width: '200'},
+        {value: 'companyAddress', label: '所在区域', width: '200'},
+        {value: 'addressDetail', label: '详细地址', width: '250'},
+        {value: 'contact', label: '联系人', width: '160'},
+        {value: 'contactPhoneNumber', label: '联系人电话', width: '200'},
+        {value: 'legalPerson', label: '法人', width: '160'},
+        {value: 'finalEditTime', label: '修改时间', minWidth: '200'}
       ],
-      addForm: {name: '', nickName: '', password: '', phone: '', sex: ''},
-      editForm: {id: null, name: null, nickName: null, password: null, phone: null, sex: null},
+      addForm: {companyName: '', companyAddress: '', addressDetail: '', contact: '', contactPhoneNumber: '', legalPerson: ''},
+      editForm: {id: null, companyName: null, companyAddress: null, addressDetail: null, contact: null, contactPhoneNumber: null, legalPerson: null},
       buttonBoolean: {
         addBtn: true,
         editBtn: true,
@@ -87,17 +89,6 @@ export default {
         import: false,
         export: false,
         acceptOrder: false
-      },
-      funcBtn: {
-        isShow: true,
-        fixed: 'right',
-        width: 150,
-        buttons: [
-          {
-            name: '详细信息',
-            value: 'dispatchingCar'
-          }
-        ]
       }
     }
   },
@@ -106,7 +97,6 @@ export default {
   },
   methods: {
     addRecord () {
-      this.addForm.password = this.$commonsMethod.encryptedData(this.addForm.password)
       this.$refs[this.tableName].createData(this.addUrl, this.refreshUrl, this.addForm)
     },
     selectRowClick (row) {
@@ -114,7 +104,6 @@ export default {
       // this.id = row.id
     },
     editRecord () {
-      this.editForm.password = this.$commonsMethod.encryptedData(this.editForm.password)
       this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl, this.editForm)
     },
     rightBtn (data) {

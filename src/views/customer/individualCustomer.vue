@@ -68,13 +68,12 @@ export default {
       deleteUrl: 'customer/deleteCustomer',
       tableName: 'customerTable',
       tablePK: 'id', // 主键id值
-      tableTitle: '客户注册信息', // 表格标题
+      tableTitle: '个体客户信息', // 表格标题
       tableHeaderList: [ // 表头字段
         {value: 'name', label: '客户姓名', width: '160'},
         {value: 'nickName', label: '客户昵称', width: '160'},
-        {value: 'password', label: '密码', width: '220'},
-        {value: 'phone', label: '电话', width: '180'},
-        {value: 'sex', label: '性别', minWidth: '120'}
+        {value: 'sex', label: '性别', width: '120'},
+        {value: 'phone', label: '电话', width: '180'}
       ],
       addForm: {name: '', nickName: '', password: '', phone: '', sex: ''},
       editForm: {id: null, name: null, nickName: null, password: null, phone: null, sex: null},
@@ -94,7 +93,7 @@ export default {
         width: 150,
         buttons: [
           {
-            name: '详细信息',
+            name: '查看历史订单',
             value: 'dispatchingCar'
           }
         ]
