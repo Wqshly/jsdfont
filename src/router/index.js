@@ -11,6 +11,8 @@ const notFound = () => Promise.resolve(require('@/views/404'))
 const main = () => Promise.resolve(require('@/components/Main'))
 const home = () => Promise.resolve(require('@/views/home'))
 
+const articleAdd = () => Promise.resolve(require('@/views/app/articleAdd'))
+
 const vehicleInfo = () => Promise.resolve(require('@/views/car/vehicleInfo'))
 const vehicleLocation = () => Promise.resolve(require('@/views/car/vehicleLocation'))
 const vehicleUserLocation = () => Promise.resolve(require('@/views/car/vehicleUserLocation'))
@@ -73,6 +75,12 @@ export default new Router({
           name: 'home',
           component: home,
           meta: {title: '系统首页'}
+        },
+        {
+          path: '/article-add',
+          name: 'articleAdd',
+          component: articleAdd,
+          meta: {title: '添加文章'}
         },
         {
           path: '/vehicle-info',

@@ -13,8 +13,17 @@ import api from '@/request/api/index'
 import commonsMethod from '@/commons/index'
 import AMap from 'vue-amap'
 import VueCropper from 'vue-cropper'
+import VueQuillEditor from 'vue-quill-editor'
+
+// require styles
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 Vue.use(VueCropper)
+
+/* { default global options } */
+Vue.use(VueQuillEditor)
 
 Vue.use(ElementUI)
 Vue.use(AMap)

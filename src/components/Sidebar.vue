@@ -50,6 +50,21 @@ export default {
         },
         {
           icon: 'el-icon-wqs-shouye',
+          index: 'article-manage',
+          title: '手机推文管理',
+          subs: [
+            {
+              index: 'article-add',
+              title: '添加文章'
+            },
+            {
+              index: 'article-edit',
+              title: '管理文章'
+            }
+          ]
+        },
+        {
+          icon: 'el-icon-wqs-shouye',
           index: 'optimization-algorithm',
           title: '方案优化',
           subs: [
