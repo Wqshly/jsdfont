@@ -51,11 +51,19 @@ export default {
         {
           icon: 'el-icon-wqs-shouye',
           index: 'article-manage',
-          title: '手机推文管理',
+          title: '移动端推送管理',
           subs: [
             {
-              index: 'article-add',
-              title: '添加文章'
+              index: 'pic-manage',
+              title: '图片推送管理'
+            },
+            {
+              index: 'article-manage',
+              title: '文章推送管理'
+            },
+            {
+              index: 'type-manage',
+              title: '文章类别设置'
             },
             {
               index: 'article-edit',

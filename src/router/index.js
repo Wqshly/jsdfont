@@ -11,6 +11,9 @@ const notFound = () => Promise.resolve(require('@/views/404'))
 const main = () => Promise.resolve(require('@/components/Main'))
 const home = () => Promise.resolve(require('@/views/home'))
 
+const articleManage = () => Promise.resolve(require('@/views/app/article/articleManage'))
+const picManage = () => Promise.resolve(require('@/views/app/picture/picManage'))
+const typeManage = () => Promise.resolve(require('@/views/app/typeManage'))
 const articleAdd = () => Promise.resolve(require('@/views/app/articleAdd'))
 
 const vehicleInfo = () => Promise.resolve(require('@/views/car/vehicleInfo'))
@@ -65,6 +68,12 @@ export default new Router({
       component: register
     },
     {
+      path: '/article-add',
+      name: 'articleAdd',
+      component: articleAdd,
+      meta: {title: '添加文章'}
+    },
+    {
       path: '/',
       name: '',
       component: main,
@@ -77,10 +86,22 @@ export default new Router({
           meta: {title: '系统首页'}
         },
         {
-          path: '/article-add',
-          name: 'articleAdd',
-          component: articleAdd,
-          meta: {title: '添加文章'}
+          path: '/article-manage',
+          name: 'articleManage',
+          component: articleManage,
+          meta: {title: '文章推送管理'}
+        },
+        {
+          path: '/pic-manage',
+          name: 'picManage',
+          component: picManage,
+          meta: {title: '图片推送管理'}
+        },
+        {
+          path: '/type-manage',
+          name: 'typeManage',
+          component: typeManage,
+          meta: {title: '文章类别管理'}
         },
         {
           path: '/vehicle-info',
