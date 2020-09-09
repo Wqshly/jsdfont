@@ -3,20 +3,24 @@
     <div class="main-style">
       <div class="toolbar-style">
         <h2 class="title-style">新的创作</h2>
-        <div style="">
-          <el-button class="menu-item" @click.native="newTextArticle">
+        <div>
+          <el-button class="menu-item" @click.native="typeManage">
+            <i class="el-icon-setting icon-style"></i>
+            <div class="menu-content">分类管理</div>
+          </el-button>
+          <el-button class="menu-item" @click.native="newTab('text-article', '/text-article')">
             <i class="el-icon-edit-outline icon-style"></i>
             <div class="menu-content">文字消息</div>
           </el-button>
-          <el-button class="menu-item">
+          <el-button class="menu-item" @click.native="newTab('pic-article', '/pic-article')">
             <i class="el-icon-picture-outline icon-style"></i>
             <div class="menu-content">图文消息</div>
           </el-button>
-          <el-button class="menu-item">
+          <el-button class="menu-item" @click.native="newTab('media-article', '/media-article')">
             <i class="el-icon-video-camera icon-style"></i>
             <div class="menu-content">视频消息</div>
           </el-button>
-          <el-button class="menu-item">
+          <el-button class="menu-item" @click.native="newTab('model-manage', '/model-manage')">
             <i class="el-icon-s-order icon-style"></i>
             <div class="menu-content">模板管理</div>
           </el-button>
@@ -73,6 +77,27 @@
         </el-form>
       </table-template>
     </div>
+    <el-dialog title="分类管理" :visible.sync="typeManageVisible">
+      <el-tag
+        :key="tag"
+        v-for="tag in dynamicTags"
+        closable
+        :disable-transitions="false"
+        @close="handleClose(tag)">
+        {{tag}}
+      </el-tag>
+      <el-input
+        class="input-new-tag"
+        v-if="inputVisible"
+        v-model="articleTypeForm.name"
+        ref="saveTagInput"
+        size="small"
+        @blur="addArticleType"
+        @keyup.enter.native="$event.target.blur"
+      >
+      </el-input>
+      <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加分类</el-button>
+    </el-dialog>
   </div>
 </template>
 
@@ -83,6 +108,10 @@ export default {
   name: 'articleManage',
   data () {
     return {
+      dynamicTags: [],
+      inputVisible: false,
+      articleTypeForm: {name: ''},
+      typeManageVisible: false,
       staffID: null,
       refreshObj: {},
       refreshUrl: 'qualification/findAllQualification',
@@ -90,12 +119,12 @@ export default {
       editUrl: 'qualification/editQualification',
       deleteUrl: 'qualification/deleteQualification',
       tableName: 'qualificationManagementTable',
-      tableTitle: '资质管理', // 表格标题
+      tableTitle: '文章管理', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
         {value: 'number', label: '编码', width: '140'},
         {value: 'name', label: '名称', width: '120'},
-        {value: 'category', label: '资质类别', width: '120'},
+        {value: 'category', label: '所属分类', width: '120'},
         {value: 'entryIntoForceTime', label: '生效时间', width: '150'},
         {value: 'deadline', label: '到期时间', width: '150'},
         {value: 'finalEditor', label: '最后修改', width: '120'},
@@ -135,7 +164,47 @@ export default {
     TableTemplate
   },
   methods: {
-    newTextArticle (ev) {
+    handleClose (tag) {
+      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
+      this.$api.requestApi.get('basicCoding/deleteBasicCoding/articleType/' + tag)
+      console.log(tag)
+    },
+
+    showInput () {
+      this.inputVisible = true
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus()
+      })
+    },
+    addArticleType () {
+      if (this.articleTypeForm.name !== null && this.articleTypeForm.name !== '') {
+        this.articleTypeForm.type = 'articleType'
+        this.articleTypeForm.finalEditor = this.finalEditor
+        this.$api.requestApi.post('basicCoding/addBasicCoding', this.articleTypeForm)
+          .then(res => {
+            console.log(res.data)
+            this.dynamicTags.push(this.articleTypeForm.name)
+            console.log(this.dynamicTags)
+            this.articleTypeForm.name = ''
+          })
+          .catch(err => {
+            console.log(err.data)
+          })
+      }
+      this.inputVisible = false
+    },
+    typeManage () {
+      this.getType('/basicCoding/findBasicCodingWithType/articleType')
+      this.typeManageVisible = true
+    },
+    newTab (name, path) {
+      const {href} = this.$router.resolve({
+        name: name,
+        path: path
+      })
+      window.open(href, '_blank')
+    },
+    buttonReset (ev) {
       let target = ev.target
       if (target.nodeName === 'SPAN') {
         target = ev.target.parentNode
@@ -143,17 +212,40 @@ export default {
         target = ev.target.parentNode.parentNode
       }
       target.blur()
-      const {href} = this.$router.resolve({
-        name: 'article-add',
-        path: '/article-add'
-      })
-      window.open(href, '_blank')
+    },
+    getType (url) {
+      this.$api.requestApi.get(url)
+        .then(res => {
+          this.dynamicTags = []
+          for (var i = 0; i < res.data.data.length; i++) {
+            // console.log(res.data.data[i].name)
+            this.dynamicTags.push(res.data.data[i].name)
+          }
+        })
+        .catch()
     }
   }
 }
 </script>
 
 <style scoped>
+
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
+
   .main-style {
     padding-right: 5px;
     height: 100%;

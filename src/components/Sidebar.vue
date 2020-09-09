@@ -62,10 +62,6 @@ export default {
               title: '文章推送管理'
             },
             {
-              index: 'type-manage',
-              title: '文章类别设置'
-            },
-            {
               index: 'article-edit',
               title: '管理文章'
             }

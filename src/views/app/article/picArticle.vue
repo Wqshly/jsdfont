@@ -35,7 +35,7 @@
             </el-col>
           </el-row>
           <el-form-item label="正文内容:">
-              <rich-text height="800"></rich-text>
+            <rich-text height="800"></rich-text>
           </el-form-item>
           <div class="footer">
             <el-form-item style="padding-top: 15px;padding-bottom: 10px">
@@ -53,13 +53,12 @@
 <script>
 import ImgUpload from '@/components/ImgUpload'
 import RichText from '@/components/RichText'
-
 export default {
+  name: 'picArticle',
   components: {
     ImgUpload,
     RichText
   },
-  name: 'articleAdd',
   data: function () {
     return {
       editorOption: {

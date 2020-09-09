@@ -12,9 +12,11 @@ const main = () => Promise.resolve(require('@/components/Main'))
 const home = () => Promise.resolve(require('@/views/home'))
 
 const articleManage = () => Promise.resolve(require('@/views/app/article/articleManage'))
+const textArticle = () => Promise.resolve(require('@/views/app/article/textArticle'))
+const picArticle = () => Promise.resolve(require('@/views/app/article/picArticle'))
+const mediaArticle = () => Promise.resolve(require('@/views/app/article/mediaArticle'))
 const picManage = () => Promise.resolve(require('@/views/app/picture/picManage'))
-const typeManage = () => Promise.resolve(require('@/views/app/typeManage'))
-const articleAdd = () => Promise.resolve(require('@/views/app/articleAdd'))
+const typeManage = () => Promise.resolve(require('@/views/app/article/typeManage'))
 
 const vehicleInfo = () => Promise.resolve(require('@/views/car/vehicleInfo'))
 const vehicleLocation = () => Promise.resolve(require('@/views/car/vehicleLocation'))
@@ -68,10 +70,22 @@ export default new Router({
       component: register
     },
     {
-      path: '/article-add',
-      name: 'articleAdd',
-      component: articleAdd,
-      meta: {title: '添加文章'}
+      path: '/text-article',
+      name: 'textArticle',
+      component: textArticle,
+      meta: {title: '文字消息'}
+    },
+    {
+      path: '/pic-article',
+      name: 'picArticle',
+      component: picArticle,
+      meta: {title: '图文消息'}
+    },
+    {
+      path: '/media-article',
+      name: 'mediaArticle',
+      component: mediaArticle,
+      meta: {title: '视频消息'}
     },
     {
       path: '/',
@@ -101,7 +115,7 @@ export default new Router({
           path: '/type-manage',
           name: 'typeManage',
           component: typeManage,
-          meta: {title: '文章类别管理'}
+          meta: {title: '分类管理'}
         },
         {
           path: '/vehicle-info',
