@@ -1,42 +1,56 @@
 <template>
-    <div>
-      <el-upload action='string' :before-upload="beforeUpload"
-                 :auto-upload="false" :show-file-list="false" :on-change='changeUpload'>
-        <img v-if="uploadSuccess" :src="imageFile.file" class="avatar" alt="图片未正常显示">
-        <i v-else class="el-icon-plus avatar-uploader-icon" style="line-height:120px"></i>
-      </el-upload>
-      <el-dialog :visible.sync="dialogVisible" append-to-body width="40%">
-        <div class="cropper-content">
-          <div class="cropper" style="text-align:center">
-            <vue-cropper
-              ref="cropper"
-              :img="option.image"
-              :outputSize="option.outputSize"
-              :outputType="option.outputType"
-              :info="option.info"
-              :full="option.full"
-              :canMove="option.canMove"
-              :canMoveBox="option.canMoveBox"
-              :original="option.original"
-              :autoCrop="option.autoCrop"
-              :fixed="option.fixed"
-              :fixedNumber="option.fixedNumber"
-              :centerBox="option.centerBox"
-              :infoTrue="option.infoTrue"
-              :fixedBox="option.fixedBox"></vue-cropper>
-          </div>
+  <div>
+    <el-upload action='string' :before-upload="beforeUpload"
+               :auto-upload="false" :show-file-list="false" :on-change='changeUpload'>
+      <img v-if="uploadSuccess" :src="imageFile.file" class="avatar" alt="图片未正常显示">
+      <i v-else class="el-icon-plus avatar-uploader-icon" style="line-height:120px"></i>
+    </el-upload>
+    <el-dialog :visible.sync="dialogVisible" append-to-body width="40%">
+      <div class="cropper-content">
+        <div class="cropper" style="text-align:center">
+          <vue-cropper
+            ref="cropper"
+            :img="option.image"
+            :outputSize="option.outputSize"
+            :outputType="option.outputType"
+            :info="option.info"
+            :can-scale="option.canScale"
+            :autoCrop="option.autoCrop"
+            :auto-crop-width="option.autoCropWidth"
+            :auto-crop-height="option.autoCropHeight"
+            :fixed="option.fixed"
+            :fixedNumber="options.fixedNumber"
+            :full="option.full"
+            :fixedBox="option.fixedBox"
+            :canMove="option.canMove"
+            :canMoveBox="option.canMoveBox"
+            :original="option.original"
+            :centerBox="option.centerBox"
+            :high="option.high"
+            :infoTrue="option.infoTrue"
+            :max-img-size="option.maxImgSize"
+            :enlarge="option.enlarge"
+            :mode="option.mode"
+          >
+          </vue-cropper>
         </div>
-        <div slot="footer">
-          <el-button type="primary" @click.native="uploadPicture()">确认</el-button>
-          <el-button @click="dialogVisible = false">取消</el-button>
-        </div>
-      </el-dialog>
-    </div>
+      </div>
+      <div slot="footer">
+        <el-button type="primary" @click.native="uploadPicture()">确认</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'ImgUpload',
+  props: {
+    options: {
+      fixedNumber: {required: true}
+    }
+  },
   data () {
     return {
       uploadSuccess: false,
@@ -44,22 +58,25 @@ export default {
       picLocation: '',
       option: {
         image: '',
-        info: true, // 裁剪框的大小信息
         outputSize: 1, // 裁剪生成图片的质量
         outputType: 'jpeg', // 裁剪生成图片的格式
-        canScale: false, // 图片是否允许滚轮缩放
-        autoCropWidth: 200, // 默认生成截图框宽度
-        autoCropHeight: 200, // 默认生成截图框高度
+        info: true, // 裁剪框的大小信息
+        canScale: true, // 图片是否允许滚轮缩放
+        autoCrop: true, // 是否默认生成截图框
+        autoCropWidth: 350, // 默认生成截图框宽度
+        autoCropHeight: 250, // 默认生成截图框高度
+        fixed: true, // 是否开启截图框宽高固定比例
         full: true, // 是否输出原图比例的截图
-        canMove: true,
+        fixedBox: true, // 固定截图框大小 不允许改变
+        canMove: true, // 上传图片是否可以移动
         canMoveBox: false, // 截图框能否拖动
         original: false, // 上传图片按照原始比例渲染
-        autoCrop: true, // 是否默认生成截图框
-        fixed: true, // 是否开启截图框宽高固定比例
-        fixedNumber: [1, 1], // 截图框的宽高比例
-        centerBox: false, // 截图框是否被限制在图片里面
+        centerBox: true, // 截图框是否被限制在图片里面
+        high: false, // 是否按照设备的dpr 输出等比例图片
         infoTrue: true, // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
-        fixedBox: true // 固定截图框大小 不允许改变
+        maxImgSize: 1000, // 限制图片最大宽度和高度
+        enlarge: 1, // 图片根据截图框输出比例倍数
+        mode: 'contain' // 图片默认渲染方式
       },
       loading: false, // 防止重复提交
       imageFile: {

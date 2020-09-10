@@ -28,7 +28,7 @@
           </el-form-item>
           <el-form-item label="用户头像:" prop="picLocation">
             <div class="avatar-uploader">
-              <img-upload v-on:upload-pic="uploadPic"></img-upload>
+              <img-upload v-on:upload-pic="uploadPic" :options="options"></img-upload>
             </div>
           </el-form-item>
           <el-form-item style="padding-top: 15px;">
@@ -60,6 +60,9 @@ export default {
       }
     }
     return {
+      options: {
+        fixedNumber: [1, 1]
+      },
       registerForm: {
         phone: '',
         nickName: '',

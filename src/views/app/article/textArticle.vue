@@ -5,44 +5,33 @@
     <div class="main-style">
       <div class="center-style">
         <el-form label-width="100px" style="padding-right: 20px;padding-top: 50px;padding-bottom: 30px;">
+          <el-form-item label="标题:">
+            <el-input placeholder="请在此处输入标题"></el-input>
+          </el-form-item>
           <el-row>
-            <el-col :span="8">
-              <el-form-item label="标题:">
-                <el-input placeholder="请在此处输入标题"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="16">
+            <el-col :span="12">
               <el-form-item label="作者:">
                 <el-input placeholder="请在此处输入作者"></el-input>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item label="类别:">
+                <el-select placeholder="请选择" @click.native="getArticleType()">
+                  <el-option
+                    v-for="item in articleType"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.name">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
           </el-row>
-          <el-form-item label="类别:">
-            <el-select placeholder="请选择" @click.native="getArticleType()">
-              <el-option
-                v-for="item in articleType"
-                :key="item.id"
-                :label="item.name"
-                :value="item.name">
-              </el-option>
-            </el-select>
+          <el-form-item label="摘要:">
+            <el-input type="textarea" :rows="5" placeholder="请在此处输入摘要"></el-input>
           </el-form-item>
-          <el-row>
-            <el-col :span="8">
-              <el-form-item label="封面:">
-                <div class="avatar-uploader">
-                  <img-upload v-on:upload-pic="uploadPic"></img-upload>
-                </div>
-              </el-form-item>
-            </el-col>
-            <el-col :span="16">
-              <el-form-item label="摘要:">
-                <el-input type="textarea" :rows="5" placeholder="请在此处输入摘要"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
           <el-form-item label="正文内容:">
-            <rich-text height="800"></rich-text>
+            <rich-text height="800" :toolbar="toolbar"></rich-text>
           </el-form-item>
           <div class="footer">
             <el-form-item style="padding-top: 15px;padding-bottom: 10px">
@@ -60,6 +49,7 @@
 <script>
 import ImgUpload from '@/components/ImgUpload'
 import RichText from '@/components/RichText'
+
 export default {
   name: 'textArticle',
   components: {
@@ -72,6 +62,7 @@ export default {
         placeholder: '输入文章内容'
       },
       articleForm: {},
+      toolbar: ['undo redo |  formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | removeformat'],
       articleType: []
     }
   },

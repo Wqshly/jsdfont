@@ -18,7 +18,14 @@
             </el-col>
           </el-row>
           <el-form-item label="类别:">
-            <el-select placeholder="请选择"></el-select>
+              <el-select placeholder="请选择" @click.native="getArticleType()">
+                <el-option
+                  v-for="item in articleType"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name">
+                </el-option>
+              </el-select>
           </el-form-item>
           <el-row>
             <el-col :span="8">
@@ -64,10 +71,30 @@ export default {
       editorOption: {
         placeholder: '输入文章内容'
       },
-      articleForm: {}
+      articleForm: {},
+      articleType: []
     }
   },
   methods: {
+    getArticleType () {
+      this.$api.requestApi.get('/basicCoding/findBasicCodingWithType/articleType')
+        .then(res => {
+          console.log(res.data)
+          this.articleType = res.data.data
+          console.log(this.articleType)
+          if (res.data.data.length === 0) {
+            this.articleType.unshift({name: '无分类，请先添加分类！', number: 'Null'})
+            console.log(this.articleType)
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: '网络请求失败',
+            type: 'error'
+          })
+          console.log(err.data)
+        })
+    },
     submit () {
     },
     preview () {
