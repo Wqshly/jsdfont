@@ -52,7 +52,7 @@
               <h2 class="title-style">本地图片</h2>
             </el-col>
             <el-col :span="10">
-              <img-upload v-on:upload-pic="uploadPic" :options="options" style="margin: 15px 60px;"></img-upload>
+              <img-upload ref="imgUpload" v-on:upload-pic="uploadPic" :options="options" style="margin: 15px 60px;"></img-upload>
               <el-button style="float: right;margin-right: 30px;" type="primary" @click="submitPic()">确认上传</el-button>
             </el-col>
           </el-row>
@@ -159,6 +159,7 @@ export default {
                   message: '上传成功！',
                   type: 'success'
                 })
+                this.$refs.imgUpload.uploadSuccess = false
                 this.imageFile = null
                 console.log(this.imageFile)
               } else {
