@@ -4,8 +4,8 @@
       <div class="toolbar-style">
         <h2 class="title-style">选择操作</h2>
         <el-button class="menu-item" @click.native="changeChoice(1)">
-          <i class="el-icon-delete icon-style"></i>
-          <div class="menu-content">删除图片</div>
+          <i class="el-icon-view icon-style"></i>
+          <div class="menu-content">效果预览</div>
         </el-button>
         <el-button class="menu-item" @click.native="changeChoice(2)">
           <i class="el-icon-upload icon-style"></i>
@@ -16,13 +16,23 @@
           <div class="menu-content">添加图片(有链接)</div>
         </el-button>
         <el-button class="menu-item" @click.native="changeChoice(4)">
-          <i class="el-icon-view icon-style"></i>
-          <div class="menu-content">效果预览</div>
+          <i class="el-icon-edit-outline icon-style"></i>
+          <div class="menu-content">编辑图片(有链接)</div>
+        </el-button>
+        <el-button class="menu-item" @click.native="changeChoice(5)">
+          <i class="el-icon-delete icon-style"></i>
+          <div class="menu-content">删除图片</div>
         </el-button>
       </div>
       <div class="toolbar-style">
         <h2 class="title-style dynamic-title">{{titleName}}</h2>
-        <template v-if="this.choice === 1"></template>
+        <template v-if="this.choice === 1">
+          <el-carousel indicator-position="outside">
+            <el-carousel-item v-for="item in 4" :key="item">
+              <h3>{{ item }}</h3>
+            </el-carousel-item>
+          </el-carousel>
+        </template>
         <template v-if="this.choice === 2">
           <el-row>
             <el-col :span="11">
@@ -43,7 +53,7 @@
             </el-col>
             <el-col :span="10">
               <img-upload v-on:upload-pic="uploadPic" :options="options" style="margin: 15px 60px;"></img-upload>
-              <el-button style="float: right;margin-right: 30px;" type="primary" @click="submit()">确认上传</el-button>
+              <el-button style="float: right;margin-right: 30px;" type="primary" @click="submitPic()">确认上传</el-button>
             </el-col>
           </el-row>
         </template>
@@ -82,11 +92,22 @@
           </el-row>
         </template>
         <template v-if="this.choice === 4">
-          <el-carousel indicator-position="outside">
-            <el-carousel-item v-for="item in 4" :key="item">
-              <h3>{{ item }}</h3>
-            </el-carousel-item>
-          </el-carousel>
+          <el-row>
+            <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
+              <el-card :body-style="{ padding: '0px' }">
+                <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+                <div style="padding: 14px;">
+                  <span>好吃的汉堡</span>
+                  <div class="bottom clearfix">
+                    <time class="time">{{ currentDate }}</time>
+                    <el-button type="text" class="button">操作按钮</el-button>
+                  </div>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
+        </template>
+        <template v-if="this.choice === 5">
         </template>
       </div>
     </div>
@@ -101,6 +122,7 @@ export default {
   name: 'picManage',
   data () {
     return {
+      currentDate: new Date(),
       imageFile: {
         name: '',
         type: '',
@@ -110,7 +132,7 @@ export default {
         fixedNumber: [7, 5]
       },
       choice: 1,
-      titleName: '删除图片',
+      titleName: '效果预览',
       staffID: null,
       refreshObj: {},
       refreshUrl: 'qualification/findAllQualification',
@@ -164,22 +186,25 @@ export default {
     ImgUpload
   },
   methods: {
+    async submitPic () {
+      this.$api.requestApi.post('/picture/uploadPicture', this.imageFile)
+        .then(res => {
+          console.log(res.data)
+          this.registerForm.picLocation = res.data.data
+          console.log(this.registerForm.picLocation)
+          this.$api.requestApi.post('/picture/addPicture')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     async uploadPic (data) {
       this.imageFile = data
       console.log(this.imageFile)
-      // this.$api.requestApi.post('/user/imageUpload/', data)
-      //   .then(res => {
-      //     console.log(res.data)
-      //     this.registerForm.picLocation = res.data.data
-      //     console.log(this.registerForm.picLocation)
-      //   })
-      //   .catch(err => {
-      //     console.log(err)
-      //   })
     },
     changeChoice (choice) {
       if (choice === 1) {
-        this.titleName = '删除图片'
+        this.titleName = '效果预览'
       }
       if (choice === 2) {
         this.titleName = '添加图片'
@@ -188,7 +213,10 @@ export default {
         this.titleName = '添加图片'
       }
       if (choice === 4) {
-        this.titleName = '效果预览'
+        this.titleName = '编辑图片'
+      }
+      if (choice === 5) {
+        this.titleName = '删除图片'
       }
       this.choice = choice
     },
