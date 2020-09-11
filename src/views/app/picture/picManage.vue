@@ -17,7 +17,7 @@
         </el-button>
         <el-button class="menu-item" @click.native="changeChoice(4)">
           <i class="el-icon-edit-outline icon-style"></i>
-          <div class="menu-content">编辑图片(有链接)</div>
+          <div class="menu-content">编辑图片</div>
         </el-button>
         <el-button class="menu-item" @click.native="changeChoice(5)">
           <i class="el-icon-delete icon-style"></i>
@@ -40,7 +40,7 @@
               <el-form label-width="100px" style="margin: 15px;">
                 <el-form-item label="输入网址">
                   <el-input placeholder="在此处输入网络图片的网址">
-                    <el-button slot="append">确认</el-button>
+                    <el-button slot="append">确认上传</el-button>
                   </el-input>
                 </el-form-item>
               </el-form>
@@ -132,53 +132,12 @@ export default {
         fixedNumber: [7, 5]
       },
       choice: 1,
+      imageUploadForm: {
+        path: '',
+        linkPath: ''
+      },
       titleName: '效果预览',
-      staffID: null,
-      refreshObj: {},
-      refreshUrl: 'qualification/findAllQualification',
-      addUrl: 'qualification/addQualification',
-      editUrl: 'qualification/editQualification',
-      deleteUrl: 'qualification/deleteQualification',
-      tableName: 'qualificationManagementTable',
-      tableTitle: '文章管理', // 表格标题
-      tablePK: 'id', // 主键id值
-      tableHeaderList: [ // 表头字段
-        {value: 'number', label: '编码', width: '140'},
-        {value: 'name', label: '名称', width: '120'},
-        {value: 'category', label: '资质类别', width: '120'},
-        {value: 'entryIntoForceTime', label: '生效时间', width: '150'},
-        {value: 'deadline', label: '到期时间', width: '150'},
-        {value: 'finalEditor', label: '最后修改', width: '120'},
-        {value: 'finalEditTime', label: '最后修改时间', minWidth: '200'}
-      ],
-      addForm: {
-        number: '',
-        name: '',
-        category: '',
-        entryIntoForceTime: '',
-        deadline: '',
-        finalEditor: '',
-        finalEditTime: ''
-      }, // 新增数据界面
-      editForm: {
-        number: null,
-        name: null,
-        category: null,
-        entryIntoForceTime: null,
-        deadline: null,
-        finalEditor: null,
-        finalEditTime: null
-      }, // 编辑数据界面
-      finalEditor: sessionStorage.getItem('save_username'),
-      buttonBoolean: {
-        addBtn: true,
-        editBtn: true,
-        deleteBtn: true,
-        refreshBtn: true,
-        import: false,
-        export: false,
-        acceptOrder: false
-      }
+      finalEditor: sessionStorage.getItem('save_username')
     }
   },
   components: {
@@ -190,9 +149,23 @@ export default {
       this.$api.requestApi.post('/picture/uploadPicture', this.imageFile)
         .then(res => {
           console.log(res.data)
-          this.registerForm.picLocation = res.data.data
-          console.log(this.registerForm.picLocation)
-          // this.$api.requestApi.post('/picture/addPicture')
+          this.imageUploadForm.path = res.data.data
+          this.imageUploadForm.finalEditor = this.finalEditor
+          console.log(this.imageUploadForm)
+          this.$api.requestApi.post('/picture/addPicture', this.imageUploadForm)
+            .then(res => {
+              if (res.data.code === 0) {
+                this.$message({
+                  message: '上传成功！',
+                  type: 'success'
+                })
+                this.imageFile = null
+                console.log(this.imageFile)
+              } else {
+                this.$message.error('上传失败!')
+              }
+            })
+            .catch()
         })
         .catch(err => {
           console.log(err)
