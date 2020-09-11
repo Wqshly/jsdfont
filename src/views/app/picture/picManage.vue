@@ -192,7 +192,7 @@ export default {
           console.log(res.data)
           this.registerForm.picLocation = res.data.data
           console.log(this.registerForm.picLocation)
-          this.$api.requestApi.post('/picture/addPicture')
+          // this.$api.requestApi.post('/picture/addPicture')
         })
         .catch(err => {
           console.log(err)
