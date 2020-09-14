@@ -21,7 +21,6 @@
         <template v-if="this.choice === 1">
           <el-carousel indicator-position="outside">
             <el-carousel-item v-for="item in picImage" :key="item.id" :name="item.id">
-              <h3>{{ item.path }}</h3>
               <img style="width:100%;height:100%;" :src="item.path" alt="加载超时"/>
             </el-carousel-item>
           </el-carousel>
