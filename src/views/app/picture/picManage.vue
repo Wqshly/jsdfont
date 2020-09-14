@@ -60,7 +60,7 @@
         </template>
         <template v-if="this.choice === 3">
           <el-row>
-            <el-col :span="8" v-for="o in picNum" :key="o">
+            <el-col :span="8" v-for="o in picImage" :key="o">
               <el-card :body-style="{ padding: '0px' }">
                 <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
                 <div style="padding: 14px;">
@@ -87,7 +87,6 @@ export default {
   name: 'picManage',
   data () {
     return {
-      picNum: 2,
       picImage: {},
       imageUploadForm: {
         path: '',
@@ -145,9 +144,9 @@ export default {
     },
     changeChoice (choice) {
       if (choice === 1) {
-        this.$api.requestApi.get('/picture/picTotalNum').then(res => {
+        this.$api.requestApi.get('/picture/findAllPicture').then(res => {
           console.log(res.data)
-          this.picNum = res.data.data
+          this.picImage = res.data.data
         }).catch()
         this.titleName = '效果预览'
       }
@@ -155,9 +154,9 @@ export default {
         this.titleName = '添加图片'
       }
       if (choice === 3) {
-        this.$api.requestApi.get('/picture/picTotalNum').then(res => {
+        this.$api.requestApi.get('/picture/findAllPicture').then(res => {
           console.log(res.data)
-          this.picNum = res.data.data
+          this.picImage = res.data.data
         }).catch()
         this.titleName = '编辑图片'
       }
