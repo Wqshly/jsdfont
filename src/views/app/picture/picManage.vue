@@ -9,55 +9,24 @@
         </el-button>
         <el-button class="menu-item" @click.native="changeChoice(2)">
           <i class="el-icon-upload icon-style"></i>
-          <div class="menu-content">添加图片(无链接)</div>
+          <div class="menu-content">添加图片</div>
         </el-button>
         <el-button class="menu-item" @click.native="changeChoice(3)">
-          <i class="el-icon-upload2 icon-style"></i>
-          <div class="menu-content">添加图片(有链接)</div>
-        </el-button>
-        <el-button class="menu-item" @click.native="changeChoice(4)">
           <i class="el-icon-edit-outline icon-style"></i>
           <div class="menu-content">编辑图片</div>
-        </el-button>
-        <el-button class="menu-item" @click.native="changeChoice(5)">
-          <i class="el-icon-delete icon-style"></i>
-          <div class="menu-content">删除图片</div>
         </el-button>
       </div>
       <div class="toolbar-style">
         <h2 class="title-style dynamic-title">{{titleName}}</h2>
         <template v-if="this.choice === 1">
           <el-carousel indicator-position="outside">
-            <el-carousel-item v-for="item in 4" :key="item">
-              <h3>{{ item }}</h3>
+            <el-carousel-item v-for="item in picImage" :key="item.id" :name="item.id">
+              <h3>{{ item.path }}</h3>
+              <img style="width:100%;height:100%;" :src="item.url" alt="加载超时"/>
             </el-carousel-item>
           </el-carousel>
         </template>
         <template v-if="this.choice === 2">
-          <el-row>
-            <el-col :span="11">
-              <h2 class="title-style">网络图片</h2>
-              <el-form label-width="100px" style="margin: 15px;">
-                <el-form-item label="输入网址">
-                  <el-input placeholder="在此处输入网络图片的网址">
-                    <el-button slot="append">确认上传</el-button>
-                  </el-input>
-                </el-form-item>
-              </el-form>
-            </el-col>
-            <el-col :span="1">
-              <el-divider direction="vertical" content-position="center"></el-divider>
-            </el-col>
-            <el-col :span="2">
-              <h2 class="title-style">本地图片</h2>
-            </el-col>
-            <el-col :span="10">
-              <img-upload ref="imgUpload" v-on:upload-pic="uploadPic" :options="options" style="margin: 15px 60px;"></img-upload>
-              <el-button style="float: right;margin-right: 30px;" type="primary" @click="submitPic()">确认上传</el-button>
-            </el-col>
-          </el-row>
-        </template>
-        <template v-if="this.choice === 3">
           <el-row>
             <el-col :span="11">
               <h2 class="title-style">网络图片</h2>
@@ -78,22 +47,21 @@
             </el-col>
             <el-col :span="12">
               <h2 class="title-style">本地图片</h2>
-              <el-form label-width="100px">
-                <el-form-item label="绑定链接">
-                  <el-input placeholder="在此处输入图片绑定的链接">
-                  </el-input>
+              <el-form :model="imageUploadForm" label-width="100px" ref="imageUploadForm">
+                <el-form-item label="绑定链接" prop="linkPath">
+                  <el-input v-model="imageUploadForm.linkPath" placeholder="在此处输入图片绑定的链接(可不填)" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="上传图片" style="width: 600px;float: left">
-                    <img-upload v-on:upload-pic="uploadPic" :options="options"></img-upload>
+                  <img-upload ref="imgUpload" v-on:upload-pic="uploadPic" :options="options" style="margin: 15px 60px;"></img-upload>
                 </el-form-item>
-                <el-button style="float: right;margin-top: 90px;" type="primary" @click="submit()">确认上传</el-button>
+                <el-button style="float: right;margin-top: 90px;" type="primary" @click="submitPic()">确认上传</el-button>
               </el-form>
             </el-col>
           </el-row>
         </template>
-        <template v-if="this.choice === 4">
+        <template v-if="this.choice === 3">
           <el-row>
-            <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
+            <el-col :span="8" v-for="o in picNum" :key="o">
               <el-card :body-style="{ padding: '0px' }">
                 <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
                 <div style="padding: 14px;">
@@ -106,8 +74,6 @@
               </el-card>
             </el-col>
           </el-row>
-        </template>
-        <template v-if="this.choice === 5">
         </template>
       </div>
     </div>
@@ -122,6 +88,12 @@ export default {
   name: 'picManage',
   data () {
     return {
+      picNum: 2,
+      picImage: {},
+      imageUploadForm: {
+        path: '',
+        linkPath: ''
+      },
       currentDate: new Date(),
       imageFile: {
         name: '',
@@ -129,13 +101,9 @@ export default {
         file: ''
       },
       options: {
-        fixedNumber: [7, 5]
+        fixedNumber: [8, 3]
       },
       choice: 1,
-      imageUploadForm: {
-        path: '',
-        linkPath: ''
-      },
       titleName: '效果预览',
       finalEditor: sessionStorage.getItem('save_username')
     }
@@ -178,19 +146,21 @@ export default {
     },
     changeChoice (choice) {
       if (choice === 1) {
+        this.$api.requestApi.get('/picture/picTotalNum').then(res => {
+          console.log(res.data)
+          this.picNum = res.data.data
+        }).catch()
         this.titleName = '效果预览'
       }
       if (choice === 2) {
         this.titleName = '添加图片'
       }
       if (choice === 3) {
-        this.titleName = '添加图片'
-      }
-      if (choice === 4) {
+        this.$api.requestApi.get('/picture/picTotalNum').then(res => {
+          console.log(res.data)
+          this.picNum = res.data.data
+        }).catch()
         this.titleName = '编辑图片'
-      }
-      if (choice === 5) {
-        this.titleName = '删除图片'
       }
       this.choice = choice
     },
@@ -203,6 +173,12 @@ export default {
       }
       target.blur()
     }
+  },
+  mounted () {
+    this.$api.requestApi.get('/picture/findAllPicture').then(res => {
+      console.log(res.data)
+      this.picImage = res.data.data
+    }).catch()
   }
 }
 </script>
