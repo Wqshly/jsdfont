@@ -19,13 +19,13 @@
       <div class="toolbar-style">
         <h2 class="title-style dynamic-title">{{titleName}}</h2>
         <template v-if="this.choice === 1">
-          <el-carousel indicator-position="outside">
+          <el-carousel id="carousel" indicator-position="outside" :height="carouselHeight + 'px'">
             <el-carousel-item v-for="item in picImage" :key="item.id" :name="item.id">
               <template v-if="item.linkPath !== null && item.linkPath !== ''">
-                <a :href="item.linkPath" target="_blank"><img style="position:absolute; width:100%;height:100%;" v-lazy="item.path" alt="加载超时"/></a>
+                <a :href="item.linkPath" target="_blank"><img style="width:100%;height:100%;" v-lazy="item.path" alt="加载超时"/></a>
               </template>
               <template v-else>
-                <img style="position:absolute; width:100%;height:100%;" v-lazy="item.path" alt="加载超时"/>
+                <img style="width:100%;height:100%;" v-lazy="item.path" alt="加载超时"/>
               </template>
             </el-carousel-item>
           </el-carousel>
@@ -92,6 +92,8 @@ export default {
   name: 'picManage',
   data () {
     return {
+      carouselWidth: 0,
+      carouselHeight: 0,
       picImage: {},
       imageUploadForm: {
         path: '',
@@ -175,9 +177,18 @@ export default {
         target = ev.target.parentNode.parentNode
       }
       target.blur()
+    },
+    setSize: function () {
+      this.carouselHeight = 3 / 8 * this.carouselWidth
     }
   },
   mounted () {
+    this.carouselWidth = window.innerWidth
+    this.setSize()
+    window.onresize = () => {
+      this.carouselWidth = window.innerWidth
+      this.setSize()
+    }
     this.$api.requestApi.get('/picture/findAllPicture').then(res => {
       console.log(res.data)
       this.picImage = res.data.data
