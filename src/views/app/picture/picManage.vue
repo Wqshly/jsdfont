@@ -67,16 +67,29 @@
         </template>
         <template v-if="this.choice === 3">
           <el-row>
-            <el-col :span="8" v-for="o in picImage" :key="o">
+            <el-col :span="8" v-for="item in picImage" :key="item">
               <el-card :body-style="{ padding: '0px' }">
-                <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
-                <div style="padding: 14px;">
-                  <span>好吃的汉堡</span>
-                  <div class="bottom clearfix">
-                    <time class="time">{{ currentDate }}</time>
-                    <el-button type="text" class="button">操作按钮</el-button>
+                <img style="max-width: 100%;max-height: 100%;vertical-align: middle;object-fit:cover;width: auto;height: auto;" v-lazy="item.path" alt="加载超时"/>
+                <template v-if="item.linkPath !== null && item.linkPath !== ''">
+                  <div style="padding: 14px;">
+                    <span>图片链接: {{item.linkPath}} </span>
+                    <div class="bottom clearfix">
+                      <time class="time">{{ currentDate }}</time>
+                      <el-button type="primary">删除</el-button>
+                      <el-button type="primary">编辑</el-button>
+                    </div>
                   </div>
-                </div>
+                </template>
+                <template v-else>
+                  <div style="padding: 14px;">
+                    <span>图片链接: 无 </span>
+                    <div class="bottom clearfix">
+                      <time class="time">{{ currentDate }}</time>
+                      <el-button type="primary">删除</el-button>
+                      <el-button type="primary">编辑</el-button>
+                    </div>
+                  </div>
+                </template>
               </el-card>
             </el-col>
           </el-row>
