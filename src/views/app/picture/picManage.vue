@@ -67,29 +67,11 @@
         </template>
         <template v-if="this.choice === 3">
           <el-row>
-            <el-col :span="8" v-for="item in picImage" :key="item">
+            <el-col :span="8" v-for="item in picImage" :key="item" style="max-width: 100%;max-height: 100%;">
               <el-card :body-style="{ padding: '0px' }">
-                <img style="max-width: 100%;max-height: 100%;vertical-align: middle;object-fit:cover;width: auto;height: auto;" v-lazy="item.path" alt="加载超时"/>
-                <template v-if="item.linkPath !== null && item.linkPath !== ''">
-                  <div style="padding: 14px;">
-                    <span>图片链接: {{item.linkPath}} </span>
-                    <div class="bottom clearfix">
-                      <time class="time">{{ currentDate }}</time>
-                      <el-button type="primary">删除</el-button>
-                      <el-button type="primary">编辑</el-button>
-                    </div>
-                  </div>
-                </template>
-                <template v-else>
-                  <div style="padding: 14px;">
-                    <span>图片链接: 无 </span>
-                    <div class="bottom clearfix">
-                      <time class="time">{{ currentDate }}</time>
-                      <el-button type="primary">删除</el-button>
-                      <el-button type="primary">编辑</el-button>
-                    </div>
-                  </div>
-                </template>
+                <el-button class="card-btn">
+                  <img class="card-img" v-lazy="item.path" alt="加载超时"/>
+                </el-button>
               </el-card>
             </el-col>
           </el-row>
@@ -213,6 +195,22 @@ export default {
 </script>
 
 <style scoped>
+
+  .card-img {
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+    object-fit:cover;
+    width: auto;
+    height: auto;
+  }
+
+  .card-btn :hover .card-img {
+    filter:alpha(Opacity=80);
+    -moz-opacity:0.8;
+    opacity: 0.8;
+  }
+
   .el-divider--vertical {
     display: inline-block;
     width: 1px;
