@@ -21,7 +21,12 @@
         <template v-if="this.choice === 1">
           <el-carousel indicator-position="outside">
             <el-carousel-item v-for="item in picImage" :key="item.id" :name="item.id">
-              <img style="width:100%;height:100%;" v-lazy="item.path" alt="加载超时"/>
+              <template v-if="item.linkPath !== null && item.linkPath !== ''">
+                <a :href="item.linkPath" target="_blank"><img style="position:absolute; width:100%;height:100%;" v-lazy="item.path" alt="加载超时"/></a>
+              </template>
+              <template v-else>
+                <img style="position:absolute; width:100%;height:100%;" v-lazy="item.path" alt="加载超时"/>
+              </template>
             </el-carousel-item>
           </el-carousel>
         </template>
