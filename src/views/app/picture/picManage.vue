@@ -18,19 +18,19 @@
       </div>
       <div class="toolbar-style">
         <h2 class="title-style dynamic-title">{{titleName}}</h2>
+        <div ref="carousel">
         <template v-if="this.choice === 1">
-          <div ref="carousel">
             <el-carousel indicator-position="outside" :height="carouselHeight + 'px'">
               <el-carousel-item v-for="item in picImage" :key="item.id" :name="item.id">
                 <template v-if="item.linkPath !== null && item.linkPath !== ''">
-                  <a :href="item.linkPath" target="_blank"><img style="width:100%;height:100%;" v-lazy="item.path" alt="加载超时"/></a>
+                  <a :href="item.linkPath" target="_blank"><img style="width:100%;height:100%;" v-lazy="item.path"
+                                                                alt="加载超时"/></a>
                 </template>
                 <template v-else>
                   <img style="width:100%;height:100%;" v-lazy="item.path" alt="加载超时"/>
                 </template>
               </el-carousel-item>
             </el-carousel>
-          </div>
         </template>
         <template v-if="this.choice === 2">
           <el-row>
@@ -58,7 +58,8 @@
                   <el-input v-model="imageUploadForm.linkPath" placeholder="在此处输入图片绑定的链接(可不填)" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="上传图片" style="width: 600px;float: left">
-                  <img-upload ref="imgUpload" v-on:upload-pic="uploadPic" :options="options" style="margin: 15px 60px;"></img-upload>
+                  <img-upload ref="imgUpload" v-on:upload-pic="uploadPic" :options="options"
+                              style="margin: 15px 60px;"></img-upload>
                 </el-form-item>
                 <el-button style="float: right;margin-top: 90px;" type="primary" @click="submitPic()">确认上传</el-button>
               </el-form>
@@ -66,16 +67,35 @@
           </el-row>
         </template>
         <template v-if="this.choice === 3">
-          <el-row>
-            <el-col :span="8" v-for="item in picImage" :key="item" style="max-width: 100%;max-height: 100%;">
-              <el-card :body-style="{ padding: '0px' }">
-                <el-button class="card-btn">
+          <div ref="card">
+            <el-row>
+              <el-col :span="8" v-for="item in picImage" :key="item" :style="{'height': carouselHeight/3 + 30 + 'px'}">
+                <el-card class="card-btn-show">
+                  <div class="card-icon">
+                    <el-button class="icon-appearance" @click.native="deleteImg()">
+                      <i class="el-icon-arrow-left card-icon-style"></i>
+                      <div class="menu-content">向前一张</div>
+                    </el-button>
+                      <el-button class="icon-appearance" @click.native="editImgInfo()">
+                        <i class="el-icon-edit card-icon-style"></i>
+                        <div class="menu-content">编辑</div>
+                      </el-button>
+                    <el-button class="icon-appearance" @click.native="deleteImg()">
+                      <i class="el-icon-delete card-icon-style"></i>
+                      <div class="menu-content">删除</div>
+                    </el-button>
+                    <el-button class="icon-appearance" @click.native="deleteImg()">
+                      <i class="el-icon-arrow-right card-icon-style"></i>
+                      <div class="menu-content">向后一张</div>
+                    </el-button>
+                  </div>
                   <img class="card-img" v-lazy="item.path" alt="加载超时"/>
-                </el-button>
-              </el-card>
-            </el-col>
-          </el-row>
+                </el-card>
+              </el-col>
+            </el-row>
+          </div>
         </template>
+        </div>
       </div>
     </div>
   </div>
@@ -115,6 +135,8 @@ export default {
     ImgUpload
   },
   methods: {
+    editImgInfo () {},
+    deleteImg () {},
     async submitPic () {
       this.$api.requestApi.post('/picture/uploadPicture', this.imageFile)
         .then(res => {
@@ -194,20 +216,42 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+
+  .icon-appearance {
+    margin: 0 10px 0 10px;
+    float: left;
+    height: 60px;
+    width: 60px;
+    border: 1px dashed #dfe3e5;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .card-icon {
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+    position: absolute;
+    z-index: 9;
+    justify-content: center;
+    display: none;
+  }
 
   .card-img {
     max-width: 100%;
     max-height: 100%;
     vertical-align: middle;
-    object-fit:cover;
-    width: auto;
-    height: auto;
   }
 
-  .card-btn :hover .card-img {
-    filter:alpha(Opacity=80);
-    -moz-opacity:0.8;
+  .card-btn-show :hover .card-icon {
+    display: block;
+  }
+
+  .card-btn-show :hover .card-img {
+    filter: alpha(Opacity=80);
+    -moz-opacity: 0.8;
     opacity: 0.8;
   }
 
@@ -252,6 +296,15 @@ export default {
     cursor: pointer;
     float: left;
     width: 200px;
+  }
+
+  .card-icon-style {
+    font-size: 30px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 32px;
+    height: 32px;
+    background-size: cover;
   }
 
   .icon-style {
