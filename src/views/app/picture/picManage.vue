@@ -75,19 +75,19 @@
                         :style="{'height': carouselHeight/3 + 30 + 'px'}">
                   <el-card class="card-btn-show">
                     <div class="card-icon">
-                      <el-button class="icon-appearance" @click.native="deleteImg()">
+                      <el-button class="icon-appearance" @click.native="letForward(item.id)">
                         <i class="el-icon-arrow-left card-icon-style"></i>
                         <div class="menu-content">向前一张</div>
                       </el-button>
-                      <el-button class="icon-appearance" @click.native="editImgInfo()">
+                      <el-button class="icon-appearance" @click.native="editImgInfo(item)">
                         <i class="el-icon-edit card-icon-style"></i>
-                        <div class="menu-content">编辑</div>
+                        <div class="menu-content">编辑链接</div>
                       </el-button>
                       <el-button class="icon-appearance" @click.native="deleteImg(item.id)">
                         <i class="el-icon-delete card-icon-style"></i>
-                        <div class="menu-content">删除</div>
+                        <div class="menu-content">删除图片</div>
                       </el-button>
-                      <el-button class="icon-appearance" @click.native="deleteImg()">
+                      <el-button class="icon-appearance" @click.native="letNext(item.id)">
                         <i class="el-icon-arrow-right card-icon-style"></i>
                         <div class="menu-content">向后一张</div>
                       </el-button>
@@ -101,6 +101,10 @@
         </div>
       </div>
     </div>
+    <el-dialog :visible.sync="editImgDialogVisible" title="编辑图片信息" :close-on-click-modal="false" ref="editImgInfo">
+      <el-button type="primary" @click.native="editSaveClose">保存</el-button>
+      <el-button @click.native="editImgDialogVisible = false">取消</el-button>
+    </el-dialog>
   </div>
 </template>
 
@@ -112,6 +116,7 @@ export default {
   name: 'picManage',
   data () {
     return {
+      editImgDialogVisible: false,
       deleteId: [],
       carouselWidth: 0,
       carouselHeight: 0,
@@ -143,7 +148,12 @@ export default {
     ImgUpload
   },
   methods: {
-    editImgInfo () {
+    letForward (id) {
+    },
+    letNext (id) {
+    },
+    editImgInfo (data) {
+      this.editImgDialogVisible = true
     },
     async deleteImg (data) {
       this.deleteId.push(data)
