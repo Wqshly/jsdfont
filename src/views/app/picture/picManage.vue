@@ -36,16 +36,16 @@
           <el-row>
             <el-col :span="11">
               <h2 class="title-style">网络图片</h2>
-              <el-form label-width="100px" style="margin: 15px;">
+              <el-form :model="webImgUploadForm" label-width="100px" style="margin: 15px;" ref="webImgUploadForm">
                 <el-form-item label="绑定链接">
-                  <el-input placeholder="在此处输入图片绑定的链接">
+                  <el-input v-model="webImgUploadForm.linkPath" placeholder="在此处输入图片绑定的链接">
                   </el-input>
                 </el-form-item>
                 <el-form-item label="输入网址">
-                  <el-input placeholder="在此处输入网络图片的网址">
+                  <el-input v-model="webImgUploadForm.path" placeholder="在此处输入网络图片的网址">
                   </el-input>
                 </el-form-item>
-                <el-button style="float: right;" type="primary">确认</el-button>
+                <el-button style="float: right;" type="primary" @click="addPicRecord('webImgUploadForm')">确认</el-button>
               </el-form>
             </el-col>
             <el-col :span="1">
@@ -113,6 +113,10 @@ export default {
       carouselWidth: 0,
       carouselHeight: 0,
       picImage: {},
+      webImgUploadForm: {
+        path: '',
+        linkPath: ''
+      },
       imageUploadForm: {
         path: '',
         linkPath: ''
@@ -144,11 +148,29 @@ export default {
       })
         .then(() => {
           this.$api.requestApi.get('/picture/deletePicture/' + data).then(
+            this.$message({
+              message: '删除成功!',
+              type: 'success'
+            })
           ).catch(err => {
             console.log(err.data)
           })
         })
         .catch(() => {})
+    },
+    async addPicRecord (formName) {
+      this.$api.requestApi.post('/picture/addPicture', this[formName])
+        .then(res => {
+          if (res.data.code === 0) {
+            this.$message({
+              message: '上传成功！',
+              type: 'success'
+            })
+          } else {
+            this.$message.error('上传失败!')
+          }
+        })
+        .catch()
     },
     async submitPic () {
       this.$api.requestApi.post('/picture/uploadPicture', this.imageFile)
@@ -157,21 +179,10 @@ export default {
           this.imageUploadForm.path = res.data.data
           this.imageUploadForm.finalEditor = this.finalEditor
           console.log(this.imageUploadForm)
-          this.$api.requestApi.post('/picture/addPicture', this.imageUploadForm)
-            .then(res => {
-              if (res.data.code === 0) {
-                this.$message({
-                  message: '上传成功！',
-                  type: 'success'
-                })
-                this.$refs.imgUpload.uploadSuccess = false
-                this.imageFile = null
-                console.log(this.imageFile)
-              } else {
-                this.$message.error('上传失败!')
-              }
-            })
-            .catch()
+          this.addPicRecord('imageUploadForm')
+          this.$refs.imgUpload.uploadSuccess = false
+          this.imageFile = null
+          console.log(this.imageFile)
         })
         .catch(err => {
           console.log(err)
