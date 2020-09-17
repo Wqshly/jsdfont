@@ -38,11 +38,11 @@
               <el-col :span="11">
                 <h2 class="title-style">网络图片</h2>
                 <el-form :model="webImgUploadForm" label-width="100px" style="margin: 15px;" ref="webImgUploadForm">
-                  <el-form-item label="绑定链接">
+                  <el-form-item label="绑定链接" prop="linkPath">
                     <el-input v-model="webImgUploadForm.linkPath" placeholder="在此处输入图片绑定的链接">
                     </el-input>
                   </el-form-item>
-                  <el-form-item label="输入网址">
+                  <el-form-item label="输入网址" prop="path">
                     <el-input v-model="webImgUploadForm.path" placeholder="在此处输入网络图片的网址">
                     </el-input>
                   </el-form-item>
@@ -178,6 +178,7 @@ export default {
           } else {
             this.$message.error('上传失败!')
           }
+          this.$refs[formName].resetFields()
         })
         .catch()
     },
@@ -187,11 +188,9 @@ export default {
           console.log(res.data)
           this.imageUploadForm.path = res.data.data
           this.imageUploadForm.finalEditor = this.finalEditor
-          console.log(this.imageUploadForm)
           this.addPicRecord('imageUploadForm')
           this.$refs.imgUpload.uploadSuccess = false
           this.imageFile = null
-          console.log(this.imageFile)
         })
         .catch(err => {
           console.log(err)

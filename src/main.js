@@ -17,8 +17,8 @@ import VueLazyload from 'vue-lazyload'
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: require('./assets/loading.gif'),
-  loading: require('./assets/loading.gif'),
+  error: require('@/assets/error.jpg'),
+  loading: require('@/assets/loading.gif'),
   attempt: 1, // 加载图片数量
   listenEvents: ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend', 'touchmove']
 })
