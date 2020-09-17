@@ -147,16 +147,17 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.$api.requestApi.get('/picture/deletePicture/' + data).then(
-            this.$message({
-              message: '删除成功!',
-              type: 'success'
-            }).then(
+          this.$api.requestApi.get('/picture/deletePicture/' + data)
+            .then(res => {
               this.getPicInfo()
-            ).catch(() => {})
-          ).catch(err => {
-            console.log(err.data)
-          })
+              this.$message({
+                message: '删除成功!',
+                type: 'success'
+              }).then(
+              ).catch(() => {})
+            }).catch(err => {
+              console.log(err.data)
+            })
         })
         .catch(() => {})
     },
