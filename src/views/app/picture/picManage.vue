@@ -19,82 +19,85 @@
       <div class="toolbar-style">
         <h2 class="title-style dynamic-title">{{titleName}}</h2>
         <div ref="carousel">
-        <template v-if="this.choice === 1">
+          <template v-if="this.choice === 1">
             <el-carousel indicator-position="outside" :height="carouselHeight + 'px'">
               <el-carousel-item v-for="item in picImage" :key="item.id" :name="item.id">
                 <template v-if="item.linkPath !== null && item.linkPath !== ''">
-                  <a :href="item.linkPath" target="_blank"><img style="width:100%;height:100%;" v-lazy="item.path"
-                                                                alt="加载超时"/></a>
+                  <a :href="item.linkPath" target="_blank">
+                    <img style="width:100%;height:100%;" v-lazy="item.path" alt="加载超时"/>
+                  </a>
                 </template>
                 <template v-else>
                   <img style="width:100%;height:100%;" v-lazy="item.path" alt="加载超时"/>
                 </template>
               </el-carousel-item>
             </el-carousel>
-        </template>
-        <template v-if="this.choice === 2">
-          <el-row>
-            <el-col :span="11">
-              <h2 class="title-style">网络图片</h2>
-              <el-form :model="webImgUploadForm" label-width="100px" style="margin: 15px;" ref="webImgUploadForm">
-                <el-form-item label="绑定链接">
-                  <el-input v-model="webImgUploadForm.linkPath" placeholder="在此处输入图片绑定的链接">
-                  </el-input>
-                </el-form-item>
-                <el-form-item label="输入网址">
-                  <el-input v-model="webImgUploadForm.path" placeholder="在此处输入网络图片的网址">
-                  </el-input>
-                </el-form-item>
-                <el-button style="float: right;" type="primary" @click="addPicRecord('webImgUploadForm')">确认</el-button>
-              </el-form>
-            </el-col>
-            <el-col :span="1">
-              <el-divider direction="vertical" content-position="center"></el-divider>
-            </el-col>
-            <el-col :span="12">
-              <h2 class="title-style">本地图片</h2>
-              <el-form :model="imageUploadForm" label-width="100px" ref="imageUploadForm">
-                <el-form-item label="绑定链接" prop="linkPath">
-                  <el-input v-model="imageUploadForm.linkPath" placeholder="在此处输入图片绑定的链接(可不填)" clearable></el-input>
-                </el-form-item>
-                <el-form-item label="上传图片" style="width: 600px;float: left">
-                  <img-upload ref="imgUpload" v-on:upload-pic="uploadPic" :options="options"
-                              style="margin: 15px 60px;"></img-upload>
-                </el-form-item>
-                <el-button style="float: right;margin-top: 90px;" type="primary" @click="submitPic()">确认上传</el-button>
-              </el-form>
-            </el-col>
-          </el-row>
-        </template>
-        <template v-if="this.choice === 3">
-          <div ref="card">
+          </template>
+          <template v-if="this.choice === 2">
             <el-row>
-              <el-col :span="8" v-for="item in picImage" :key="item" :style="{'height': carouselHeight/3 + 30 + 'px'}">
-                <el-card class="card-btn-show">
-                  <div class="card-icon">
-                    <el-button class="icon-appearance" @click.native="deleteImg()">
-                      <i class="el-icon-arrow-left card-icon-style"></i>
-                      <div class="menu-content">向前一张</div>
-                    </el-button>
+              <el-col :span="11">
+                <h2 class="title-style">网络图片</h2>
+                <el-form :model="webImgUploadForm" label-width="100px" style="margin: 15px;" ref="webImgUploadForm">
+                  <el-form-item label="绑定链接">
+                    <el-input v-model="webImgUploadForm.linkPath" placeholder="在此处输入图片绑定的链接">
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item label="输入网址">
+                    <el-input v-model="webImgUploadForm.path" placeholder="在此处输入网络图片的网址">
+                    </el-input>
+                  </el-form-item>
+                  <el-button style="float: right;" type="primary" @click="addPicRecord('webImgUploadForm')">确认
+                  </el-button>
+                </el-form>
+              </el-col>
+              <el-col :span="1">
+                <el-divider direction="vertical" content-position="center"></el-divider>
+              </el-col>
+              <el-col :span="12">
+                <h2 class="title-style">本地图片</h2>
+                <el-form :model="imageUploadForm" label-width="100px" ref="imageUploadForm">
+                  <el-form-item label="绑定链接" prop="linkPath">
+                    <el-input v-model="imageUploadForm.linkPath" placeholder="在此处输入图片绑定的链接(可不填)" clearable></el-input>
+                  </el-form-item>
+                  <el-form-item label="上传图片" style="width: 600px;float: left">
+                    <img-upload ref="imgUpload" v-on:upload-pic="uploadPic" :options="options"
+                                style="margin: 15px 60px;"></img-upload>
+                  </el-form-item>
+                  <el-button style="float: right;margin-top: 90px;" type="primary" @click="submitPic()">确认上传</el-button>
+                </el-form>
+              </el-col>
+            </el-row>
+          </template>
+          <template v-if="this.choice === 3">
+            <div ref="card">
+              <el-row>
+                <el-col :span="8" v-for="item in picImage" :key="item"
+                        :style="{'height': carouselHeight/3 + 30 + 'px'}">
+                  <el-card class="card-btn-show">
+                    <div class="card-icon">
+                      <el-button class="icon-appearance" @click.native="deleteImg()">
+                        <i class="el-icon-arrow-left card-icon-style"></i>
+                        <div class="menu-content">向前一张</div>
+                      </el-button>
                       <el-button class="icon-appearance" @click.native="editImgInfo()">
                         <i class="el-icon-edit card-icon-style"></i>
                         <div class="menu-content">编辑</div>
                       </el-button>
-                    <el-button class="icon-appearance" @click.native="deleteImg(item.id)">
-                      <i class="el-icon-delete card-icon-style"></i>
-                      <div class="menu-content">删除</div>
-                    </el-button>
-                    <el-button class="icon-appearance" @click.native="deleteImg()">
-                      <i class="el-icon-arrow-right card-icon-style"></i>
-                      <div class="menu-content">向后一张</div>
-                    </el-button>
-                  </div>
-                  <img class="card-img" v-lazy="item.path" alt="加载超时"/>
-                </el-card>
-              </el-col>
-            </el-row>
-          </div>
-        </template>
+                      <el-button class="icon-appearance" @click.native="deleteImg(item.id)">
+                        <i class="el-icon-delete card-icon-style"></i>
+                        <div class="menu-content">删除</div>
+                      </el-button>
+                      <el-button class="icon-appearance" @click.native="deleteImg()">
+                        <i class="el-icon-arrow-right card-icon-style"></i>
+                        <div class="menu-content">向后一张</div>
+                      </el-button>
+                    </div>
+                    <img class="card-img" v-lazy="item.path" alt="加载超时"/>
+                  </el-card>
+                </el-col>
+              </el-row>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -140,7 +143,8 @@ export default {
     ImgUpload
   },
   methods: {
-    editImgInfo () {},
+    editImgInfo () {
+    },
     async deleteImg (data) {
       this.deleteId.push(data)
       this.$confirm('确认删除该图片？', '提示', {
@@ -154,12 +158,14 @@ export default {
                 message: '删除成功!',
                 type: 'success'
               }).then(
-              ).catch(() => {})
+              ).catch(() => {
+              })
             }).catch(err => {
               console.log(err.data)
             })
         })
-        .catch(() => {})
+        .catch(() => {
+        })
     },
     async addPicRecord (formName) {
       this.$api.requestApi.post('/picture/addPicture', this[formName])
