@@ -151,7 +151,9 @@ export default {
             this.$message({
               message: '删除成功!',
               type: 'success'
-            })
+            }).then(
+              this.getPicInfo()
+            ).catch(() => {})
           ).catch(err => {
             console.log(err.data)
           })
@@ -194,20 +196,14 @@ export default {
     },
     changeChoice (choice) {
       if (choice === 1) {
-        this.$api.requestApi.get('/picture/findAllPicture').then(res => {
-          console.log(res.data)
-          this.picImage = res.data.data
-        }).catch()
+        this.getPicInfo()
         this.titleName = '效果预览'
       }
       if (choice === 2) {
         this.titleName = '添加图片'
       }
       if (choice === 3) {
-        this.$api.requestApi.get('/picture/findAllPicture').then(res => {
-          console.log(res.data)
-          this.picImage = res.data.data
-        }).catch()
+        this.getPicInfo()
         this.titleName = '编辑图片'
       }
       this.choice = choice
@@ -223,6 +219,13 @@ export default {
     },
     setSize: function () {
       this.carouselHeight = 3 / 8 * this.carouselWidth
+    },
+    async getPicInfo () {
+      this.$api.requestApi.get('/picture/findAllPicture')
+        .then(res => {
+          console.log(res.data)
+          this.picImage = res.data.data
+        }).catch()
     }
   },
   mounted () {
@@ -232,10 +235,7 @@ export default {
       this.carouselWidth = this.$refs.carousel.offsetWidth
       this.setSize()
     }
-    this.$api.requestApi.get('/picture/findAllPicture').then(res => {
-      console.log(res.data)
-      this.picImage = res.data.data
-    }).catch()
+    this.getPicInfo()
   }
 }
 </script>
