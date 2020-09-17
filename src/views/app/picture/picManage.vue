@@ -80,7 +80,7 @@
                         <i class="el-icon-edit card-icon-style"></i>
                         <div class="menu-content">编辑</div>
                       </el-button>
-                    <el-button class="icon-appearance" @click.native="deleteImg()">
+                    <el-button class="icon-appearance" @click.native="deleteImg(item.id)">
                       <i class="el-icon-delete card-icon-style"></i>
                       <div class="menu-content">删除</div>
                     </el-button>
@@ -109,6 +109,7 @@ export default {
   name: 'picManage',
   data () {
     return {
+      deleteId: [],
       carouselWidth: 0,
       carouselHeight: 0,
       picImage: {},
@@ -136,7 +137,19 @@ export default {
   },
   methods: {
     editImgInfo () {},
-    deleteImg () {},
+    async deleteImg (data) {
+      this.deleteId.push(data)
+      this.$confirm('确认删除该图片？', '提示', {
+        type: 'warning'
+      })
+        .then(() => {
+          this.$api.requestApi.get('/picture/deletePicture/' + data).then(
+          ).catch(err => {
+            console.log(err.data)
+          })
+        })
+        .catch(() => {})
+    },
     async submitPic () {
       this.$api.requestApi.post('/picture/uploadPicture', this.imageFile)
         .then(res => {
