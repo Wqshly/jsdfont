@@ -102,7 +102,17 @@
       </div>
     </div>
     <el-dialog :visible.sync="editImgDialogVisible" title="编辑图片信息" :close-on-click-modal="false" ref="editImgInfo">
-      <el-button type="primary" @click.native="editSaveClose">保存</el-button>
+      <el-form :model="editImgForm" label-width="100px" ref="editImgForm">
+        <template v-if="isLocalPic()">
+          <el-form-item label="图片路径" prop="path">
+            <el-input v-model="editImgForm.path"></el-input>
+          </el-form-item>
+        </template>
+        <el-form-item label="图片链接" prop="linkPath">
+          <el-input v-model="editImgForm.linkPath"></el-input>
+        </el-form-item>
+      </el-form>
+      <el-button type="primary" @click.native="editSave">保存</el-button>
       <el-button @click.native="editImgDialogVisible = false">取消</el-button>
     </el-dialog>
   </div>
@@ -116,6 +126,10 @@ export default {
   name: 'picManage',
   data () {
     return {
+      editImgForm: {
+        path: '',
+        linkPath: ''
+      },
       editImgDialogVisible: false,
       deleteId: [],
       carouselWidth: 0,
@@ -148,11 +162,29 @@ export default {
     ImgUpload
   },
   methods: {
+    editSave () {
+      this.$api.requestApi.post('/picture/editPicture', this.editImgForm)
+        .then(res => {
+          if (res.data.code === 0) {
+            this.editImgDialogVisible = false
+            this.$message({
+              message: '修改成功!',
+              type: 'success'
+            })
+          }
+        })
+        .catch()
+    },
+    isLocalPic () {
+      return !this.editImgForm.path.includes('39.107.49.176')
+    },
     letForward (id) {
     },
     letNext (id) {
     },
     editImgInfo (data) {
+      this.editImgForm = data
+      console.log(this.editImgForm.path.includes('39'))
       this.editImgDialogVisible = true
     },
     async deleteImg (data) {
