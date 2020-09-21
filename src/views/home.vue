@@ -107,7 +107,7 @@ export default {
   computed: {
     // lastLoginTime () {
     //   this.$api.requestApi.get().then(res => {
-    //     this.lastLoginTime = res.data.data
+    //     this.lastLoginTime = res.data
     //   })
     //   return lastLoginTime || this.lastLoginTime
     // },
@@ -120,8 +120,7 @@ export default {
     let id = sessionStorage.getItem('save_user_id')
     let url = 'user/getImgUrl/' + id
     this.$api.requestApi.get(url).then(res => {
-      this.imgUrl = res.data.data
-      // console.log(res.data)
+      this.imgUrl = res.data
     })
   }
 }

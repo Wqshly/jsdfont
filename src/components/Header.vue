@@ -71,8 +71,7 @@ export default {
     async uploadPic (data) {
       this.$api.requestApi.post('/user/imageUpload/', data)
         .then(res => {
-          console.log(res.data)
-          this.registerForm.picLocation = res.data.data
+          this.registerForm.picLocation = res.data
           console.log(this.registerForm.picLocation)
         })
         .catch(err => {
@@ -131,8 +130,7 @@ export default {
     let id = sessionStorage.getItem('save_user_id')
     let url = 'user/getImgUrl/' + id
     this.$api.requestApi.get(url).then(res => {
-      this.imgUrl = res.data.data
-      console.log(res.data)
+      this.imgUrl = res.data
     })
   }
 }

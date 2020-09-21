@@ -57,36 +57,22 @@ export default {
           const url = '/user/login'
           this.$refs[formName].$api.requestApi.post(url, this[formName])
             .then(res => {
-              console.log(res.data)
               let _this = this
-              if (res.data.code === 0) {
-                sessionStorage.setItem('save_user_id', res.data.data.id)
-                sessionStorage.setItem('save_username', res.data.data.name)
-                _this.$router.push('/home')
-              } else {
-                this.$message({
-                  message: '账号或密码错误！请重试！',
-                  type: 'error'
-                })
-              }
-            }
-            )
-            .catch(err => {
-              console.log(err.data)
-              console.log('error submit!!')
-              // return false
+              sessionStorage.setItem('save_user_id', res.data.id)
+              sessionStorage.setItem('save_username', res.data.name)
+              _this.$router.push('/home')
             })
+            .catch()
         }
       })
     },
     register () {
       this.$api.getRequestApi.get('/staff/staffCount')
         .then(res => {
-          console.log(res.data)
-          if (res.data.data === 0) {
-            this.$router.push('/initRegister')
-          } else {
+          if (res.data !== 0) {
             this.$router.push('/register')
+          } else {
+            this.$router.push('/initRegister')
           }
         })
         .catch(err => {

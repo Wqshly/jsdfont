@@ -101,8 +101,7 @@ export default {
     async uploadPic (data) {
       this.$api.requestApi.post('/user/imageUpload/', data)
         .then(res => {
-          console.log(res.data)
-          this.registerForm.picLocation = res.data.data
+          this.registerForm.picLocation = res.data
           console.log(this.registerForm.picLocation)
         })
         .catch(err => {
@@ -115,8 +114,7 @@ export default {
     async validPhoneNumber () {
       this.$api.requestApi.getJson('/user/userValid/' + this.registerForm.phone)
         .then(res => {
-          console.log(res.data)
-          const value = res.data.code
+          const value = res.code
           if (value === 1003) {
             this.$message({
               message: '公司无此员工或尚未录入此员工信息!',
@@ -128,7 +126,7 @@ export default {
               type: 'error'
             })
           }
-          return res.data.code === 0
+          return res.code === 0
         })
         .catch(err => {
           console.log(err)
@@ -144,8 +142,7 @@ export default {
           this[formName].rePassword = this.$commonsMethod.encryptedData(this[formName].rePassword)
           this.$api.postRequestApi.post('/user/register', this.registerForm)
             .then(res => {
-              console.log(res.data)
-              if (res.data.code === 0) {
+              if (res.code === 0) {
                 this.$message({
                   message: '注册成功!',
                   type: 'success'

@@ -190,11 +190,11 @@ export default {
           this[formName].rePassword = this.$commonsMethod.encryptedData(this[formName].rePassword)
           this.$api.requestApi.post('/user/initRegister', this[formName])
             .then(res => {
-              if (res.data.code === 2002) {
+              if (res.code === 2002) {
                 this.$confirm('初始用户已存在!', '提示', {
                   confirmButtonText: '确定'
                 })
-              } else if (res.data.code === 0) {
+              } else if (res.code === 0) {
                 this.$confirm('初始用户注册成功!', '提示', {
                   confirmButtonText: '确定'
                 }).then(
@@ -206,7 +206,6 @@ export default {
                   cancelButtonText: '取消'
                 })
               }
-              console.log(res.data)
             })
             .catch((res) => {
               console.log(res)

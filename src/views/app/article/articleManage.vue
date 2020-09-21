@@ -182,7 +182,6 @@ export default {
         this.articleTypeForm.finalEditor = this.finalEditor
         this.$api.requestApi.post('basicCoding/addBasicCoding', this.articleTypeForm)
           .then(res => {
-            console.log(res.data)
             this.dynamicTags.push(this.articleTypeForm.name)
             console.log(this.dynamicTags)
             this.articleTypeForm.name = ''
@@ -217,9 +216,9 @@ export default {
       this.$api.requestApi.get(url)
         .then(res => {
           this.dynamicTags = []
-          for (var i = 0; i < res.data.data.length; i++) {
+          for (var i = 0; i < res.data.length; i++) {
             // console.log(res.data.data[i].name)
-            this.dynamicTags.push(res.data.data[i].name)
+            this.dynamicTags.push(res.data[i].name)
           }
         })
         .catch()

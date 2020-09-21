@@ -165,13 +165,8 @@ export default {
     editSave () {
       this.$api.requestApi.post('/picture/editPicture', this.editImgForm)
         .then(res => {
-          if (res.data.code === 0) {
-            this.editImgDialogVisible = false
-            this.$message({
-              message: '修改成功!',
-              type: 'success'
-            })
-          }
+          this.editImgDialogVisible = false
+          this.$message.success('修改成功')
         })
         .catch()
     },
@@ -196,14 +191,11 @@ export default {
           .then(() => {
             this.$api.requestApi.get('/picture/deletePicture/' + data)
               .then(res => {
-                if (res.data.code === 0) {
+                if (res.code === 0) {
                   this.getPicInfo()
                   this.$message.success('删除成功')
                 } else {
-                  this.$message({
-                    message: '删除失败!',
-                    type: 'error'
-                  })
+                  this.$message.error('删除失败')
                 }
               }).catch(err => {
                 console.log(err.data)
@@ -222,7 +214,7 @@ export default {
     async addPicRecord (formName) {
       this.$api.requestApi.post('/picture/addPicture', this[formName])
         .then(res => {
-          if (res.data.code === 0) {
+          if (res.code === 0) {
             this.$message.success('上传成功!')
           } else {
             this.$message.error('上传失败!')
@@ -234,8 +226,8 @@ export default {
     async submitPic () {
       this.$api.requestApi.post('/picture/uploadPicture', this.imageFile)
         .then(res => {
-          if (res.data.code === 0) {
-            this.imageUploadForm.path = res.data.data
+          if (res.code === 0) {
+            this.imageUploadForm.path = res.data
             this.imageUploadForm.finalEditor = this.finalEditor
             this.addPicRecord('imageUploadForm')
             this.$refs.imgUpload.uploadSuccess = false
@@ -271,7 +263,7 @@ export default {
     async getPicInfo () {
       this.$api.requestApi.get('/picture/findAllPicture')
         .then(res => {
-          this.picImage = res.data.data
+          this.picImage = res.data
         }).catch()
     }
   },

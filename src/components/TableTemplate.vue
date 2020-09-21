@@ -333,8 +333,7 @@ export default {
     getDropDownBoxInfo (url, tableName) {
       this.$api.requestApi.get(url)
         .then(res => {
-          console.log(res.data)
-          this[tableName] = res.data.data
+          this[tableName] = res.data
           console.log(this[tableName])
           if (this[tableName].length === 0) {
             this[tableName] = [{
@@ -355,7 +354,6 @@ export default {
     createData (url, refreshUrl, param) {
       this.$api.postRequestApi.post(url, param)
         .then(res => {
-          console.log(res.data)
           this.refreshData(null, null)
         })
         .catch(err => {
@@ -366,7 +364,6 @@ export default {
     updateData (url, refreshUrl, param) {
       this.$api.postRequestApi.post(url, param)
         .then(res => {
-          console.log(res.data)
           this.refreshData(refreshUrl, this.refreshObj)
         })
         .catch(err => {
@@ -391,13 +388,11 @@ export default {
       this.$api.requestApi.postJson(url, objJson)
         .then(res => {
           this.tableLoading = false
-          console.log(res.data)
-          this.tableData = res.data.data
-          this.recordTotal = res.data.total // 总条数
+          this.tableData = res.data
+          this.recordTotal = res.total // 总条数
           this.$emit('refresh-btn')
           this.lastUrl = url
           this.lastObject = JSON.parse(objJson)
-          console.log(res.data.recordTotal)
           this.$emit('otherRefresh')
         })
         .catch(err => {
@@ -422,7 +417,6 @@ export default {
           // _this.$axios.post(_this.url, selectsMultipleId)
           .then(res => {
             this.tableLoading = false
-            console.log(res.data)
             this.refreshData(null, null)
           })
           .catch(err => {

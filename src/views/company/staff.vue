@@ -735,8 +735,7 @@ export default {
     getTypeOption (url, optionName) {
       this.$api.requestApi.get(url)
         .then(res => {
-          console.log(res.data)
-          this[optionName] = res.data.data
+          this[optionName] = res.data
           console.log(this[optionName])
         })
         .catch(err => {

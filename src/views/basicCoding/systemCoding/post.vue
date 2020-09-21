@@ -177,8 +177,7 @@ export default {
     getOrderModelTable () {
       this.$api.requestApi.get(this.refreshUrl)
         .then(res => {
-          console.log(res.data)
-          this.orderTypeTable = res.data.data
+          this.orderTypeTable = res.data
           console.log(this.orderTypeTable)
           this.orderTypeTable.unshift({name: '根目录', number: 'Null'})
           console.log(this.orderTypeTable)

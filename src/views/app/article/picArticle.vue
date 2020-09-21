@@ -80,9 +80,9 @@ export default {
       this.$api.requestApi.get('/basicCoding/findBasicCodingWithType/articleType')
         .then(res => {
           console.log(res.data)
-          this.articleType = res.data.data
+          this.articleType = res.data
           console.log(this.articleType)
-          if (res.data.data.length === 0) {
+          if (res.data.length === 0) {
             this.articleType.unshift({name: '无分类，请先添加分类！', number: 'Null'})
             console.log(this.articleType)
           }
