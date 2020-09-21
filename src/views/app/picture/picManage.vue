@@ -188,35 +188,42 @@ export default {
       this.editImgDialogVisible = true
     },
     async deleteImg (data) {
-      this.deleteId.push(data)
-      this.$confirm('确认删除该图片？', '提示', {
-        type: 'warning'
-      })
-        .then(() => {
-          this.$api.requestApi.get('/picture/deletePicture/' + data)
-            .then(res => {
-              this.getPicInfo()
-              this.$message({
-                message: '删除成功!',
-                type: 'success'
-              }).then(
-              ).catch(() => {
+      try {
+        this.deleteId.push(data)
+        this.$confirm('确认删除该图片？', '提示', {
+          type: 'warning'
+        })
+          .then(() => {
+            this.$api.requestApi.get('/picture/deletePicture/' + data)
+              .then(res => {
+                if (res.data.code === 0) {
+                  this.getPicInfo()
+                  this.$message.success('删除成功')
+                } else {
+                  this.$message({
+                    message: '删除失败!',
+                    type: 'error'
+                  })
+                }
+              }).catch(err => {
+                console.log(err.data)
               })
-            }).catch(err => {
-              console.log(err.data)
-            })
+          })
+          .catch(() => {
+          })
+      } catch (e) {
+        console.log(e)
+        this.$message({
+          message: '未知错误!',
+          type: 'error'
         })
-        .catch(() => {
-        })
+      }
     },
     async addPicRecord (formName) {
       this.$api.requestApi.post('/picture/addPicture', this[formName])
         .then(res => {
           if (res.data.code === 0) {
-            this.$message({
-              message: '上传成功！',
-              type: 'success'
-            })
+            this.$message.success('上传成功!')
           } else {
             this.$message.error('上传失败!')
           }
@@ -227,12 +234,15 @@ export default {
     async submitPic () {
       this.$api.requestApi.post('/picture/uploadPicture', this.imageFile)
         .then(res => {
-          console.log(res.data)
-          this.imageUploadForm.path = res.data.data
-          this.imageUploadForm.finalEditor = this.finalEditor
-          this.addPicRecord('imageUploadForm')
-          this.$refs.imgUpload.uploadSuccess = false
-          this.imageFile = null
+          if (res.data.code === 0) {
+            this.imageUploadForm.path = res.data.data
+            this.imageUploadForm.finalEditor = this.finalEditor
+            this.addPicRecord('imageUploadForm')
+            this.$refs.imgUpload.uploadSuccess = false
+            this.imageFile = null
+          } else {
+            this.$message.error('图片提交失败!')
+          }
         })
         .catch(err => {
           console.log(err)
@@ -240,7 +250,6 @@ export default {
     },
     async uploadPic (data) {
       this.imageFile = data
-      console.log(this.imageFile)
     },
     changeChoice (choice) {
       if (choice === 1) {
@@ -256,22 +265,12 @@ export default {
       }
       this.choice = choice
     },
-    buttonReset (ev) {
-      let target = ev.target
-      if (target.nodeName === 'SPAN') {
-        target = ev.target.parentNode
-      } else if (target.nodeName === 'I' || target.nodeName === 'DIV') {
-        target = ev.target.parentNode.parentNode
-      }
-      target.blur()
-    },
     setSize: function () {
       this.carouselHeight = 3 / 8 * this.carouselWidth
     },
     async getPicInfo () {
       this.$api.requestApi.get('/picture/findAllPicture')
         .then(res => {
-          console.log(res.data)
           this.picImage = res.data.data
         }).catch()
     }
