@@ -30,6 +30,12 @@ service.interceptors.response.use(res => {
   } else if (res.data.code === 1002) {
     Message.error('帐号或密码错误!')
     return Promise.reject(res)
+  } else if (res.data.code === 3003) {
+    Message.warning('已在最前')
+    return res.data
+  } else if (res.data.code === 3004) {
+    Message.warning('已在最后')
+    return res.data
   }
   return Promise.reject(res)
 }, error => {

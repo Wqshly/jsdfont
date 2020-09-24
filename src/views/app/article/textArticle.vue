@@ -61,7 +61,9 @@ export default {
       editorOption: {
         placeholder: '输入文章内容'
       },
-      articleForm: {},
+      articleForm: {
+        title: ''
+      },
       toolbar: ['undo redo |  formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | removeformat'],
       articleType: []
     }

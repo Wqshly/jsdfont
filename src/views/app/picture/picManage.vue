@@ -174,12 +174,20 @@ export default {
       return !this.editImgForm.path.includes('39.107.49.176')
     },
     letForward (id) {
+      // if (id ) {}
+      this.$api.requestApi.get('/picture/exchangePreId/' + id)
+        .then(res => {
+          this.getPicInfo()
+        })
     },
     letNext (id) {
+      this.$api.requestApi.get('/picture/exchangeNextId/' + id)
+        .then(res => {
+          this.getPicInfo()
+        })
     },
     editImgInfo (data) {
       this.editImgForm = data
-      console.log(this.editImgForm.path.includes('39'))
       this.editImgDialogVisible = true
     },
     async deleteImg (data) {
