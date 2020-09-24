@@ -4,19 +4,19 @@
     </div>
     <div class="main-style">
       <div class="center-style">
-        <el-form label-width="100px" style="padding-right: 20px;padding-top: 50px;padding-bottom: 30px;">
-          <el-form-item label="标题:">
-            <el-input placeholder="请在此处输入标题"></el-input>
+        <el-form :model="articleForm" label-width="100px" style="padding-right: 20px;padding-top: 50px;padding-bottom: 30px;" ref="articleForm">
+          <el-form-item label="标题:" prop="title">
+            <el-input placeholder="请在此处输入标题" v-model="articleForm.title"></el-input>
           </el-form-item>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="作者:">
-                <el-input placeholder="请在此处输入作者"></el-input>
+              <el-form-item label="作者:" prop="author">
+                <el-input placeholder="请在此处输入作者" v-model="articleForm.author"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="类别:">
-                <el-select placeholder="请选择" @click.native="getArticleType()">
+              <el-form-item label="类别:" prop="sortName">
+                <el-select placeholder="请选择" @click.native="getArticleType()" v-model="articleForm.sortName">
                   <el-option
                     v-for="item in articleType"
                     :key="item.id"
@@ -27,11 +27,11 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="摘要:">
-            <el-input type="textarea" :rows="5" placeholder="请在此处输入摘要"></el-input>
+          <el-form-item label="摘要:" prop="introduction">
+            <el-input type="textarea" :rows="5" placeholder="请在此处输入摘要" v-model="articleForm.introduction"></el-input>
           </el-form-item>
-          <el-form-item label="正文内容:">
-            <rich-text height="800" :toolbar="toolbar"></rich-text>
+          <el-form-item label="正文内容:" prop="content">
+            <rich-text height="800" :toolbar="toolbar" v-model="articleForm.content"></rich-text>
           </el-form-item>
           <div class="footer">
             <el-form-item style="padding-top: 15px;padding-bottom: 10px">
@@ -43,6 +43,19 @@
         </el-form>
       </div>
     </div>
+    <el-dialog
+      title="提示"
+      :visible.sync="countdownDialog"
+      :show-close=false
+      :close-on-click-modal=true
+      :close-on-press-escape=false
+      width="30%"
+      center>
+      <span style="font-size:18px;">已成功添加文章！该窗口将于{{second}}秒后关闭！</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="window.close()" type="primary" :disabled="isDisabled">立即关闭</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -58,25 +71,45 @@ export default {
   },
   data: function () {
     return {
+      countdownDialog: false, // 控制弹出
+      second: 5, // 设置初始倒计时
+      isDisabled: false,
       editorOption: {
         placeholder: '输入文章内容'
       },
       articleForm: {
-        title: ''
+        sortName: '',
+        title: '',
+        author: '',
+        introduction: '',
+        picLink: '',
+        content: '',
+        creatTime: '',
+        updateTime: '',
+        titleStatus: ''
       },
       toolbar: ['undo redo |  formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | removeformat'],
       articleType: []
     }
   },
   methods: {
+    getSecond () {
+      const that = this
+      const interval = window.setInterval(function () {
+        --that.second
+        if (that.second === 0) {
+          that.isDisabled = false
+          window.clearInterval(interval)
+          window.close()
+        }
+      }, 1000)
+    },
     getArticleType () {
       this.$api.requestApi.get('/basicCoding/findBasicCodingWithType/articleType')
         .then(res => {
           this.articleType = res.data
-          console.log(this.articleType)
           if (res.data.length === 0) {
             this.articleType.unshift({name: '无分类，请先添加分类！', number: 'Null'})
-            console.log(this.articleType)
           }
         })
         .catch(err => {
@@ -88,6 +121,14 @@ export default {
         })
     },
     submit () {
+      this.$refs.articleForm.validate((valid) => {
+        if (valid) {
+          this.$api.requestApi.post('/article/addArticle', this.articleForm).then(res => {
+            this.countdownDialog = true
+            this.getSecond()
+          })
+        }
+      })
     },
     preview () {
     }

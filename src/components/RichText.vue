@@ -85,9 +85,16 @@ export default {
       this.$emit('onClick', e, tinymce)
     }
   },
+  watch: {
+    value (newValue) {
+      this.myValue = newValue
+    },
+    myValue (newValue) {
+      this.$emit('input', newValue)
+    }
+  },
   mounted () {
-    tinymce.init({
-    })
+    tinymce.init({})
   }
 }
 </script>
