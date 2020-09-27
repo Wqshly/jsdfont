@@ -61,7 +61,7 @@
                   </el-form-item>
                   <el-form-item label="上传图片" style="width: 600px;float: left">
                     <img-upload ref="imgUpload" v-on:upload-pic="uploadPic" :options="options"
-                                style="margin: 15px 60px;"></img-upload>
+                                style="margin: 15px 60px;" img-width="240px" img-height="120px"></img-upload>
                   </el-form-item>
                   <el-button style="float: right;margin-top: 90px;" type="primary" @click="submitPic()">确认上传</el-button>
                 </el-form>
@@ -431,8 +431,4 @@ export default {
     text-align: center;
   }
 
-  .avatar {
-    width: 350px;
-    height: 250px;
-  }
 </style>

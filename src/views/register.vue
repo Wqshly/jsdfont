@@ -28,7 +28,7 @@
           </el-form-item>
           <el-form-item label="用户头像:" prop="picLocation">
             <div class="avatar-uploader">
-              <img-upload v-on:upload-pic="uploadPic" :options="options"></img-upload>
+              <img-upload v-on:upload-pic="uploadPic" :options="options" img-height="120px" img-width="120px"></img-upload>
             </div>
           </el-form-item>
           <el-form-item style="padding-top: 15px;">
@@ -204,9 +204,4 @@ export default {
     text-align: center;
   }
 
-  .avatar {
-    width: 120px;
-    height: 120px;
-    display: block;
-  }
 </style>
