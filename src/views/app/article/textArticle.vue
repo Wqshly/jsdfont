@@ -4,7 +4,7 @@
     </div>
     <div class="main-style">
       <div class="center-style">
-        <el-form :model="articleForm" label-width="100px" style="padding-right: 20px;padding-top: 50px;padding-bottom: 30px;" ref="articleForm">
+        <el-form :model="articleForm" label-width="100px" style="padding-right: 20px;padding-top: 50px;padding-bottom: 30px;" ref="articleForm" :rules="articleFormRule">
           <el-form-item label="标题:" prop="title">
             <el-input placeholder="请在此处输入标题" v-model="articleForm.title"></el-input>
           </el-form-item>
@@ -70,6 +70,13 @@ export default {
     RichText
   },
   data: function () {
+    const sortNameValid = (rule, value, callback) => {
+      if (value === '请选择') {
+        callback(new Error('请选择类别!'))
+      } else {
+        callback()
+      }
+    }
     return {
       countdownDialog: false, // 控制弹出
       second: 5, // 设置初始倒计时
@@ -87,6 +94,18 @@ export default {
         createTime: '',
         updateTime: '',
         titleStatus: ''
+      },
+      articleFormRule: {
+        title: [
+          {required: true, message: '标题不能为空!', trigger: 'blur'}
+        ],
+        author: [
+          {required: true, message: '作者不能为空!', trigger: 'blur'}
+        ],
+        sortName: [
+          {required: true, message: '请选择类别!', trigger: 'blur'},
+          {validator: sortNameValid, trigger: 'blur'}
+        ]
       },
       toolbar: ['undo redo |  formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | removeformat'],
       articleType: []
