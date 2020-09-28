@@ -64,7 +64,7 @@
       center>
       <span style="font-size:18px;">已成功添加文章！该窗口将于{{second}}秒后关闭！</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="window.close()" type="primary" :disabled="isDisabled">立即关闭</el-button>
+        <el-button @click.native="windowClose" type="primary" :disabled="isDisabled">立即关闭</el-button>
       </span>
     </el-dialog>
   </div>
@@ -110,6 +110,9 @@ export default {
     }
   },
   methods: {
+    windowClose () {
+      window.close()
+    },
     async uploadPic (data) {
       this.imageFile = data
     },
