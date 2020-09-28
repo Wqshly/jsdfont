@@ -22,6 +22,7 @@ service.interceptors.request.use(config => {
 // 响应拦截
 service.interceptors.response.use(res => {
   Loading.service().close()
+  console.log(res.data)
   if (res.data.code === 0) {
     return res.data
   } else if (res.data.code === 1000) {
