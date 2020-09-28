@@ -123,7 +123,7 @@ export default {
     submit () {
       this.$refs.articleForm.validate((valid) => {
         if (valid) {
-          this.$api.requestApi.post('/article/addArticle', this.articleForm).then(res => {
+          this.$api.requestApi.postJson('/article/addArticle', this.articleForm).then(res => {
             this.countdownDialog = true
             this.getSecond()
           })
