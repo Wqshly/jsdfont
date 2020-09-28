@@ -4,7 +4,7 @@
     </div>
     <div class="main-style">
       <div class="center-style">
-        <el-form :model="articleForm" label-width="100px" style="padding-right: 20px;padding-top: 50px;padding-bottom: 30px;" ref="articleForm">
+        <el-form :model="articleForm" label-width="100px" style="padding-right: 20px;padding-top: 50px;padding-bottom: 30px;" ref="articleForm" :rules="articleFormRule">
           <el-row>
             <el-col :span="8">
               <el-form-item label="标题:" prop="title">
@@ -80,6 +80,13 @@ export default {
     RichText
   },
   data: function () {
+    const sortNameValid = (rule, value, callback) => {
+      if (value === '请选择') {
+        callback(new Error('请选择类别!'))
+      } else {
+        callback()
+      }
+    }
     return {
       imageFile: {
         name: '',
@@ -105,6 +112,24 @@ export default {
         createTime: '',
         updateTime: '',
         titleStatus: ''
+      },
+      articleFormRule: {
+        title: [
+          {required: true, message: '标题不能为空!', trigger: 'blur'}
+        ],
+        author: [
+          {required: true, message: '作者不能为空!', trigger: 'blur'}
+        ],
+        sortName: [
+          {required: true, message: '请选择类别!', trigger: 'blur'},
+          {validator: sortNameValid, trigger: 'blur'}
+        ],
+        introduction: [
+          {required: true, message: '摘要不能为空!', trigger: 'blur'}
+        ],
+        content: [
+          {required: true, message: '正文不能为空!', trigger: 'blur'}
+        ]
       },
       articleType: []
     }
@@ -155,7 +180,6 @@ export default {
     async submit () {
       this.$refs.articleForm.validate((valid) => {
         if (valid) {
-          console.log(this.imageFile)
           this.$api.requestApi.postJson('/article/uploadPicture', this.imageFile)
             .then(res => {
               this.articleForm.picLink = res.data

@@ -37,6 +37,9 @@ service.interceptors.response.use(res => {
   } else if (res.data.code === 3004) {
     Message.warning('已在最后')
     return res.data
+  } else if (res.data.code === 5000) {
+    Message.warning('图片未上传或上传失败')
+    return Promise.reject(res)
   }
   return Promise.reject(res)
 }, error => {

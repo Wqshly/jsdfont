@@ -105,6 +105,12 @@ export default {
         sortName: [
           {required: true, message: '请选择类别!', trigger: 'blur'},
           {validator: sortNameValid, trigger: 'blur'}
+        ],
+        introduction: [
+          {required: true, message: '摘要不能为空!', trigger: 'blur'}
+        ],
+        content: [
+          {required: true, message: '正文不能为空!', trigger: 'blur'}
         ]
       },
       toolbar: ['undo redo |  formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | removeformat'],
