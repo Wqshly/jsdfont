@@ -153,7 +153,7 @@ export default {
       this.$refs.articleForm.validate((valid) => {
         if (valid) {
           console.log(this.imageFile)
-          this.$api.requestApi.post('/article/uploadPicture', this.imageFile)
+          this.$api.requestApi.postJson('/article/uploadPicture', this.imageFile)
             .then(res => {
               this.articleForm.picLink = res.data
               this.addPicRecord()
