@@ -102,7 +102,7 @@ export default {
         introduction: '',
         picLink: '',
         content: '',
-        creatTime: '',
+        createTime: '',
         updateTime: '',
         titleStatus: ''
       },
