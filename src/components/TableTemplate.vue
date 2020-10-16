@@ -93,6 +93,11 @@
                     {{ scope.row[tableHeader.value] | formatDate }}
                   </div>
                 </template>
+                <template v-if="tableHeader.value === 'picture'">
+                  <div slot="reference" class="name-wrapper">
+                    <img :src="tableHeader.label">
+                  </div>
+                </template>
                 <template
                   v-if="tableHeader.value === 'signingTime' || tableHeader.value === 'entryIntoForceTime' || tableHeader.value === 'deadline' || tableHeader.value === 'startTime' || tableHeader.value === 'endTime'">
                   <p>{{ scope.row[tableHeader.value] | formatDate2 }}</p>

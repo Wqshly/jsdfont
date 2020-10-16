@@ -108,7 +108,8 @@ export default {
       tableHeaderList: [ // 表头字段
         {value: 'name', label: '业务名称', width: '220'},
         {value: 'classification', label: '所属大类', width: '220'},
-        {value: 'picPath', label: '业务效果图', width: '200'},
+        {value: 'picture', label: '业务效果图', width: '200'},
+        // {value: 'picPath', label: '业务效果图', width: '200'},
         {value: 'introduction', label: '业务简介', minWidth: '220'}
       ],
       addForm: {name: '', classification: '', picPath: '', introduction: ''}, // 新增数据界面
