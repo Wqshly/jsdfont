@@ -103,6 +103,7 @@
 
 <script>
 import TableTemplate from '@/components/TableTemplate'
+import BasicTableTemp from '@/components/BasicTableTemp'
 
 export default {
   name: 'articleManage',
@@ -161,7 +162,8 @@ export default {
     }
   },
   components: {
-    TableTemplate
+    TableTemplate,
+    BasicTableTemp
   },
   methods: {
     handleClose (tag) {
@@ -169,7 +171,6 @@ export default {
       this.$api.requestApi.get('basicCoding/deleteBasicCoding/articleType/' + tag)
       console.log(tag)
     },
-
     showInput () {
       this.inputVisible = true
       this.$nextTick(_ => {
@@ -216,7 +217,7 @@ export default {
       this.$api.requestApi.get(url)
         .then(res => {
           this.dynamicTags = []
-          for (var i = 0; i < res.data.length; i++) {
+          for (let i = 0; i < res.data.length; i++) {
             // console.log(res.data.data[i].name)
             this.dynamicTags.push(res.data[i].name)
           }

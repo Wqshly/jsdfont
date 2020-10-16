@@ -32,7 +32,7 @@
               </el-button>
             </el-popover>
             <el-popover placement="top" trigger="hover">
-              <div class="button-tips">刷新表单数</div>
+              <div class="button-tips">刷新表单数据</div>
               <el-button ref="refreshButton" slot="reference" content="刷新" @click="dataRefresh"
                          v-if="this.buttonBoolean.refreshBtn" class="button" style="color:#13ce66">
                 <span class="el-icon-wqs-shuaxin table_icon"></span>
@@ -59,10 +59,14 @@
                 <span class="el-icon-wqs-OA-yiwancheng table_icon"></span>
               </el-button>
             </el-popover>
-            <!-- 扩展区域 -->
+            <!-- 扩展区域1(左侧) -->
+            <span style="float: left;padding-left: 5px;padding-right: 5px;height: inherit;">
+              <slot name="btn-area"></slot>
+            </span>
+            <!-- 扩展区域2(右侧) -->
             <span style="float: right;padding-right: 5px;height: inherit;">
-                     <slot name="button-Area"></slot>
-               </span>
+              <slot name="button-area"></slot>
+            </span>
           </el-button-group>
         </div>
         <!-- 表格主体 -->
@@ -76,8 +80,10 @@
           <!-- 正式内容 -->
           <!-- 通过 Scoped slot 可以获取到 row, column, $index 和 store（table 内部的状态管理）的数据。 -->
           <!-- 使用sortable="custom" 即可通过后端排序 -->
-          <el-table-column v-for="tableHeader in tableHeaderList" :key="tableHeader.value" :prop="tableHeader.value" header-align="center" align="center"
-                           :label="tableHeader.label" :min-width="tableHeader.minWidth" :width="tableHeader.width" sortable="custom">
+          <el-table-column v-for="tableHeader in tableHeaderList" :key="tableHeader.value" :prop="tableHeader.value"
+                           header-align="center" align="center"
+                           :label="tableHeader.label" :min-width="tableHeader.minWidth" :width="tableHeader.width"
+                           sortable="custom">
             <template slot-scope="scope">
               <!-- 通过tableHeader.value获取表数据 -->
               <el-popover trigger="hover" placement="top">

@@ -18,7 +18,7 @@
         v-on:btn-click="btnClick"
         v-on:refresh-btn="refreshBtn">
         <!-- 新增窗口 -->
-        <el-button slot="button-Area" @click.native="collapseRight" class="btnCollapse">
+        <el-button slot="button-area" @click.native="collapseRight" class="btnCollapse">
           {{detail ? buttonHiddenText : buttonShowText}}
         </el-button>
         <el-form slot="add" :model="addForm" style="overflow: auto" label-width="100px" ref="addForm"

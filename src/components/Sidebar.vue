@@ -50,9 +50,13 @@ export default {
         },
         {
           icon: 'el-icon-wqs-shouye',
-          index: 'article-manage',
-          title: '移动端推送管理',
+          index: 'app-manage',
+          title: '移动端管理',
           subs: [
+            {
+              index: 'menu-manage',
+              title: '业务分类管理'
+            },
             {
               index: 'pic-manage',
               title: '图片推送管理'
@@ -60,10 +64,6 @@ export default {
             {
               index: 'article-manage',
               title: '文章推送管理'
-            },
-            {
-              index: 'article-edit',
-              title: '管理文章'
             }
           ]
         },

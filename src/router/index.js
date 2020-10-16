@@ -11,12 +11,12 @@ const notFound = () => Promise.resolve(require('@/views/404'))
 const main = () => Promise.resolve(require('@/components/Main'))
 const home = () => Promise.resolve(require('@/views/home'))
 
+const menuManage = () => Promise.resolve(require('@/views/app/business/menu'))
 const articleManage = () => Promise.resolve(require('@/views/app/article/articleManage'))
 const textArticle = () => Promise.resolve(require('@/views/app/article/textArticle'))
 const picArticle = () => Promise.resolve(require('@/views/app/article/picArticle'))
 const mediaArticle = () => Promise.resolve(require('@/views/app/article/mediaArticle'))
 const picManage = () => Promise.resolve(require('@/views/app/picture/picManage'))
-const typeManage = () => Promise.resolve(require('@/views/app/article/typeManage'))
 
 const vehicleInfo = () => Promise.resolve(require('@/views/car/vehicleInfo'))
 const vehicleLocation = () => Promise.resolve(require('@/views/car/vehicleLocation'))
@@ -100,6 +100,12 @@ export default new Router({
           meta: {title: '系统首页'}
         },
         {
+          path: '/menu-manage',
+          name: 'menuManage',
+          component: menuManage,
+          meta: {title: '业务菜单管理'}
+        },
+        {
           path: '/article-manage',
           name: 'articleManage',
           component: articleManage,
@@ -110,12 +116,6 @@ export default new Router({
           name: 'picManage',
           component: picManage,
           meta: {title: '图片推送管理'}
-        },
-        {
-          path: '/type-manage',
-          name: 'typeManage',
-          component: typeManage,
-          meta: {title: '分类管理'}
         },
         {
           path: '/vehicle-info',
