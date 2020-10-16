@@ -93,9 +93,9 @@
                     {{ scope.row[tableHeader.value] | formatDate }}
                   </div>
                 </template>
-                <template v-if="tableHeader.value === 'picture'">
+                <template v-if="tableHeader.value === 'picPath'">
                   <div slot="reference" class="name-wrapper">
-                    <img :src="tableHeader.label">
+                    <img :src="scope.row[tableHeader.value]" style="width:100%;height:100%;">
                   </div>
                 </template>
                 <template
@@ -106,7 +106,7 @@
                   </div>
                 </template>
                 <template
-                  v-if="tableHeader.value !== 'finalEditTime' && tableHeader.value !== 'signingTime' && tableHeader.value !== 'entryIntoForceTime' && tableHeader.value !== 'deadline' && tableHeader.value !== 'startTime' && tableHeader.value !== 'endTime'">
+                  v-if="tableHeader.value !== 'finalEditTime' && tableHeader.value !== 'signingTime' && tableHeader.value !== 'entryIntoForceTime' && tableHeader.value !== 'deadline' && tableHeader.value !== 'startTime' && tableHeader.value !== 'endTime' && tableHeader.value !== 'picPath'">
                   <p>{{ scope.row[tableHeader.value]}}</p>
                   <div slot="reference" class="name-wrapper">
                     {{ scope.row[tableHeader.value] }}
