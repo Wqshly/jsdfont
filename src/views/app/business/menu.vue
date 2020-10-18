@@ -45,11 +45,26 @@
       </el-form>
       <!-- 编辑窗口 -->
       <el-form slot="edit" style="overflow: auto" label-width="100px" :model="editForm">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="editForm.name"></el-input>
+        <el-form-item label="名称: " prop="name">
+          <el-input v-model="editForm.name" placeholder="填写具体业务，如:&nbsp;扫地除尘、油烟清洗等"></el-input>
         </el-form-item>
-        <el-form-item label="编码格式" prop="codingStyle">
-          <el-input v-model="editForm.codingStyle"></el-input>
+        <el-form-item label="所属类别:" prop="classification">
+          <el-select placeholder="请选择" @click.native="getArticleType()" v-model="editForm.classification">
+            <el-option
+              v-for="item in businessCategory"
+              :key="item.id"
+              :label="item.name"
+              :value="item.name">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="业务效果图">
+          <div class="avatar-uploader">
+            <img-upload v-on:upload-pic="uploadPic" :options="options" img-height="120px" img-width="120px"></img-upload>
+          </div>
+        </el-form-item>
+        <el-form-item label="简介" prop="introduction">
+          <el-input v-model="editForm.introduction" placeholder="请在此栏写明定价、服务形式等内容!" type="textarea" :autosize="{ minRows: 5, maxRows: 15}"></el-input>
         </el-form-item>
       </el-form>
     </table-template>
@@ -210,9 +225,12 @@ export default {
       // this.id = row.id
     },
     editRecord () {
-      this.editForm.type = this.typeName
-      this.editForm.finalEditor = this.finalEditor
-      this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl, this.editForm)
+      this.$api.requestApi.postJson('/businessCategory/uploadPicture', this.imageFile)
+        .then(res => {
+          this.editForm.picPath = res.data
+          this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl, this.editForm)
+        })
+        .catch()
     },
     deleteRecord () {
       this.$refs[this.tableName].deleteData(this.deleteUrl, this.refreshUrl)

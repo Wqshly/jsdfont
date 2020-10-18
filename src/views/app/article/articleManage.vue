@@ -27,7 +27,7 @@
         </div>
       </div>
       <table-template
-        ref="qualificationManagementTable"
+        ref="article"
         :refresh-url="refreshUrl"
         :add-url="addUrl"
         :edit-url="editUrl"
@@ -36,7 +36,6 @@
         :table-header-list="tableHeaderList"
         :table-p-k="tablePK"
         :button-boolean="buttonBoolean"
-        v-on:addRecord="addRecord"
         v-on:editRecord="editRecord"
         v-on:select-row="selectRowClick">
         <!-- 新增窗口 -->
@@ -115,43 +114,48 @@ export default {
       typeManageVisible: false,
       staffID: null,
       refreshObj: {},
-      refreshUrl: 'qualification/findAllQualification',
-      addUrl: 'qualification/addQualification',
-      editUrl: 'qualification/editQualification',
-      deleteUrl: 'qualification/deleteQualification',
-      tableName: 'qualificationManagementTable',
+      refreshUrl: 'article/findAllArticle',
+      addUrl: 'article/addArticle',
+      editUrl: 'article/editArticle',
+      deleteUrl: 'article/deleteArticle',
+      tableName: 'article',
       tableTitle: '文章管理', // 表格标题
       tablePK: 'id', // 主键id值
       tableHeaderList: [ // 表头字段
-        {value: 'number', label: '编码', width: '140'},
-        {value: 'name', label: '名称', width: '120'},
-        {value: 'category', label: '所属分类', width: '120'},
-        {value: 'entryIntoForceTime', label: '生效时间', width: '150'},
-        {value: 'deadline', label: '到期时间', width: '150'},
-        {value: 'finalEditor', label: '最后修改', width: '120'},
-        {value: 'finalEditTime', label: '最后修改时间', minWidth: '200'}
+        {value: 'sortName', label: '文章类别', width: '140'},
+        {value: 'title', label: '文章标题', width: '120'},
+        {value: 'author', label: '作者', width: '120'},
+        {value: 'introduction', label: '简介', width: '150'},
+        {value: 'picLink', label: '缩略图', width: '150'},
+        // {value: 'content', label: '正文内容', width: '120'},
+        {value: 'titleStatus', label: '是否置顶', width: '120'},
+        {value: 'createTime', label: '最后编辑时间', minWidth: '200'}
       ],
       addForm: {
-        number: '',
-        name: '',
-        category: '',
-        entryIntoForceTime: '',
-        deadline: '',
-        finalEditor: '',
-        finalEditTime: ''
+        sortName: '',
+        title: '',
+        author: '',
+        introduction: '',
+        picLink: '',
+        content: '',
+        createTime: '',
+        updateTime: '',
+        titleStatus: ''
       }, // 新增数据界面
       editForm: {
-        number: null,
-        name: null,
-        category: null,
-        entryIntoForceTime: null,
-        deadline: null,
-        finalEditor: null,
-        finalEditTime: null
+        sortName: null,
+        title: null,
+        author: null,
+        introduction: null,
+        picLink: null,
+        content: null,
+        createTime: null,
+        updateTime: null,
+        titleStatus: null
       }, // 编辑数据界面
       finalEditor: sessionStorage.getItem('save_username'),
       buttonBoolean: {
-        addBtn: true,
+        addBtn: false,
         editBtn: true,
         deleteBtn: true,
         refreshBtn: true,
@@ -223,7 +227,17 @@ export default {
           }
         })
         .catch()
+    },
+    selectRowClick (row) {
+      this.editForm = row
+      // this.id = row.id
+    },
+    editRecord () {
+      this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl, this.editForm)
     }
+  },
+  mounted () {
+    this.$refs[this.tableName].refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>
