@@ -57,21 +57,35 @@
           </el-form-item>
         </el-form>
         <!-- 编辑窗口 -->
-        <el-form slot="edit" style="overflow: auto" label-width="100px" :model="editForm">
-          <el-form-item label="编码" prop="staffId">
-            <el-input v-model="editForm.number"></el-input>
+        <el-form slot="edit" :model="editForm" label-width="100px" :rules="editFormRule">
+
+          <el-form-item label="标题:" prop="title">
+            <el-input placeholder="请在此处输入标题" v-model="editForm.title"></el-input>
           </el-form-item>
-          <el-form-item label="名称" prop="staffId">
-            <el-input v-model="editForm.name"></el-input>
+          <el-form-item label="作者:" prop="author">
+            <el-input placeholder="请在此处输入作者" v-model="editForm.author"></el-input>
           </el-form-item>
-          <el-form-item label="资质类别" prop="startTime">
-            <el-input v-model="editForm.category"></el-input>
+          <el-form-item label="类别:" prop="sortName">
+            <el-select placeholder="请选择" @click.native="getArticleType()" v-model="editForm.sortName">
+              <el-option
+                v-for="item in articleType"
+                :key="item.id"
+                :label="item.name"
+                :value="item.name">
+              </el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="生效时间" prop="endTime">
-            <el-input v-model="editForm.entryIntoForceTime"></el-input>
+          <el-form-item label="封面:">
+            <div class="avatar-uploader">
+              <img-upload v-on:upload-pic="uploadPic" :options="options" img-height="120px"
+                          img-width="120px"></img-upload>
+            </div>
           </el-form-item>
-          <el-form-item label="到期时间" prop="reasons">
-            <el-input v-model="editForm.deadline"></el-input>
+          <el-form-item label="摘要:" prop="introduction">
+            <el-input type="textarea" :rows="5" placeholder="请在此处输入摘要" v-model="editForm.introduction"></el-input>
+          </el-form-item>
+          <el-form-item label="正文内容:" prop="content">
+            <rich-text height="800" v-model="editForm.content"></rich-text>
           </el-form-item>
         </el-form>
       </table-template>
@@ -103,12 +117,30 @@
 <script>
 import TableTemplate from '@/components/TableTemplate'
 import BasicTableTemp from '@/components/BasicTableTemp'
+import ImgUpload from '@/components/ImgUpload'
+import RichText from '@/components/RichText'
 
 export default {
   name: 'articleManage',
   data () {
+    const sortNameValid = (rule, value, callback) => {
+      if (value === '请选择') {
+        callback(new Error('请选择类别!'))
+      } else {
+        callback()
+      }
+    }
     return {
+      imageFile: {
+        name: '',
+        type: '',
+        file: ''
+      },
       dynamicTags: [],
+      articleType: [],
+      options: {
+        fixedNumber: [1, 1]
+      },
       inputVisible: false,
       articleTypeForm: {name: ''},
       typeManageVisible: false,
@@ -153,6 +185,24 @@ export default {
         updateTime: null,
         titleStatus: null
       }, // 编辑数据界面
+      editFormRule: {
+        title: [
+          {required: true, message: '标题不能为空!', trigger: 'blur'}
+        ],
+        author: [
+          {required: true, message: '作者不能为空!', trigger: 'blur'}
+        ],
+        sortName: [
+          {required: true, message: '请选择类别!', trigger: 'blur'},
+          {validator: sortNameValid, trigger: 'blur'}
+        ],
+        introduction: [
+          {required: true, message: '摘要不能为空!', trigger: 'blur'}
+        ],
+        content: [
+          {required: true, message: '正文不能为空!', trigger: 'blur'}
+        ]
+      },
       finalEditor: sessionStorage.getItem('save_username'),
       buttonBoolean: {
         addBtn: false,
@@ -167,9 +217,33 @@ export default {
   },
   components: {
     TableTemplate,
-    BasicTableTemp
+    BasicTableTemp,
+    ImgUpload,
+    RichText
   },
   methods: {
+    getArticleType () {
+      this.$api.requestApi.get('/basicCoding/findBasicCodingWithType/articleType')
+        .then(res => {
+          console.log(res.data)
+          this.articleType = res.data
+          console.log(this.articleType)
+          if (res.data.length === 0) {
+            this.articleType.unshift({name: '无分类，请先添加分类！', number: 'Null'})
+            console.log(this.articleType)
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: '网络请求失败',
+            type: 'error'
+          })
+          console.log(err.data)
+        })
+    },
+    async uploadPic (data) {
+      this.imageFile = data
+    },
     handleClose (tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
       this.$api.requestApi.get('basicCoding/deleteBasicCoding/articleType/' + tag)
@@ -233,7 +307,11 @@ export default {
       // this.id = row.id
     },
     editRecord () {
-      this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl, this.editForm)
+      this.$api.requestApi.postJson('/article/uploadPicture', this.imageFile)
+        .then(res => {
+          this.editForm.picLink = res.data
+          this.$refs[this.tableName].updateData(this.editUrl, this.refreshUrl, this.editForm)
+        }).catch()
     }
   },
   mounted () {
@@ -247,6 +325,7 @@ export default {
   .el-tag + .el-tag {
     margin-left: 10px;
   }
+
   .button-new-tag {
     margin-left: 10px;
     height: 32px;
@@ -254,6 +333,7 @@ export default {
     padding-top: 0;
     padding-bottom: 0;
   }
+
   .input-new-tag {
     width: 90px;
     margin-left: 10px;
@@ -309,4 +389,35 @@ export default {
     text-align: center;
     position: relative;
   }
+</style>
+
+<style lang="less">
+
+  .avatar-uploader {
+    float: left;
+  }
+
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+
+  .avatar-uploader-icon {
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px dashed #8c939d;
+    font-size: 28px;
+    color: #8c939d;
+    width: 120px;
+    height: 120px;
+    line-height: 120px;
+    text-align: center;
+  }
+
 </style>
