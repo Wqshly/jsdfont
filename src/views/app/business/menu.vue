@@ -14,10 +14,10 @@
       v-on:editRecord="editRecord"
       v-on:select-row="selectRowClick">
       <div slot="button-area">
-          <el-button @click.native="categoryManage" style="color:#13ce66;margin-top: 5px">
-            <i class="el-icon-setting"></i>
-            类别设置
-          </el-button>
+        <el-button @click.native="categoryManage" style="color:#13ce66;margin-top: 5px">
+          <i class="el-icon-setting"></i>
+          类别设置
+        </el-button>
       </div>
       <!-- 新增窗口 -->
       <el-form slot="add" style="overflow: auto" label-width="100px" :model="addForm">
@@ -36,11 +36,13 @@
         </el-form-item>
         <el-form-item label="业务效果图">
           <div class="avatar-uploader">
-            <img-upload v-on:upload-pic="uploadPic" :options="options" img-height="120px" img-width="120px"></img-upload>
+            <img-upload v-on:upload-pic="uploadPic" :options="options" img-height="120px"
+                        img-width="120px"></img-upload>
           </div>
         </el-form-item>
         <el-form-item label="简介" prop="introduction">
-          <el-input v-model="addForm.introduction" placeholder="请在此栏写明定价、服务形式等内容!" type="textarea" :autosize="{ minRows: 5, maxRows: 15}"></el-input>
+          <el-input v-model="addForm.introduction" placeholder="请在此栏写明定价、服务形式等内容!" type="textarea"
+                    :autosize="{ minRows: 5, maxRows: 15}"></el-input>
         </el-form-item>
       </el-form>
       <!-- 编辑窗口 -->
@@ -60,11 +62,13 @@
         </el-form-item>
         <el-form-item label="业务效果图">
           <div class="avatar-uploader">
-            <img-upload v-on:upload-pic="uploadPic" :options="options" img-height="120px" img-width="120px"></img-upload>
+            <img-upload v-on:upload-pic="uploadPic" :options="options" img-height="120px"
+                        img-width="120px"></img-upload>
           </div>
         </el-form-item>
         <el-form-item label="简介" prop="introduction">
-          <el-input v-model="editForm.introduction" placeholder="请在此栏写明定价、服务形式等内容!" type="textarea" :autosize="{ minRows: 5, maxRows: 15}"></el-input>
+          <el-input v-model="editForm.introduction" placeholder="请在此栏写明定价、服务形式等内容!" type="textarea"
+                    :autosize="{ minRows: 5, maxRows: 15}"></el-input>
         </el-form-item>
       </el-form>
     </table-template>
@@ -100,6 +104,7 @@ export default {
   name: 'menuManage',
   data () {
     return {
+      editPic: false,
       imageFile: {
         name: '',
         type: '',
@@ -246,6 +251,7 @@ export default {
   .el-tag + .el-tag {
     margin-left: 10px;
   }
+
   .button-new-tag {
     margin-left: 10px;
     height: 32px;
@@ -253,6 +259,7 @@ export default {
     padding-top: 0;
     padding-bottom: 0;
   }
+
   .input-new-tag {
     width: 90px;
     margin-left: 10px;
