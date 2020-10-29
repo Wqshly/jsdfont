@@ -85,7 +85,7 @@ export default {
         {value: 'goodsName', label: '服务名称', width: '220'},
         {value: 'address', label: '服务地址', width: '220'},
         {value: 'addressDetail', label: '详细地址', width: '220'},
-        {value: 'isaAccept', label: '是否接单', width: '220'},
+        {value: 'isAccept', label: '是否接单', width: '220'},
         {value: 'isDispatch', label: '是否派工', width: '220'},
         {value: 'isDone', label: '是否完成', width: '220'},
         {value: 'expectedTime', label: '订单约定日期', width: '120'},
