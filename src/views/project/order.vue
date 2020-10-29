@@ -62,10 +62,11 @@
 <script>
 import TableTemplate from '../../components/TableTemplate'
 export default {
-  name: 'orders',
+
   data () {
     return {
       refreshUrl: 'orders/findAllOrders',
+      refreshObj: {},
       addUrl: 'orders/addOrders',
       editUrl: 'orders/editOrders',
       deleteUrl: 'orders/DeleteOrders',
@@ -113,7 +114,7 @@ export default {
     }
   },
   mounted () {
-    this.$refs[this.tableName].refreshData(this.refreshUrl)
+    this.$refs[this.tableName].refreshData(this.refreshUrl, this.refreshObj)
   }
 }
 </script>
