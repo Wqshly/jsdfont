@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%">
+  <div class="fill-contain">
     <div class="main-style">
       <div class="toolbar-style">
         <h2 class="title-style">选择操作</h2>

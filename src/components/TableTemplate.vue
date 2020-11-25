@@ -240,6 +240,8 @@ export default {
       currentPageNumber: 1, // 当前页
       selectRow: null, // 当前选中的行
       selects: [], // 列表中选中的多行数据
+      lastUrl: '', // 查询和刷新页面用的URL
+      lastObject: null, // 查询和刷新页面用的Object
       btnDeleteStyle: {
         backgroundColor: '',
         color: ''
@@ -252,7 +254,7 @@ export default {
     }
   },
   methods: {
-    dataRefresh: function () {
+    dataRefresh () {
       this.refreshData(null, null)
     },
     handleSizeChange (val) {
@@ -266,20 +268,20 @@ export default {
       this.refreshData(null, null)
     },
     // 打开新增界面
-    handleAdd: function () {
+    handleAdd () {
       this.addDialogVisible = true
     },
     // 保存不关闭
-    addSave: function () {
+    addSave () {
       this.$emit('addRecord')
     },
     // 保存并关闭
-    addSaveClose: function () {
+    addSaveClose () {
       this.$emit('addRecord')
       this.addDialogVisible = false
     },
     // 打开编辑界面
-    handleEdit: function () {
+    handleEdit () {
       if (this.selectRow !== null) {
         this.editDialogVisible = true
       } else {
@@ -317,29 +319,29 @@ export default {
       this.selectRow = this.tableData[nextRow]
     },
     // 编辑的保存
-    editSave: function () {
+    editSave () {
       this.$emit('editRecord')
     },
     // 编辑的保存并关闭
-    editSaveClose: function () {
+    editSaveClose () {
       this.$emit('editRecord')
       this.editDialogVisible = false
     },
     // 详情页面时启动编辑
-    letsEdit: function () {
+    letsEdit () {
       this.detailVisible = false
     },
     // 关闭详情页面
-    closeDetailForm: function () {
+    closeDetailForm () {
       this.editDialogVisible = false
     },
     // 点击选中行
-    rowClick: function (row, event, column) {
+    rowClick (row, event, column) {
       this.$emit('select-row', Object.assign({}, row))
       this.selectRow = row
     },
     // 多选框
-    selectChange: function (selects) {
+    selectChange (selects) {
       this.selects = selects
     },
     // 下拉框数据获取
@@ -418,7 +420,7 @@ export default {
         })
     },
     // 批量删除
-    deleteData: function () {
+    deleteData () {
       const selectsMultipleId = this.selects.map(item => item[this.tablePK])
       this.$confirm('确认删除 "选中的 ' + selectsMultipleId.length + ' 条" 记录吗？', '提示', {
         type: 'warning'
@@ -442,7 +444,7 @@ export default {
       }).catch(() => {
       })
     },
-    btnClick: function (value) {
+    btnClick (value) {
       this.$emit('btn-click', value)
     }
   },

@@ -55,6 +55,7 @@ export default {
         // console.log(this[formName].password)
         if (valid) {
           const url = '/user/login'
+          console.log(this[formName])
           this.$refs[formName].$api.requestApi.post(url, this[formName])
             .then(res => {
               let _this = this

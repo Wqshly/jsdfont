@@ -36,8 +36,8 @@
         :table-header-list="tableHeaderList"
         :table-p-k="tablePK"
         :button-boolean="buttonBoolean"
-        v-on:editRecord="editRecord"
-        v-on:select-row="selectRowClick">
+        @editRecord="editRecord"
+        @select-row="selectRowClick">
         <!-- 新增窗口 -->
         <el-form slot="add" style="overflow: auto" label-width="100px" :model="addForm">
           <el-form-item label="编码" prop="staffId">

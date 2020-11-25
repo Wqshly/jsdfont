@@ -12,11 +12,11 @@
         :table-p-k="tablePK"
         :func-btn="funcBtn"
         :button-boolean="buttonBoolean"
-        v-on:addRecord="addRecord"
-        v-on:editRecord="editRecord"
-        v-on:select-row="selectRowClick"
-        v-on:btn-click="btnClick"
-        v-on:refresh-btn="refreshBtn">
+        @addRecord="addRecord"
+        @editRecord="editRecord"
+        @select-row="selectRowClick"
+        @btn-click="btnClick"
+        @refresh-btn="refreshBtn">
         <!-- 新增窗口 -->
         <el-button slot="button-area" @click.native="collapseRight" class="btnCollapse">
           {{detail ? buttonHiddenText : buttonShowText}}
